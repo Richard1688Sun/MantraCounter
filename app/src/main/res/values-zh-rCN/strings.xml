@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">念经计数器</string>
+    <string name="dabei">千手千眼无碍大悲心陀罗尼</string>
+    <string name="boruo">般若波罗蜜多心经</string>
+    <string name="xiaozai">消灾吉祥神咒</string>
+    <string name="qifo">七佛灭罪真言</string>
+    <string name="zhunti">准提神咒</string>
+    <string name="jingkou">净口业真言</string>
+    <string name="lifo">礼佛大忏悔文</string>
+    <string name="wangshen">往生咒</string>
+    <string name="jiejiezhou">解结咒</string>
+    <string name="buchue">补阙真言</string>
+    <string name="xiaofangzi">小房子</string>
+
+</resources>
