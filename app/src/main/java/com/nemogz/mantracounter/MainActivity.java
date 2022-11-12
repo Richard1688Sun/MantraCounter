@@ -11,16 +11,16 @@ public class MainActivity extends AppCompatActivity {
 
     private Button buttonMain;
     private int totalMainCount = 0;
-    private Vibrator vibrator;
-    private boolean vibrate = false;
+//    private Vibrator vibrator;
+//    private boolean vibrate = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(vibrator.hasVibrator()){
-            vibrate = true;
-        }
+//        if(vibrator.hasVibrator()){
+//            vibrate = true;
+//        }
 
         buttonMain = findViewById(R.id.buttonMain);
         //detect short press
@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 totalMainCount++;
                 buttonMain.setText(Integer.toString(totalMainCount));
-                if(vibrate){
-                    vibrator.vibrate(1000);
-                }
+//                if(vibrate){
+//                    vibrator.vibrate(1000);
+//                }
             }
         });
 
@@ -41,10 +41,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onLongClick(View view) {
                 totalMainCount = 0;
                 buttonMain.setText(Integer.toString(totalMainCount));
-                long[] vibrationPatternLongClick = {500,500};
-                if(vibrate){
-                    vibrator.vibrate(vibrationPatternLongClick, 1);
-                }
+//                long[] vibrationPatternLongClick = {500,500};
+//                if(vibrate){
+//                    vibrator.vibrate(vibrationPatternLongClick, 1);
+//                }
                 return true;
             }
         });
