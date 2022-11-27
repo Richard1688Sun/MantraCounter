@@ -10,14 +10,27 @@
         android:id="@+id/buttonMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="0"
-        android:autoSizeTextType="uniform"
-        android:autoSizeMinTextSize="50dp"
         android:autoSizeMaxTextSize="200dp"
+        android:autoSizeMinTextSize="50dp"
         android:autoSizeStepGranularity="2sp"
+        android:autoSizeTextType="uniform"
+        android:text="0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/ic_add_sign"
+        app:rippleColor="@color/white"
+        android:backgroundTint="@color/gold_dark"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
