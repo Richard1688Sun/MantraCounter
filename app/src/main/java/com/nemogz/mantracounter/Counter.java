@@ -1,7 +1,5 @@
 package com.nemogz.mantracounter;
 
-import android.content.Context;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,22 +45,22 @@ public class Counter {
 
         //check if each mantra count is satisfied
         if((name.equals(dabei)) && (count >= DaBeiLimit)){
-            littleHouse.put(dabei, littleHouse.get(dabei + 1));
+            littleHouse.put(dabei, littleHouse.get(dabei)+1);
             updateLittleHouse();
             count = count - DaBeiLimit;
         }
         else if(name.equals(boruo) && count >= BoRuoLimit){
-            littleHouse.put(boruo, littleHouse.get(boruo + 1));
+            littleHouse.put(boruo, littleHouse.get(boruo) + 1);
             updateLittleHouse();
             count = count - BoRuoLimit;
         }
         else if(name.equals(xiaozai) && count >= XiaoZhaiLimit){
-            littleHouse.put(xiaozai, littleHouse.get(xiaozai + 1));
+            littleHouse.put(xiaozai, littleHouse.get(xiaozai) + 1);
             updateLittleHouse();
             count = count - XiaoZhaiLimit;
         }
         else if(name.equals(qifo) && count >= QiFoLimit){
-            littleHouse.put(qifo, littleHouse.get(qifo + 1));
+            littleHouse.put(qifo, littleHouse.get(qifo) + 1);
             updateLittleHouse();
             count = count - QiFoLimit;
         }
@@ -89,12 +87,26 @@ public class Counter {
      * Also decrements the mantra threshold amount
      */
     private static void updateLittleHouse(){
-        if((littleHouse.get(dabei) == 1) && littleHouse.get(boruo) == 1 && littleHouse.get(xiaozai) == 1 && littleHouse.get(qifo) == 1){
-            littleHouse.put(MainActivity.getAppResources().getString(R.string.xiaofangzi), littleHouse.get(MainActivity.getAppResources().getString(R.string.xiaofangzi) + 1));
+        if((littleHouse.get(dabei) >= 1) && littleHouse.get(boruo) >= 1 && littleHouse.get(xiaozai) >= 1 && littleHouse.get(qifo) >= 1){
+            littleHouse.put(MainActivity.getAppResources().getString(R.string.xiaofangzi), littleHouse.get(MainActivity.getAppResources().getString(R.string.xiaofangzi))+1);
             littleHouse.put(dabei, littleHouse.get(dabei) - 1);
             littleHouse.put(boruo, littleHouse.get(boruo) - 1);
             littleHouse.put(xiaozai, littleHouse.get(xiaozai) - 1);
             littleHouse.put(qifo, littleHouse.get(qifo) - 1);
         }
+    }
+
+    public static Map<String, Integer> getLittleHouse() {
+//        Map<String, Integer> mapReturn = new HashMap<>(littleHouse);
+//        return mapReturn;
+        return littleHouse;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getCount() {
+        return count;
     }
 }
