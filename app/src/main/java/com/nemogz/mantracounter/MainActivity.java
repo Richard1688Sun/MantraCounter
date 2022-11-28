@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,9 +21,15 @@ public class MainActivity extends AppCompatActivity {
 
     //to access the strings in classes
     private static Resources resources;
+
     private Button buttonMain;
-    private int totalMainCount = 0;
-    private TextView test;
+    private FloatingActionButton buttonHome;
+    private FloatingActionButton buttonMode;
+    private FloatingActionButton buttonTool;
+    private FloatingActionButton buttonLeft;
+    private FloatingActionButton buttonRight;
+    private TextView textMantra;
+    private int counterIndex = 0;
 
     private Boolean addMode = true;
 //    private Vibrator vibrator;
@@ -30,27 +40,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         resources = getResources();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.counter_screen);
+
         createEssentailCounters();
-        test = findViewById(R.id.testTxt);
-        //System.out.println(Counter.getLittleHouse().get(getString(R.string.dabei)));
+        instantiateViews();
+        setCounterView();
 
 //        if(vibrator.hasVibrator()){
 //            vibrate = true;
 //        }
-        buttonMain = findViewById(R.id.buttonMain);
+
         //detect short press
         buttonMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                totalMainCount++;
-                buttonMain.setText(Integer.toString(totalMainCount));
-                for(int num = 0; num < 4; num++){
-                    incrementCount(100, num);
+                if(addMode){
+                    counters.get(counterIndex).increment();
+                }else{
+                    counters.get(counterIndex).decrement();
                 }
-//                if(vibrate){
-//                    vibrator.vibrate(1000);
-//                }
+                setCounterView();
             }
         });
 
@@ -58,13 +67,39 @@ public class MainActivity extends AppCompatActivity {
         buttonMain.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                totalMainCount = 0;
-                buttonMain.setText(Integer.toString(totalMainCount));
-//                long[] vibrationPatternLongClick = {500,500};
-//                if(vibrate){
-//                    vibrator.vibrate(vibrationPatternLongClick, 1);
-//                }
+                counters.get(counterIndex).setCount(0);
+                setCounterView();
                 return true;
+            }
+        });
+
+        buttonRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                incrementCounterIndex();
+                setCounterView();
+            }
+        });
+
+        buttonLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                decrementCounterIndex();
+                setCounterView();
+            }
+        });
+
+        buttonMode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(addMode) {
+                    addMode = false;
+                    buttonMode.setImageResource(R.drawable.ic_sub_sign);
+                }
+                else{
+                    addMode = true;
+                    buttonMode.setImageResource(R.drawable.ic_add_sign);
+                }
             }
         });
     }
@@ -81,9 +116,36 @@ public class MainActivity extends AppCompatActivity {
         Counter.createLittleHouse();
     }
 
-    public void incrementCount(int n, int index){
-        for(int i = 0; i < n; i++){
-            counters.get(index).increment();
+    private void instantiateViews(){
+        buttonMain = findViewById(R.id.MainButton);
+        buttonHome = findViewById(R.id.HomePageButton);
+        buttonLeft = findViewById(R.id.LeftButton);
+        buttonRight = findViewById(R.id.RightButton);
+        buttonMode = findViewById(R.id.ModeButton);
+        buttonTool = findViewById(R.id.ToolBarButton);
+        textMantra = findViewById(R.id.MantraNameText);
+    }
+
+    private void setCounterView(){
+        textMantra.setText(counters.get(counterIndex).getName());
+        buttonMain.setText(counters.get(counterIndex).getCount().toString());
+    }
+
+    private void incrementCounterIndex(){
+        if(counterIndex == counters.size()-1){
+            counterIndex = 0;
+        }
+        else{
+            counterIndex++;
+        }
+    }
+
+    private void decrementCounterIndex(){
+        if(counterIndex == 0){
+            counterIndex = counters.size() - 1;
+        }
+        else{
+            counterIndex--;
         }
     }
 }

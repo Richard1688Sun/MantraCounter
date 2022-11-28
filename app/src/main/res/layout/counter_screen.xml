@@ -8,12 +8,13 @@
 
     <TextView
         android:id="@+id/MantraNameText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:gravity="center"
         android:text="Mantra"
-        android:textStyle="bold"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/RightButton"
         app:layout_constraintStart_toEndOf="@+id/LeftButton"
         app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +65,7 @@
         app:layout_constraintTop_toTopOf="@+id/MantraNameText" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/SubtractModeButton"
+        android:id="@+id/ModeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
@@ -89,6 +90,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="654dp" />
+        app:layout_constraintGuide_end="77dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
