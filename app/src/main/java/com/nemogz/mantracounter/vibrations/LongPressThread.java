@@ -1,4 +1,4 @@
-package com.nemogz.mantracounter;
+package com.nemogz.mantracounter.vibrations;
 
 public class LongPressThread implements Runnable{
 

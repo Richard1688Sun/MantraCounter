@@ -2,9 +2,7 @@ package com.nemogz.mantracounter;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
-import androidx.appcompat.app.AppCompatActivity;
+import com.nemogz.mantracounter.counterStuff.Counter;
 
 public class CounterClassTests{
 

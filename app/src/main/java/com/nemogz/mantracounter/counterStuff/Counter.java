@@ -1,4 +1,7 @@
-package com.nemogz.mantracounter;
+package com.nemogz.mantracounter.counterStuff;
+
+import com.nemogz.mantracounter.MainActivity;
+import com.nemogz.mantracounter.R;
 
 import java.util.HashMap;
 import java.util.Map;
