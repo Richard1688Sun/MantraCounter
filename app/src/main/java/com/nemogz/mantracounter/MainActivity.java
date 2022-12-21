@@ -9,29 +9,31 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.nemogz.mantracounter.counterStuff.Counter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.nemogz.mantracounter.counterStuff.MasterCounter;
 
 public class MainActivity extends AppCompatActivity {
 
     //to access the strings in classes
     private static Resources resources;
 
-    private Button buttonMain;
+    private Button buttonCounter;
     private FloatingActionButton buttonHome;
     private FloatingActionButton buttonMode;
     private FloatingActionButton buttonTool;
     private FloatingActionButton buttonLeft;
     private FloatingActionButton buttonRight;
     private TextView textMantra;
+    private TextView t1;
+    private TextView t2;
+    private TextView t3;
+    private TextView t4;
+    private TextView t5;
     private int counterIndex = 0;
 
     private Boolean addMode = true;
+    private MasterCounter masterCounter;
 //    private Vibrator vibrator;
 //    private boolean vibrate = false;
-    private List<Counter> counters = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,23 +50,25 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         //detect short press
-        buttonMain.setOnClickListener(new View.OnClickListener() {
+        buttonCounter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(addMode){
-                    counters.get(counterIndex).increment();
+                    masterCounter.increment(masterCounter.getCounters().get(counterIndex).getName());
                 }else{
-                    counters.get(counterIndex).decrement();
+                    masterCounter.decrement(masterCounter.getCounters().get(counterIndex).getName());;
                 }
                 setCounterView();
+                testviewUP();
+                testviewUP();
             }
         });
 
         //detect long press
-        buttonMain.setOnLongClickListener(new View.OnLongClickListener() {
+        buttonCounter.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                counters.get(counterIndex).setCount(0);
+                masterCounter.setCount(masterCounter.getCounters().get(counterIndex).getName(), 0);
                 setCounterView();
                 return true;
             }
@@ -106,30 +110,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createEssentailCounters(){
-        counters.add(new Counter(getString(R.string.dabei), 0));
-        counters.add(new Counter(getString(R.string.boruo), 0));
-        counters.add(new Counter(getString(R.string.xiaozai), 0));
-        counters.add(new Counter(getString(R.string.qifo), 0));
-        Counter.createLittleHouse();
+        masterCounter = new MasterCounter();
+        masterCounter.createBasicCounters();
     }
 
     private void instantiateViews(){
-        buttonMain = findViewById(R.id.MainButton);
+        buttonCounter = findViewById(R.id.MainButton);
         buttonHome = findViewById(R.id.HomePageButton);
         buttonLeft = findViewById(R.id.LeftButton);
         buttonRight = findViewById(R.id.RightButton);
         buttonMode = findViewById(R.id.ModeButton);
         buttonTool = findViewById(R.id.ToolBarButton);
         textMantra = findViewById(R.id.MantraNameText);
+        t1 = findViewById(R.id.textView);
+        t2 = findViewById(R.id.textView2);
+        t3 = findViewById(R.id.textView3);
+        t4 = findViewById(R.id.textView4);
+        t5 = findViewById(R.id.textView5);
     }
 
     private void setCounterView(){
-        textMantra.setText(counters.get(counterIndex).getName());
-        buttonMain.setText(counters.get(counterIndex).getCount().toString());
+        textMantra.setText(masterCounter.getCounters().get(counterIndex).getName());
+        buttonCounter.setText(masterCounter.getCounters().get(counterIndex).getCount().toString());
     }
 
+    /**
+     * Increments the counter Index(index that is displayed)
+     */
     private void incrementCounterIndex(){
-        if(counterIndex == counters.size()-1){
+        if(counterIndex == masterCounter.getCounters().size()-1){
             counterIndex = 0;
         }
         else{
@@ -137,12 +146,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Decrements the counter Index(index that is displayed)
+     */
     private void decrementCounterIndex(){
         if(counterIndex == 0){
-            counterIndex = counters.size() - 1;
+            counterIndex = masterCounter.getCounters().size() - 1;
         }
         else{
             counterIndex--;
         }
+    }
+
+    private void testviewUP(){
+        t1.setText("DaBei = " + Integer.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.dabei))));
+        t2.setText("BoRuo = " + Integer.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.boruo))));
+        t3.setText("XiaoZai = " + Integer.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.wangshen))));
+        t4.setText( "QiFo = " + Integer.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.qifo))));
+        t5.setText("XiaoFangZi = " + Integer.toString(masterCounter.getLittleHouse().getLittleHouseCount()));
     }
 }

@@ -22,9 +22,9 @@ public class CounterClassTests{
 //        Counter xiaoZaiC = new Counter(xiaozai, 0);
 //        Counter qiFoC = new Counter(qifo, 0);
 
-        Counter.createLittleHouse();
-        incrementTime(DaBeiLimit, daBeiC);
-        System.out.println(Counter.getLittleHouse().getClass());
+//        Counter.createLittleHouse();
+//        incrementTime(DaBeiLimit, daBeiC);
+//        System.out.println(Counter.getLittleHouse().getClass());
         //assertEquals(1, Counter.getLittleHouse().get(daBeiC));
 
     }
