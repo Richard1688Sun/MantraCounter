@@ -160,10 +160,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void testviewUP(){
-        t1.setText("DaBei = " + Integer.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.dabei))));
-        t2.setText("BoRuo = " + Integer.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.boruo))));
-        t3.setText("XiaoZai = " + Integer.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.wangshen))));
-        t4.setText( "QiFo = " + Integer.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.qifo))));
+        t1.setText("DaBei = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.dabei))));
+        t2.setText("BoRuo = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.boruo))));
+        t3.setText("XiaoZai = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.wangshen))));
+        t4.setText( "QiFo = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.qifo))));
         t5.setText("XiaoFangZi = " + Integer.toString(masterCounter.getLittleHouse().getLittleHouseCount()));
     }
 }

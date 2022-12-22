@@ -16,12 +16,13 @@ public class Convertors {
     private final Gson gson = new Gson();
 
     @TypeConverter
-    public String littleHouseToGson(Map<String, Integer> littleHouse) {
+    public String littleHouseToGson(Map<String, Double> littleHouse) {
         return littleHouse == null ? null: gson.toJson(littleHouse);
     }
 
     @TypeConverter
-    public Map<String, Integer> gsonToLittleHouse(String litteHouse) {
-        return litteHouse == null ? null :gson.fromJson(litteHouse, Map.class);
+    public Map<String, Double> gsonToLittleHouse(String litteHouse) {
+        Map<String, Double> map = litteHouse == null ? null :gson.fromJson(litteHouse, Map.class);
+        return map;
     }
 }

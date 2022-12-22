@@ -48,6 +48,16 @@ public class MasterCounter implements MasterCounterInterface {
         this.qifo = context.getString(R.string.qifo);
     }
 
+    public MasterCounter(Context context, LittleHouse littleHouse, List<Counter> counters) {
+        this.context = context;
+        this.littleHouse = littleHouse;
+        this.counters = counters;
+        this.dabei = context.getString(R.string.dabei);
+        this.boruo = context.getString(R.string.boruo);
+        this.wangshen = context.getString(R.string.wangshen);
+        this.qifo = context.getString(R.string.qifo);
+    }
+
     @Override
     public boolean increment(String name) {
         for (Counter counter: counters) {
@@ -119,5 +129,13 @@ public class MasterCounter implements MasterCounterInterface {
         counters.add(new Counter(boruo, 0, context));
         counters.add(new Counter(wangshen, 0, context));
         counters.add(new Counter(qifo, 0, context));
+    }
+
+    public void setLittleHouse(LittleHouse littleHouse) {
+        this.littleHouse = littleHouse;
+    }
+
+    public void setCounters(List<Counter> counters) {
+        this.counters = counters;
     }
 }

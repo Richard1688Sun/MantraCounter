@@ -13,6 +13,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
+import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDAO;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 
@@ -83,9 +84,39 @@ public class TestingDAO {
         LittleHouse returnLH = db.masterCounterDAO().getLittleHouse();
 
         for(String man: returnLH.getLittleHouseMap().keySet()) {
+            Log.d("LittleHouse", man + " " + returnLH.getLittleHouseMap().get(man));
+        }
+    }
 
-            Log.d("LittleHouse", man + returnLH.getLittleHouseMap().get(man));
-            //Log.d("LittleHouse", Integer.toString(returnLH.getLittleHouseMap().get(man)));
+    @Test
+    public void testMasterCounter() {
+
+        MasterCounter masterCounter = new MasterCounter(appContext);
+        masterCounter.createBasicCounters();
+        masterCounter.increment(dabei);
+        masterCounter.increment(boruo);
+        masterCounter.increment(wangshen);
+        masterCounter.increment(qifo);
+        masterCounter.increment(dabei);
+        masterCounter.increment(boruo);
+        masterCounter.increment(wangshen);
+        masterCounter.increment(qifo);
+        masterCounter.getLittleHouse().incrementCount(dabei);
+        masterCounter.getLittleHouse().incrementCount(boruo);
+        masterCounter.getLittleHouse().incrementCount(wangshen);
+        masterCounter.getLittleHouse().incrementCount(qifo);
+
+        db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
+        db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
+
+        MasterCounter MC2 = new MasterCounter(appContext, db.masterCounterDAO().getLittleHouse(), db.masterCounterDAO().getAllCounters());
+
+        for(Counter c: MC2.getCounters()) {
+            Log.d("MasterCounter", c.getName() + " " + c.getCount());
+        }
+
+        for(String man: MC2.getLittleHouse().getLittleHouseMap().keySet()) {
+            Log.d("MasterCounter", man + " " + MC2.getLittleHouse().getLittleHouseMap().get(man));
         }
     }
 }

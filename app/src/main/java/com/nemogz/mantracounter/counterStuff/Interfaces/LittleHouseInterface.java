@@ -27,5 +27,5 @@ public interface LittleHouseInterface {
      * @param mantra name of the mantra
      * @return count associtated to the mantra
      */
-    public int getCountByName(String mantra);
+    public double getCountByName(String mantra);
 }
