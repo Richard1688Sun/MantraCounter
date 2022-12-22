@@ -2,6 +2,7 @@ package com.nemogz.mantracounter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Application;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createEssentailCounters(){
-        masterCounter = new MasterCounter();
+        masterCounter = new MasterCounter(getApplicationContext());
         masterCounter.createBasicCounters();
     }
 
