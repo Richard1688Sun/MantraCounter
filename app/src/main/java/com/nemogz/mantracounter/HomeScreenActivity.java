@@ -23,6 +23,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     public MasterCounterDatabase db;
     private MasterCounter masterCounter;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
@@ -35,12 +36,14 @@ public class HomeScreenActivity extends AppCompatActivity {
         homeRecView = findViewById(R.id.HomeScreenRecView);
 
         CounterMainRecViewAdapter counterAdapter = new CounterMainRecViewAdapter(this);
-        counterAdapter.setCounters(masterCounter.getCounters());
+        counterAdapter.setMasterCounters(masterCounter);
 
         homeRecView.setAdapter(counterAdapter);
         //means the layout is vertical
         homeRecView.setLayoutManager(new GridLayoutManager(this, 2));
     }
+
+    //TODO update the adapter whenever there is a pause or exit from this activity
 
     public void createEssentailCounters(){
         masterCounter = new MasterCounter(getApplicationContext());
@@ -63,6 +66,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         LittleHouse lh = db.masterCounterDAO().getLittleHouse();
         masterCounter.setCounters(c);
         masterCounter.setLittleHouse(lh);
+        masterCounter.setPositionCounters(db.masterCounterDAO().getMasterCounterPosition().getPositionCounters());
         return true;
     }
 }
