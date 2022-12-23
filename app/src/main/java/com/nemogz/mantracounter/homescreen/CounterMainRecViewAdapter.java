@@ -2,6 +2,7 @@ package com.nemogz.mantracounter.homescreen;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nemogz.mantracounter.HomeScreenActivity;
+import com.nemogz.mantracounter.MainActivity;
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Counter;
 
@@ -42,10 +45,13 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
         //TODo set the other stuff
         holder.mantraName.setText(counters.get(position).getName());
         holder.mantraCount.setText(counters.get(position).getCount().toString());
-        holder.mantraName.setOnClickListener(new View.OnClickListener() {
+
+        holder.mantraView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, counters.get(position).getName() + " Selected", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, counters.get(position).getName() + " Selected", Toast.LENGTH_SHORT).show();
+                Intent counterScreenIntent = new Intent(context, MainActivity.class);
+                context.startActivity(counterScreenIntent);
             }
         });
     }
@@ -59,14 +65,14 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
     public class ViewHolder extends RecyclerView.ViewHolder{
         private TextView mantraName;
         private TextView mantraCount;
-        private CardView cardView;
+        private CardView mantraView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mantraName = itemView.findViewById(R.id.mantraNameItem);
             mantraCount = itemView.findViewById(R.id.mantraCount);
-            cardView = itemView.findViewById(R.id.mantraItem);
+            mantraView = itemView.findViewById(R.id.mantraItem);
         }
     }
 

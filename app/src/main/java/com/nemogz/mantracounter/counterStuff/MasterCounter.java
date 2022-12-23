@@ -38,20 +38,24 @@ public class MasterCounter implements MasterCounterInterface {
     private LittleHouse littleHouse;
     private List<Counter> counters;
 
+    private int positionCounters;
+
     public MasterCounter(Context context) {
         this.context = context;
         this.littleHouse = new LittleHouse(context);
         this.counters = new ArrayList<>();
+        this.positionCounters = 0;
         this.dabei = context.getString(R.string.dabei);
         this.boruo = context.getString(R.string.boruo);
         this.wangshen = context.getString(R.string.wangshen);
         this.qifo = context.getString(R.string.qifo);
     }
 
-    public MasterCounter(Context context, LittleHouse littleHouse, List<Counter> counters) {
+    public MasterCounter(Context context, LittleHouse littleHouse, List<Counter> counters, int positionCounters) {
         this.context = context;
         this.littleHouse = littleHouse;
         this.counters = counters;
+        this.positionCounters = positionCounters;
         this.dabei = context.getString(R.string.dabei);
         this.boruo = context.getString(R.string.boruo);
         this.wangshen = context.getString(R.string.wangshen);
@@ -159,5 +163,35 @@ public class MasterCounter implements MasterCounterInterface {
 
     public void setCounters(List<Counter> counters) {
         this.counters = counters;
+    }
+
+    public int getPositionCounters() {
+        return positionCounters;
+    }
+
+    public void setPositionCounters(int positionCounters) {
+        this.positionCounters = positionCounters;
+    }
+
+    public void incrementPositionCounter(){
+        if(positionCounters == counters.size()-1){
+            positionCounters = 0;
+        }
+        else{
+            positionCounters++;
+        }
+    }
+
+    public void decrementPositionCounter(){
+        if(positionCounters == 0){
+            positionCounters = counters.size() - 1;
+        }
+        else{
+            positionCounters--;
+        }
+    }
+
+    public Counter getCounterAtPosition() {
+        return counters.get(positionCounters);
     }
 }

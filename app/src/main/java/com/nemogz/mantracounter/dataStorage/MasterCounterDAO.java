@@ -20,6 +20,9 @@ public interface MasterCounterDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertLittleHouse(LittleHouse littleHouse);
 
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    public void insertCounterPosition(int position);
+
     @Query("SELECT * FROM counter")
     public List<Counter> getAllCounters();
 

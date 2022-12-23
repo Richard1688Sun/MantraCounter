@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView t3;
     private TextView t4;
     private TextView t5;
-    private int counterIndex = 0;
 
     private Boolean addMode = true;
     private MasterCounter masterCounter;
@@ -63,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(addMode){
-                    masterCounter.increment(masterCounter.getCounters().get(counterIndex).getName());
+                    masterCounter.increment(masterCounter.getCounterAtPosition().getName());
                 }else{
-                    masterCounter.decrement(masterCounter.getCounters().get(counterIndex).getName());;
+                    masterCounter.decrement(masterCounter.getCounterAtPosition().getName());;
                 }
                 setCounterView();
             }
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         buttonCounter.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                masterCounter.setCount(masterCounter.getCounters().get(counterIndex).getName(), 0);
+                masterCounter.setCount(masterCounter.getCounterAtPosition().getName(), 0);
                 setCounterView();
                 return true;
             }
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         buttonRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                incrementCounterIndex();
+                masterCounter.incrementPositionCounter();
                 setCounterView();
             }
         });
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         buttonLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                decrementCounterIndex();
+                masterCounter.decrementPositionCounter();
                 setCounterView();
             }
         });
@@ -166,34 +165,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCounterView(){
-        textMantra.setText(masterCounter.getCounters().get(counterIndex).getName());
-        buttonCounter.setText(masterCounter.getCounters().get(counterIndex).getCount().toString());
+        textMantra.setText(masterCounter.getCounterAtPosition().getName());
+        buttonCounter.setText(masterCounter.getCounterAtPosition().getCount().toString());
         testviewUP();
     }
 
-    /**
-     * Increments the counter Index(index that is displayed)
-     */
-    private void incrementCounterIndex(){
-        if(counterIndex == masterCounter.getCounters().size()-1){
-            counterIndex = 0;
-        }
-        else{
-            counterIndex++;
-        }
-    }
-
-    /**
-     * Decrements the counter Index(index that is displayed)
-     */
-    private void decrementCounterIndex(){
-        if(counterIndex == 0){
-            counterIndex = masterCounter.getCounters().size() - 1;
-        }
-        else{
-            counterIndex--;
-        }
-    }
 
     private void testviewUP(){
         t1.setText("DaBei = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.dabei))));

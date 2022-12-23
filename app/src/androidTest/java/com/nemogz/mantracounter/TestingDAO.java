@@ -109,7 +109,7 @@ public class TestingDAO {
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
 
-        MasterCounter MC2 = new MasterCounter(appContext, db.masterCounterDAO().getLittleHouse(), db.masterCounterDAO().getAllCounters());
+        MasterCounter MC2 = new MasterCounter(appContext, db.masterCounterDAO().getLittleHouse(), db.masterCounterDAO().getAllCounters(), 0);
 
         for(Counter c: MC2.getCounters()) {
             Log.d("MasterCounter", c.getName() + " " + c.getCount());
