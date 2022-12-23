@@ -50,8 +50,6 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
             @Override
             public void onClick(View v) {
                 Toast.makeText(context, counters.get(position).getName() + " Selected", Toast.LENGTH_SHORT).show();
-                Intent counterScreenIntent = new Intent(context, MainActivity.class);
-                context.startActivity(counterScreenIntent);
             }
         });
     }
