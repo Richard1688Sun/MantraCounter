@@ -121,6 +121,17 @@ public class LittleHouse implements LittleHouseInterface {
         return littleHouseMap.get(mantra).doubleValue();
     }
 
+    @Override
+    public boolean reset() {
+
+        for(String key: littleHouseMap.keySet()) {
+            littleHouseMap.put(key, 0.0);
+        }
+
+        littleHouseCount = 0;
+        return false;
+    }
+
     /**
      * update the littleHouse count
      * @return true littleHouse was updated, false otherwise

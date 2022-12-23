@@ -113,6 +113,16 @@ public class MasterCounter implements MasterCounterInterface {
         return false;
     }
 
+    @Override
+    public boolean resetCountersAndLittleHouse() {
+
+        for(Counter counter: counters) {
+            counter.setCount(0);
+        }
+        littleHouse.reset();
+        return true;
+    }
+
     public LittleHouse getLittleHouse() {
         return littleHouse;
     }

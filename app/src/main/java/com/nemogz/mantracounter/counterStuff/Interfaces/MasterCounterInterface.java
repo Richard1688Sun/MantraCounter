@@ -40,4 +40,10 @@ public interface MasterCounterInterface{
      * @return true if name exists and number won't be negative
      */
     public boolean decrement(String name);
+
+    /**
+     * Reset all the counters and the littleHouse values to 0
+     * @return true if everything was reset, false otherwise
+     */
+    public boolean resetCountersAndLittleHouse();
 }

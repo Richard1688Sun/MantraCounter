@@ -1,8 +1,9 @@
 package com.nemogz.mantracounter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
-import android.app.Application;
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +11,18 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nemogz.mantracounter.counterStuff.Counter;
+import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
+import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     //to access the strings in classes
     private static Resources resources;
+    public MasterCounterDatabase db;
 
     private Button buttonCounter;
     private FloatingActionButton buttonHome;
@@ -41,8 +48,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         resources = getResources();
         setContentView(R.layout.counter_screen);
-
-        createEssentailCounters();
+        createDataBase(getApplicationContext());
+        masterCounter = new MasterCounter(getApplicationContext());
+        if (!loadDataFromDatabase()) {
+            createEssentailCounters();
+        }
         instantiateViews();
         setCounterView();
 
@@ -60,8 +70,6 @@ public class MainActivity extends AppCompatActivity {
                     masterCounter.decrement(masterCounter.getCounters().get(counterIndex).getName());;
                 }
                 setCounterView();
-                testviewUP();
-                testviewUP();
             }
         });
 
@@ -96,14 +104,33 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(addMode) {
                     addMode = false;
-                    buttonMode.setImageResource(R.drawable.ic_sub_sign);
+                    buttonMode.setImageResource(R.drawable.ic_add_sign);
                 }
                 else{
                     addMode = true;
-                    buttonMode.setImageResource(R.drawable.ic_add_sign);
+                    buttonMode.setImageResource(R.drawable.ic_sub_sign);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
+        db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        loadDataFromDatabase();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadDataFromDatabase();
     }
 
     public static Resources getAppResources() {
@@ -133,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
     private void setCounterView(){
         textMantra.setText(masterCounter.getCounters().get(counterIndex).getName());
         buttonCounter.setText(masterCounter.getCounters().get(counterIndex).getCount().toString());
+        testviewUP();
     }
 
     /**
@@ -165,5 +193,24 @@ public class MainActivity extends AppCompatActivity {
         t3.setText("XiaoZai = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.wangshen))));
         t4.setText( "QiFo = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.qifo))));
         t5.setText("XiaoFangZi = " + Integer.toString(masterCounter.getLittleHouse().getLittleHouseCount()));
+    }
+
+    private void createDataBase(Context context) {
+        db = MasterCounterDatabase.getINSTANCE(getApplicationContext());
+    }
+
+    /**
+     * Tries to load data from database. Return if successful
+     * @return true if data was detected and loaded, false otherwise
+     */
+    private boolean loadDataFromDatabase() {
+        if(db.masterCounterDAO().getAllCounters().size() == 0 && db.masterCounterDAO().getLittleHouse() == null) {
+            return false;
+        }
+        List<Counter> c = db.masterCounterDAO().getAllCounters();
+        LittleHouse lh = db.masterCounterDAO().getLittleHouse();
+        masterCounter.setCounters(c);
+        masterCounter.setLittleHouse(lh);
+        return true;
     }
 }

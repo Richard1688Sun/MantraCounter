@@ -21,4 +21,5 @@ public interface CounterInterface {
      * @return true if name exists and number won't be negative
      */
     public boolean decrement();
+
 }

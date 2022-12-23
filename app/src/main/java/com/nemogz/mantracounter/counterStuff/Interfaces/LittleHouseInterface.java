@@ -28,4 +28,10 @@ public interface LittleHouseInterface {
      * @return count associtated to the mantra
      */
     public double getCountByName(String mantra);
+
+    /**
+     * Reset all the counter values in littleHouseMap
+     * @return true if successful, false otherwise
+     */
+    public boolean reset();
 }
