@@ -122,8 +122,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d("state", "onPause");
-        db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
-        db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
+        setDataFromDatabase();
     }
 
     @Override
@@ -188,12 +187,19 @@ public class MainActivity extends AppCompatActivity {
      * @return true if data was detected and loaded, false otherwise
      */
     private boolean loadDataFromDatabase() {
-        if(db.masterCounterDAO().getAllCounters().size() == 0 && db.masterCounterDAO().getLittleHouse() == null) {
+        if(db.masterCounterDAO().getLittleHouse() == null || db.masterCounterDAO().getMasterCounterPosition().getPositionCounters() == 0) {
             return false;
         }
         masterCounter.setCounters(db.masterCounterDAO().getAllCounters());
         masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
+        masterCounter.setPositionCounters(db.masterCounterDAO().getMasterCounterPosition().getPositionCounters());
         return true;
+    }
+
+    private void setDataFromDatabase() {
+        db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
+        db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
+        db.masterCounterDAO().insertCounterPosition(masterCounter);
     }
 
     private void openHomeScreen() {

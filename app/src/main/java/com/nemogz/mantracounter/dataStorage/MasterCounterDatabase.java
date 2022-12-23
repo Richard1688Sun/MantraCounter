@@ -13,7 +13,7 @@ import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 
-@Database(entities = {Counter.class, LittleHouse.class}, version = 2)
+@Database(entities = {Counter.class, LittleHouse.class, MasterCounter.class}, version = 4)
 @TypeConverters(Convertors.class)
 public abstract class MasterCounterDatabase extends RoomDatabase {
 

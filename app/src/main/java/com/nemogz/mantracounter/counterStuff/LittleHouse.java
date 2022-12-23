@@ -77,6 +77,19 @@ public class LittleHouse implements LittleHouseInterface {
         this.littleHouseMap.put(qifo, 0.0);
     }
 
+    public LittleHouse() {
+        this.littleHouseMap = new HashMap<>();
+        this.dabei = null;
+        this.boruo = null;
+        this.wangshen = null;
+        this.qifo = null;
+        this.littleHouseCount = 0;
+        this.littleHouseMap.put(dabei, 0.0);
+        this.littleHouseMap.put(boruo, 0.0);
+        this.littleHouseMap.put(wangshen, 0.0);
+        this.littleHouseMap.put(qifo, 0.0);
+    }
+
     public LittleHouse(Context context) {
         this.littleHouseMap = new HashMap<>();
         this.dabei = context.getString(R.string.dabei);

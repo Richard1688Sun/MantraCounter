@@ -119,4 +119,15 @@ public class TestingDAO {
             Log.d("MasterCounter", man + " " + MC2.getLittleHouse().getLittleHouseMap().get(man));
         }
     }
+
+    @Test
+    public void testingPositionCounter() {
+
+        MasterCounter masterCounter = new MasterCounter(2);
+        db.masterCounterDAO().insertCounterPosition(masterCounter);
+
+        int l = db.masterCounterDAO().getMasterCounterPosition().getPositionCounters();
+
+        Log.d("positionCounter", "testingPositionCounter: " + l);
+    }
 }

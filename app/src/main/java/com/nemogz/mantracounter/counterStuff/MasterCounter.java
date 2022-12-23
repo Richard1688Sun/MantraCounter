@@ -10,10 +10,13 @@ import com.nemogz.mantracounter.MainActivity;
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Interfaces.MasterCounterInterface;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Entity
 public class MasterCounter implements MasterCounterInterface {
 
     @Ignore
@@ -33,12 +36,20 @@ public class MasterCounter implements MasterCounterInterface {
     @Ignore
     private final String qifo;
 
+    @Ignore
     private final Context context;
 
+    @Ignore
     private LittleHouse littleHouse;
+
+    @Ignore
     private List<Counter> counters;
 
-    private int positionCounters;
+    @PrimaryKey
+    @NotNull
+    private String id = "masterCounter";
+
+    private Integer positionCounters;
 
     public MasterCounter(Context context) {
         this.context = context;
@@ -49,6 +60,18 @@ public class MasterCounter implements MasterCounterInterface {
         this.boruo = context.getString(R.string.boruo);
         this.wangshen = context.getString(R.string.wangshen);
         this.qifo = context.getString(R.string.qifo);
+    }
+
+    //made for the sqlite I don't know why
+    public MasterCounter(Integer positionCounters) {
+        this.context = null;
+        this.littleHouse = new LittleHouse();
+        this.counters = new ArrayList<>();
+        this.positionCounters = positionCounters;
+        this.dabei = null;
+        this.boruo = null;
+        this.wangshen = null;
+        this.qifo = null;
     }
 
     public MasterCounter(Context context, LittleHouse littleHouse, List<Counter> counters, int positionCounters) {
@@ -193,5 +216,14 @@ public class MasterCounter implements MasterCounterInterface {
 
     public Counter getCounterAtPosition() {
         return counters.get(positionCounters);
+    }
+
+    @NotNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NotNull String id) {
+        this.id = id;
     }
 }
