@@ -2,12 +2,50 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/gold_light"
     android:padding="10dp">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/littleHouseItem"
+        android:elevation="10dp"
+        app:cardCornerRadius="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minWidth="100dp"
+            android:minHeight="100dp"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Little House name"
+                android:id="@+id/littleHouseNameItem"
+                android:background="@color/white"
+                android:textStyle="bold"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/littleHouseNameItem"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Little House Count"
+                android:id="@+id/littleHouseCountItem"/>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/HomeScreenRecView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/HomeScreenRecView"/>
+        android:layout_below="@+id/littleHouseItem" />
 
 </RelativeLayout>
