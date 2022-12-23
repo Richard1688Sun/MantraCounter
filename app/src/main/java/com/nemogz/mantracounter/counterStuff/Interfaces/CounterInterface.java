@@ -4,10 +4,10 @@ public interface CounterInterface {
 
     /**
      * increments the count value by 1
-     * checks if the mantra count amount has reached the threshold if yes updates the littleHouse count
      * @return true if the counter has reached te required limit
+     * @param completedAmount number of times the counter completed the littleHouse amount
      */
-    public boolean increment();
+    public boolean increment(int completedAmount);
 
     /**
      * Set the count amount to the newCount
@@ -22,4 +22,11 @@ public interface CounterInterface {
      */
     public boolean decrement();
 
+    /**
+     * Subtracts the LittleHouse amount from the counter
+     * @requires the littleHouse to have incremented successfully
+     * @param timesToUpdate number of littleHouse that have been completed
+     * @return true if an update was made, false otherwise
+     */
+    public boolean updateCounter(int timesToUpdate);
 }

@@ -19,14 +19,22 @@ public class Counter implements CounterInterface {
 
     @Ignore
     Context context;
+//    @Ignore
+//    private static final int DaBeiLimit = 27;
+//    @Ignore
+//    private static final int BoRuoLimit = 49;
+//    @Ignore
+//    private static final int WangShenLimit = 84;
+//    @Ignore
+//    private static final int QiFoLimit = 87;
     @Ignore
-    private static final int DaBeiLimit = 27;
+    private static final int DaBeiLimit = 10;
     @Ignore
-    private static final int BoRuoLimit = 49;
+    private static final int BoRuoLimit = 9;
     @Ignore
-    private static final int WangShenLimit = 84;
+    private static final int WangShenLimit = 8;
     @Ignore
-    private static final int QiFoLimit = 87;
+    private static final int QiFoLimit = 7;
     @ColumnInfo
     private final String dabei;
     @ColumnInfo
@@ -63,24 +71,20 @@ public class Counter implements CounterInterface {
     }
 
     @Override
-    public boolean increment(){
+    public boolean increment(int completedAmount){
         count++;
 
         //check if each mantra count is satisfied
-        if((name.equals(dabei)) && (count >= DaBeiLimit)){
-            count = count - DaBeiLimit;
+        if((name.equals(dabei)) && (count >= DaBeiLimit * (completedAmount + 1))){
             return true;
         }
-        else if(name.equals(boruo) && count >= BoRuoLimit){
-            count = count - BoRuoLimit;
+        else if(name.equals(boruo) && count >= BoRuoLimit * (completedAmount + 1)){
             return true;
         }
-        else if(name.equals(wangshen) && count >= WangShenLimit){
-            count = count - WangShenLimit;
+        else if(name.equals(wangshen) && count >= WangShenLimit * (completedAmount + 1)){
             return true;
         }
-        else if(name.equals(qifo) && count >= QiFoLimit){
-            count = count - QiFoLimit;
+        else if(name.equals(qifo) && count >= QiFoLimit * (completedAmount + 1)){
             return true;
         }
 
@@ -103,6 +107,29 @@ public class Counter implements CounterInterface {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean updateCounter(int timesToUpdate) {
+        for(int i = 0; i < timesToUpdate; i++) {
+            //check if each mantra count is satisfied
+            if((name.equals(dabei)) && (count - DaBeiLimit >= 0)){
+                count = count - DaBeiLimit;
+            }
+            else if(name.equals(boruo) && (count  - BoRuoLimit >= 0)){
+                count = count - BoRuoLimit;
+            }
+            else if(name.equals(wangshen) && (count - WangShenLimit >= 0)){
+                count = count - WangShenLimit;
+            }
+            else if(name.equals(qifo) && (count - QiFoLimit >= 0)){
+                count = count - QiFoLimit;
+            }
+            else if(!name.equals(dabei) && !name.equals(boruo) && !name.equals(wangshen) && !name.equals(qifo)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String getName() {

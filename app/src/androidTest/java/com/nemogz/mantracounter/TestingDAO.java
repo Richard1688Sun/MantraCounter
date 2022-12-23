@@ -60,7 +60,7 @@ public class TestingDAO {
         List<Counter> returnL = db.masterCounterDAO().getAllCounters();
 
         for(int i = 0; i < 27; i++){
-            returnL.get(0).increment();
+            returnL.get(0).increment(0);
         }
 
         Log.d("counterNum", returnL.get(0).getCount().toString());

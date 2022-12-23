@@ -89,13 +89,13 @@ public class LittleHouse implements LittleHouseInterface {
 
 
     @Override
-    public boolean incrementCount(String name) {
+    public int incrementCount(String name) {
         if(littleHouseMap.containsKey(name)) {
             double pastNum = littleHouseMap.get(name);
             littleHouseMap.put(name, pastNum + 1.0);
-            return true;
+            return updateLittleHouse();
         }
-        return false;
+        return 0;
     }
 
     @Override
@@ -136,12 +136,12 @@ public class LittleHouse implements LittleHouseInterface {
      * update the littleHouse count
      * @return true littleHouse was updated, false otherwise
      */
-    private boolean updateLittleHouse() {
-        double minCount = Double.MAX_VALUE;
+    private int updateLittleHouse() {
+        double minCount = -1.0;
 
         //find the completion count out of all of mantras
         for(String mantra: littleHouseMap.keySet()) {
-            if(littleHouseMap.get(mantra) < minCount) {
+            if(littleHouseMap.get(mantra) < minCount || minCount == -1.0) {
                 minCount = littleHouseMap.get(mantra);
             }
         }
@@ -153,9 +153,9 @@ public class LittleHouse implements LittleHouseInterface {
 
         if(minCount > 0) {
             littleHouseCount = littleHouseCount + (int)minCount;
-            return true;
+            return (int)minCount;
         }
-        return false;
+        return 0;
     }
 
     public Integer getLittleHouseCount() {

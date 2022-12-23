@@ -62,11 +62,23 @@ public class MasterCounter implements MasterCounterInterface {
     public boolean increment(String name) {
         for (Counter counter: counters) {
             if (counter.getName().equals(name)) {
-                if (counter.increment()) {
-                    return littleHouse.incrementCount(name);
+                if (counter.increment(littleHouse.getLittleHouseMap().get(name).intValue())) {
+                    //if incrementing the counter reached that counter's threshold
+                    int completedLittleHouses = littleHouse.incrementCount(name);
+
+                    if (completedLittleHouses != 0) {
+                        for (int i = 0; i < counters.size(); i ++) {
+                            if (littleHouse.getLittleHouseMap().containsKey(counters.get(i).getName())) {
+                                if(!counters.get(i).updateCounter(completedLittleHouses)) return false;
+                                //TODO make this more efficient can pass the whole counter so no more forloop
+                            }
+                        }
+                    }
+                    return true;
                 }
             }
         }
+
         return false;
     }
 

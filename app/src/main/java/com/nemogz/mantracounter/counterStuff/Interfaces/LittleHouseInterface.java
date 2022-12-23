@@ -5,9 +5,9 @@ public interface LittleHouseInterface {
     /**
      * Given a mantra name, increment that mantra by 1
      * @param name name of the mantra
-     * @return true if successful, false else
+     * @return number of times littleHouse was completed, else returns -1
      */
-    public boolean incrementCount(String name);
+    public int incrementCount(String name);
 
     /**
      * Decrements the littleHouseCount
@@ -34,4 +34,5 @@ public interface LittleHouseInterface {
      * @return true if successful, false otherwise
      */
     public boolean reset();
+
 }
