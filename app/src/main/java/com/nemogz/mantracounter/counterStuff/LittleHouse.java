@@ -42,11 +42,14 @@ public class LittleHouse implements LittleHouseInterface {
     @Ignore
     private final String qifo;
 
+    @ColumnInfo
     private Map<String, Double> littleHouseMap;
+    @ColumnInfo
+    private Integer littleHouseCount;
 
     @PrimaryKey
     @NotNull
-    private Integer littleHouseCount;
+    private String id = "littleHouse";
 
 //    public LittleHouse(String dabei, String boruo, String wangshen, String qifo) {
 //        this.littleHouseMap = new HashMap<>();
@@ -173,5 +176,14 @@ public class LittleHouse implements LittleHouseInterface {
 
     public void setLittleHouseMap(Map<String, Double> littleHouseMap) {
         this.littleHouseMap = littleHouseMap;
+    }
+
+    @NotNull
+    public String getId() {
+        return id;
+    }
+
+    public void setId(@NotNull String id) {
+        this.id = id;
     }
 }

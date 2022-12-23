@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("state", "onCreate");
         resources = getResources();
         setContentView(R.layout.counter_screen);
         createDataBase(getApplicationContext());
@@ -120,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        Log.d("state", "onPause");
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
     }
@@ -127,12 +130,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        Log.d("state", "onRestart");
         loadDataFromDatabase();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("state", "onResume");
         loadDataFromDatabase();
     }
 
