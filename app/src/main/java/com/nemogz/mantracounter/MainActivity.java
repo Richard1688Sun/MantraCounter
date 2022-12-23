@@ -1,9 +1,9 @@
 package com.nemogz.mantracounter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
@@ -11,12 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.nemogz.mantracounter.counterStuff.Counter;
-import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -110,6 +106,13 @@ public class MainActivity extends AppCompatActivity {
                     addMode = true;
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                 }
+            }
+        });
+
+        buttonHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openHomeScreen();
             }
         });
     }
@@ -207,10 +210,13 @@ public class MainActivity extends AppCompatActivity {
         if(db.masterCounterDAO().getAllCounters().size() == 0 && db.masterCounterDAO().getLittleHouse() == null) {
             return false;
         }
-        List<Counter> c = db.masterCounterDAO().getAllCounters();
-        LittleHouse lh = db.masterCounterDAO().getLittleHouse();
-        masterCounter.setCounters(c);
-        masterCounter.setLittleHouse(lh);
+        masterCounter.setCounters(db.masterCounterDAO().getAllCounters());
+        masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
         return true;
+    }
+
+    private void openHomeScreen() {
+        Intent homeScreenIntent = new Intent(this, HomeScreenActivity.class);
+        startActivity(homeScreenIntent);
     }
 }
