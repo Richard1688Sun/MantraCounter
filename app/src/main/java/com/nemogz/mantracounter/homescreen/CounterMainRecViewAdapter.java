@@ -18,17 +18,22 @@ import com.nemogz.mantracounter.HomeScreenActivity;
 import com.nemogz.mantracounter.MainActivity;
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Counter;
+import com.nemogz.mantracounter.counterStuff.LittleHouse;
+import com.nemogz.mantracounter.counterStuff.MasterCounter;
+import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainRecViewAdapter.ViewHolder>{
 
-    private List<Counter> counters = new ArrayList<>();
+    private MasterCounter masterCounter = new MasterCounter(0);
     private Context context;
+    public MasterCounterDatabase db;
 
     public CounterMainRecViewAdapter(Context context) {
         this.context = context;
+        db = MasterCounterDatabase.getINSTANCE(context);
     }
 
     @NonNull
@@ -42,21 +47,23 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        //TODo set the other stuff
-        holder.mantraName.setText(counters.get(position).getName());
-        holder.mantraCount.setText(counters.get(position).getCount().toString());
+        holder.mantraName.setText(masterCounter.getCounters().get(position).getName());
+        holder.mantraCount.setText(masterCounter.getCounters().get(position).getCount().toString());
 
         holder.mantraView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, counters.get(position).getName() + " Selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, masterCounter.getCounters().get(position).getName() + " Selected", Toast.LENGTH_SHORT).show();
+                Intent counterScreenIntent = new Intent(context, MainActivity.class);
+                db.masterCounterDAO().insertCounterPosition(new MasterCounter(position));
+                context.startActivity(counterScreenIntent);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return counters.size();
+        return masterCounter.getCounters().size();
     }
 
     //generates the view objects(counterListItem)
@@ -74,8 +81,8 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
         }
     }
 
-    public void setCounters(List<Counter> counters) {
-        this.counters = counters;
+    public void setMasterCounters(MasterCounter masterCounter) {
+        this.masterCounter = masterCounter;
         //tells adapter that the data has been changed
         notifyDataSetChanged();
     }

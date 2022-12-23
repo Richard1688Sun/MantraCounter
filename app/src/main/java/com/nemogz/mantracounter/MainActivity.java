@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
      * @return true if data was detected and loaded, false otherwise
      */
     private boolean loadDataFromDatabase() {
-        if(db.masterCounterDAO().getLittleHouse() == null || db.masterCounterDAO().getMasterCounterPosition().getPositionCounters() == 0) {
+        if(db.masterCounterDAO().getLittleHouse() == null) {
             return false;
         }
         masterCounter.setCounters(db.masterCounterDAO().getAllCounters());
