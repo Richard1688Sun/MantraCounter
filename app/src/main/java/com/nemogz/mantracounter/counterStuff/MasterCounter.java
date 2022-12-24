@@ -88,7 +88,7 @@ public class MasterCounter implements MasterCounterInterface {
     @Override
     public boolean increment(String name) {
         for (Counter counter: counters) {
-            if (counter.getName().equals(name)) {
+            if (counter.getOriginalName().equals(name)) {
                 if (littleHouse.getLittleHouseMap().containsKey(name)) {
                     if (counter.increment(littleHouse.getLittleHouseMap().get(name).intValue())) {
                         //if incrementing the counter reached that counter's threshold
@@ -96,7 +96,7 @@ public class MasterCounter implements MasterCounterInterface {
 
                         if (completedLittleHouses != 0) {
                             for (int i = 0; i < counters.size(); i ++) {
-                                if (littleHouse.getLittleHouseMap().containsKey(counters.get(i).getName())) {
+                                if (littleHouse.getLittleHouseMap().containsKey(counters.get(i).getOriginalName())) {
                                     if(!counters.get(i).updateCounter(completedLittleHouses)) return false;
                                     //TODO make this more efficient can pass the whole counter so no more forloop
                                 }
@@ -118,7 +118,7 @@ public class MasterCounter implements MasterCounterInterface {
     @Override
     public boolean setCount(String name, int newCount) {
         for (Counter counter: counters) {
-            if (counter.getName().equals(name)) {
+            if (counter.getOriginalName().equals(name)) {
                 return counter.setCount(newCount);
             }
         }
@@ -128,7 +128,7 @@ public class MasterCounter implements MasterCounterInterface {
     @Override
     public boolean decrement(String name) {
         for (Counter counter: counters) {
-            if (counter.getName().equals(name)) {
+            if (counter.getOriginalName().equals(name)) {
                 return counter.decrement();
             }
         }
@@ -150,7 +150,7 @@ public class MasterCounter implements MasterCounterInterface {
     public boolean deleteCounter(String name) {
 
         for (Counter counter: counters) {
-            if(counter.getName().equals(name)) {
+            if(counter.getOriginalName().equals(name)) {
                 counters.remove(counter);
                 return true;
             }

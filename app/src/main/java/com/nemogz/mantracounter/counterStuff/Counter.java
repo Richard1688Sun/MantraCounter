@@ -47,21 +47,27 @@ public class Counter implements CounterInterface {
 
     @PrimaryKey
     @NotNull
-    private final String name;
+    private final String originalName;
+
+    @ColumnInfo
+    private String displayName;
+
     @ColumnInfo
     private Integer count;
 
-    public Counter(@NonNull String name, Integer count, String dabei, String boruo, String qifo, String wangshen) {
-        this.name = name;
+    public Counter(@NonNull String originalName, Integer count, String dabei, String boruo, String qifo, String wangshen) {
+        this.originalName = originalName;
         this.count = count;
         this.dabei = dabei;
         this.boruo = boruo;
         this.wangshen = wangshen;
         this.qifo = qifo;
+        this.displayName = originalName;
     }
 
-    public Counter(@NonNull String name, Integer count, Context context) {
-        this.name = name;
+    public Counter(@NonNull String originalName, Integer count, Context context) {
+        this.originalName = originalName;
+        this.displayName = originalName;
         this.count = count;
         this.context = context;
         this.dabei = context.getString(R.string.dabei);
@@ -75,16 +81,16 @@ public class Counter implements CounterInterface {
         count++;
 
         //check if each mantra count is satisfied
-        if((name.equals(dabei)) && (count >= DaBeiLimit * (completedAmount + 1))){
+        if((originalName.equals(dabei)) && (count >= DaBeiLimit * (completedAmount + 1))){
             return true;
         }
-        else if(name.equals(boruo) && count >= BoRuoLimit * (completedAmount + 1)){
+        else if(originalName.equals(boruo) && count >= BoRuoLimit * (completedAmount + 1)){
             return true;
         }
-        else if(name.equals(wangshen) && count >= WangShenLimit * (completedAmount + 1)){
+        else if(originalName.equals(wangshen) && count >= WangShenLimit * (completedAmount + 1)){
             return true;
         }
-        else if(name.equals(qifo) && count >= QiFoLimit * (completedAmount + 1)){
+        else if(originalName.equals(qifo) && count >= QiFoLimit * (completedAmount + 1)){
             return true;
         }
 
@@ -113,27 +119,27 @@ public class Counter implements CounterInterface {
     public boolean updateCounter(int timesToUpdate) {
         for(int i = 0; i < timesToUpdate; i++) {
             //check if each mantra count is satisfied
-            if((name.equals(dabei)) && (count - DaBeiLimit >= 0)){
+            if((originalName.equals(dabei)) && (count - DaBeiLimit >= 0)){
                 count = count - DaBeiLimit;
             }
-            else if(name.equals(boruo) && (count  - BoRuoLimit >= 0)){
+            else if(originalName.equals(boruo) && (count  - BoRuoLimit >= 0)){
                 count = count - BoRuoLimit;
             }
-            else if(name.equals(wangshen) && (count - WangShenLimit >= 0)){
+            else if(originalName.equals(wangshen) && (count - WangShenLimit >= 0)){
                 count = count - WangShenLimit;
             }
-            else if(name.equals(qifo) && (count - QiFoLimit >= 0)){
+            else if(originalName.equals(qifo) && (count - QiFoLimit >= 0)){
                 count = count - QiFoLimit;
             }
-            else if(!name.equals(dabei) && !name.equals(boruo) && !name.equals(wangshen) && !name.equals(qifo)) {
+            else if(!originalName.equals(dabei) && !originalName.equals(boruo) && !originalName.equals(wangshen) && !originalName.equals(qifo)) {
                 return false;
             }
         }
         return true;
     }
 
-    public String getName() {
-        return name;
+    public String getOriginalName() {
+        return originalName;
     }
 
     public Integer getCount() {
@@ -154,5 +160,13 @@ public class Counter implements CounterInterface {
 
     public String getQifo() {
         return qifo;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

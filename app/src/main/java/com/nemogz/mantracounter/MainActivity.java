@@ -6,10 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
@@ -28,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton buttonTool;
     private FloatingActionButton buttonLeft;
     private FloatingActionButton buttonRight;
-    private TextView textMantra;
+    private EditText textMantra;
     private TextView t1;
     private TextView t2;
     private TextView t3;
@@ -64,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(addMode){
-                    masterCounter.increment(masterCounter.getCounterAtPosition().getName());
+                    masterCounter.increment(masterCounter.getCounterAtPosition().getOriginalName());
                 }else{
-                    masterCounter.decrement(masterCounter.getCounterAtPosition().getName());;
+                    masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());;
                 }
                 setCounterView();
             }
@@ -76,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         buttonCounter.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                masterCounter.setCount(masterCounter.getCounterAtPosition().getName(), 0);
+                masterCounter.setCount(masterCounter.getCounterAtPosition().getOriginalName(), 0);
                 setCounterView();
                 return true;
             }
@@ -116,6 +120,38 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openHomeScreen();
+            }
+        });
+
+        textMantra.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                Log.d("test", "beforeTextChange");
+//                switch(masterCounter.getPositionCounters()) {
+//                    case 0:
+//                        textMantra.setHint(R.string.dabei);
+//                        break;
+//                    case 1:
+//                        textMantra.setHint(R.string.boruo);
+//                        break;
+//                    case 2:
+//                        textMantra.setHint(R.string.wangshen);
+//                        break;
+//                    case 3:
+//                        textMantra.setHint(R.string.qifo);
+//                        break;
+//                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                Log.d("test", "duringTextChange");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                Log.d("test", "afterTextChange " + textMantra.getText());
+                masterCounter.getCounterAtPosition().setDisplayName(textMantra.getText().toString());
             }
         });
     }
@@ -166,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setCounterView(){
-        textMantra.setText(masterCounter.getCounterAtPosition().getName());
+        textMantra.setText(masterCounter.getCounterAtPosition().getDisplayName());
         buttonCounter.setText(masterCounter.getCounterAtPosition().getCount().toString());
         testviewUP();
     }

@@ -6,13 +6,16 @@
     android:layout_height="match_parent"
     android:background="@color/gold_light">
 
-    <TextView
+    <EditText
         android:id="@+id/MantraNameText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:imeOptions="actionDone"
         android:gravity="center"
         android:text="Mantra"
+        android:background="@null"
+        android:inputType="text"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/RightButton"
@@ -33,7 +36,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MantraNameText"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ToolBarButton"
