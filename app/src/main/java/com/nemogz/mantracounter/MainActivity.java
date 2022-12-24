@@ -2,6 +2,7 @@ package com.nemogz.mantracounter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,12 +40,15 @@ public class MainActivity extends AppCompatActivity {
     private TextView t3;
     private TextView t4;
     private TextView t5;
+    private float DISTANCE_FOR_SWIPE = 150;
+    private float TIME_FOR_LONG_CLICK = 500;
 
     private Boolean addMode = true;
     private MasterCounter masterCounter;
 //    private Vibrator vibrator;
 //    private boolean vibrate = false;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,26 +68,63 @@ public class MainActivity extends AppCompatActivity {
 //            vibrate = true;
 //        }
 
-        //detect short press
-        buttonCounter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(addMode){
-                    masterCounter.increment(masterCounter.getCounterAtPosition().getOriginalName());
-                }else{
-                    masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());;
-                }
-                setCounterView();
-            }
-        });
 
-        //detect long press
-        buttonCounter.setOnLongClickListener(new View.OnLongClickListener() {
+        buttonCounter.setOnTouchListener(new View.OnTouchListener() {
+            float xStart;
+            float yStart;
+            float xEnd;
+            float yEnd;
+            float clickedDownTime;
+            float releasedTime;
+            @SuppressLint("ClickableViewAccessibility")
             @Override
-            public boolean onLongClick(View view) {
-                masterCounter.setCount(masterCounter.getCounterAtPosition().getOriginalName(), 0);
-                setCounterView();
-                return true;
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        xStart = event.getX();
+                        yStart = event.getY();
+                        clickedDownTime = event.getEventTime();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        xEnd = event.getX();
+                        yEnd = event.getY();
+                        releasedTime = event.getEventTime();
+
+                        float xDiff = xStart - xEnd;
+                        //TODO track y location maybe
+                        float yDiff = yStart - yEnd;
+
+                        if (Math.abs(xDiff) > DISTANCE_FOR_SWIPE) {
+                            if(xDiff < 0) {
+                                //left swipe
+                                masterCounter.decrementPositionCounter();
+                                setCounterView();
+                            }
+                            else {
+                                //right swipe
+                                masterCounter.incrementPositionCounter();
+                                setCounterView();
+                            }
+                        }
+                        else {
+                            if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
+                                ///long click
+                                masterCounter.setCount(masterCounter.getCounterAtPosition().getOriginalName(), 0);
+                                setCounterView();
+                            }
+                            else {
+                                //click
+                                if(addMode){
+                                    masterCounter.increment(masterCounter.getCounterAtPosition().getOriginalName());
+                                }else{
+                                    masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());;
+                                }
+                                setCounterView();
+                            }
+                        }
+                        break;
+                }
+                return false;
             }
         });
 
