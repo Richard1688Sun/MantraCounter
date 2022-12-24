@@ -39,6 +39,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         setContentView(R.layout.home_screen);
         createDataBase(getApplicationContext());
         masterCounter = new MasterCounter(getApplicationContext());
+
         if (!loadDataFromDatabase()) {
             createEssentailCounters();
         }
@@ -66,9 +67,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                 SettingsDataClass settingsDataClass = db.masterCounterDAO().getSettingsData();
                 settingsDataClass.setHomeSelectTrash(!settingsDataClass.isHomeSelectTrash());
                 db.masterCounterDAO().insertSettingsData(settingsDataClass);
-
-                Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreenActivity.class);
-                startActivity(homeScreenIntent);
+                counterAdapter.notifyItemRangeChanged(4, counterAdapter.getItemCount());
             }
         });
     }

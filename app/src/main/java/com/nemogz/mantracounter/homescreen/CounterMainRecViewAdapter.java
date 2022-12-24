@@ -64,10 +64,9 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
                 @Override
                 public void onClick(View v) {
                     //TODO maybe refresh with the masterCounter instead of pulling from database again
-                    List<Counter> counters = db.masterCounterDAO().getAllCounters();
-                    db.masterCounterDAO().deleteCounter(counters.get(position));
-                    Intent homeScreenIntent = new Intent(context, HomeScreenActivity.class);
-                    context.startActivity(homeScreenIntent);
+                    Counter counterToRemove = masterCounter.getCounters().remove(position);
+                    db.masterCounterDAO().deleteCounter(counterToRemove);
+                    notifyItemRemoved(position);
                 }
             });
         }
@@ -87,8 +86,8 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, masterCounter.getCounters().get(position).getName() + " Selected", Toast.LENGTH_SHORT).show();
-                    Intent counterScreenIntent = new Intent(context, MainActivity.class);
                     db.masterCounterDAO().insertCounterPosition(new MasterCounter(position));
+                    Intent counterScreenIntent = new Intent(context, MainActivity.class);
                     context.startActivity(counterScreenIntent);
                 }
             });
