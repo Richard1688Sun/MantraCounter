@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nemogz.mantracounter.HomeScreenActivity;
+import com.nemogz.mantracounter.LittleHouseItemActivity;
 import com.nemogz.mantracounter.MainActivity;
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Counter;

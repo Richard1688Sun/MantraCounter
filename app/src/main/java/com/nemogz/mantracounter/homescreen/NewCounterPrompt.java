@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Layout;
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
+import com.nemogz.mantracounter.HomeScreenActivity;
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
@@ -57,6 +59,9 @@ public class NewCounterPrompt extends AppCompatDialogFragment {
                 counters = db.masterCounterDAO().getAllCounters();
                 counters.add(new Counter(name, initialCount, requireContext()));
                 db.masterCounterDAO().insertAllCounters(counters);
+                //resets the grid view to include new counter
+                Intent littleHouseScreenIntent = new Intent(getContext(), HomeScreenActivity.class);
+                requireContext().startActivity(littleHouseScreenIntent);
             }
         });
 
