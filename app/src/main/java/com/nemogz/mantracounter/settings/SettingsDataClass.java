@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class SettingsDataClass {
 
     @ColumnInfo
-    private boolean homeSelectTrash;
+    private gitboolean homeSelectTrash;
 
     @PrimaryKey
     @NotNull
