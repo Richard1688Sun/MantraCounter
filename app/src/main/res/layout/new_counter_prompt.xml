@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/newMantraName"
         android:hint="Mantra Count(Default 0)"
-        android:id="@+id/newMantraCount"/>
+        android:id="@+id/newMantraCount"
+        android:inputType="numberSigned"/>
 
 
 

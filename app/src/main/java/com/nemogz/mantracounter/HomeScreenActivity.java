@@ -77,7 +77,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     private void createDataBase(Context context) {
-        db = MasterCounterDatabase.getINSTANCE(getApplicationContext());
+        db = MasterCounterDatabase.getINSTANCE(context);
     }
 
     private void updateLittleHouseCounts() {
