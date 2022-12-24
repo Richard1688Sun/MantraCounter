@@ -42,6 +42,6 @@ public class NewCounterPrompt extends AppCompatDialogFragment {
 
         mantraName = view.findViewById(R.id.newMantraName);
         mantraCount = view.findViewById(R.id.newMantraCount);
-        return super.onCreateDialog(savedInstanceState);
+        return builder.create();
     }
 }
