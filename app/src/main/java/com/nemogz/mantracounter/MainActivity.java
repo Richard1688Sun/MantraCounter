@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
+import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,9 +45,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("state", "onCreate");
         resources = getResources();
+        masterCounter = new MasterCounter(getApplicationContext());
         setContentView(R.layout.counter_screen);
         createDataBase(getApplicationContext());
-        masterCounter = new MasterCounter(getApplicationContext());
+        inputInitialSettings();
         if (!loadDataFromDatabase()) {
             createEssentailCounters();
         }
@@ -205,5 +207,11 @@ public class MainActivity extends AppCompatActivity {
     private void openHomeScreen() {
         Intent homeScreenIntent = new Intent(this, HomeScreenActivity.class);
         startActivity(homeScreenIntent);
+    }
+
+    private void inputInitialSettings() {
+        if (db.masterCounterDAO().getSettingsData() == null) {
+            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false));
+        }
     }
 }

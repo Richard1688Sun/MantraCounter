@@ -1,6 +1,7 @@
 package com.nemogz.mantracounter.dataStorage;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -8,6 +9,7 @@ import androidx.room.Query;
 import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
+import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 import java.util.List;
 
@@ -23,6 +25,12 @@ public interface MasterCounterDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertCounterPosition(MasterCounter masterCounter);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertSettingsData(SettingsDataClass settingsDataClass);
+
+    @Delete
+    public void deleteCounter(Counter counter);
+
     @Query("SELECT * FROM mastercounter")
     public MasterCounter getMasterCounterPosition();
 
@@ -31,4 +39,7 @@ public interface MasterCounterDAO {
 
     @Query("SELECT * FROM littlehouse")
     public LittleHouse getLittleHouse();
+
+    @Query("SELECT * FROM settingsdataclass")
+    public SettingsDataClass getSettingsData();
 }

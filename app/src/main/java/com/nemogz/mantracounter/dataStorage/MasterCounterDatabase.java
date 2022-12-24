@@ -12,8 +12,9 @@ import androidx.room.TypeConverters;
 import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
+import com.nemogz.mantracounter.settings.SettingsDataClass;
 
-@Database(entities = {Counter.class, LittleHouse.class, MasterCounter.class}, version = 4)
+@Database(entities = {Counter.class, LittleHouse.class, MasterCounter.class, SettingsDataClass.class}, version = 5)
 @TypeConverters(Convertors.class)
 public abstract class MasterCounterDatabase extends RoomDatabase {
 

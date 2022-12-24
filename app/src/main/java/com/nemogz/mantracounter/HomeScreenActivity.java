@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 import com.nemogz.mantracounter.homescreen.CounterMainRecViewAdapter;
+import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 import java.util.List;
 
@@ -25,6 +27,8 @@ public class HomeScreenActivity extends AppCompatActivity {
     private CardView littleHouseItemView;
     private TextView littleHouseNameItem;
     private TextView littleHouseCountItem;
+    private FloatingActionButton settingButton;
+    private FloatingActionButton trashButton;
     public MasterCounterDatabase db;
     private MasterCounter masterCounter;
 
@@ -55,6 +59,18 @@ public class HomeScreenActivity extends AppCompatActivity {
                 startActivity(littleHouseScreenIntent);
             }
         });
+
+        trashButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsDataClass settingsDataClass = db.masterCounterDAO().getSettingsData();
+                settingsDataClass.setHomeSelectTrash(!settingsDataClass.isHomeSelectTrash());
+                db.masterCounterDAO().insertSettingsData(settingsDataClass);
+
+                Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreenActivity.class);
+                startActivity(homeScreenIntent);
+            }
+        });
     }
 
     //TODO update the adapter whenever there is a pause or exit from this activity
@@ -69,6 +85,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         littleHouseItemView = findViewById(R.id.littleHouseItem);
         littleHouseCountItem = findViewById(R.id.littleHouseCountItem);
         littleHouseNameItem = findViewById(R.id.littleHouseNameItem);
+        settingButton = findViewById(R.id.settingButtonHome);
+        trashButton = findViewById(R.id.trashButtonHome);
     }
 
     private void setBasicCounterView() {
@@ -78,10 +96,6 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     private void createDataBase(Context context) {
         db = MasterCounterDatabase.getINSTANCE(context);
-    }
-
-    private void updateLittleHouseCounts() {
-
     }
 
     /**
