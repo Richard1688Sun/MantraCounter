@@ -13,5 +13,6 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_littlehouse_item_screen);
         test = findViewById(R.id.littleHouseViewTest);
+        test.setText("lol");
     }
 }

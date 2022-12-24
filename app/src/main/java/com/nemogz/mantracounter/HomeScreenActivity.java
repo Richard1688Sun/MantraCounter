@@ -52,7 +52,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent littleHouseScreenIntent = new Intent(getApplicationContext(), LittleHouseItemActivity.class);
-                getApplicationContext().startActivity(littleHouseScreenIntent);
+                startActivity(littleHouseScreenIntent);
             }
         });
     }

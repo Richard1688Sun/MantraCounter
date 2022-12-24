@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="20dp"
@@ -22,7 +22,8 @@
             android:id="@+id/mantraNameItem"
             android:background="@color/white"
             android:textStyle="bold"
-            android:layout_margin="5dp"/>
+            android:layout_margin="5dp"
+            android:visibility="visible"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,7 +32,16 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:text="Mantra Count"
-            android:id="@+id/mantraCount"/>
+            android:id="@+id/mantraCount"
+            android:visibility="visible"/>
+
+        <ImageView
+            android:id="@+id/addImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_add_new"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 

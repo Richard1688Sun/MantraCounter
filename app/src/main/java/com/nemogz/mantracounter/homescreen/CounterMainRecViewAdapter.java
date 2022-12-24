@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,23 +48,40 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.mantraName.setText(masterCounter.getCounters().get(position).getName());
-        holder.mantraCount.setText(masterCounter.getCounters().get(position).getCount().toString());
+        if (position != getItemCount() - 1) {
+            holder.mantraName.setVisibility(View.VISIBLE);
+            holder.mantraCount.setVisibility(View.VISIBLE);
+            holder.addImageView.setVisibility(View.GONE);
+            holder.mantraName.setText(masterCounter.getCounters().get(position).getName());
+            holder.mantraCount.setText(masterCounter.getCounters().get(position).getCount().toString());
 
-        holder.mantraView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, masterCounter.getCounters().get(position).getName() + " Selected", Toast.LENGTH_SHORT).show();
-                Intent counterScreenIntent = new Intent(context, MainActivity.class);
-                db.masterCounterDAO().insertCounterPosition(new MasterCounter(position));
-                context.startActivity(counterScreenIntent);
-            }
-        });
+            holder.mantraView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, masterCounter.getCounters().get(position).getName() + " Selected", Toast.LENGTH_SHORT).show();
+                    Intent counterScreenIntent = new Intent(context, MainActivity.class);
+                    db.masterCounterDAO().insertCounterPosition(new MasterCounter(position));
+                    context.startActivity(counterScreenIntent);
+                }
+            });
+        }
+        else {
+            holder.mantraName.setVisibility(View.GONE);
+            holder.mantraCount.setVisibility(View.GONE);
+            holder.addImageView.setVisibility(View.VISIBLE);
+
+            holder.addImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "making new counter", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return masterCounter.getCounters().size();
+        return masterCounter.getCounters().size() + 1;
     }
 
     //generates the view objects(counterListItem)
@@ -71,6 +89,7 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
         private TextView mantraName;
         private TextView mantraCount;
         private CardView mantraView;
+        private ImageView addImageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -78,6 +97,7 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
             mantraName = itemView.findViewById(R.id.mantraNameItem);
             mantraCount = itemView.findViewById(R.id.mantraCount);
             mantraView = itemView.findViewById(R.id.mantraItem);
+            addImageView = itemView.findViewById(R.id.addImageView);
         }
     }
 
