@@ -1,6 +1,7 @@
 package com.nemogz.mantracounter.homescreen;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nemogz.mantracounter.HomeScreenActivity;
@@ -70,10 +73,10 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
             holder.mantraCount.setVisibility(View.GONE);
             holder.addImageView.setVisibility(View.VISIBLE);
 
-            holder.addImageView.setOnClickListener(new View.OnClickListener() {
+            holder.mantraView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "making new counter", Toast.LENGTH_SHORT).show();
+                    openPrompt();
                 }
             });
         }
@@ -82,6 +85,11 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
     @Override
     public int getItemCount() {
         return masterCounter.getCounters().size() + 1;
+    }
+
+    private void openPrompt() {
+        NewCounterPrompt newCounterPrompt = new NewCounterPrompt();
+        newCounterPrompt.show(((AppCompatActivity)context).getSupportFragmentManager(), "test");
     }
 
     //generates the view objects(counterListItem)

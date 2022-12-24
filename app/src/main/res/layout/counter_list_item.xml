@@ -7,7 +7,10 @@
     android:id="@+id/mantraItem"
     app:cardElevation="5dp"
     app:cardCornerRadius="10dp"
-    android:layout_margin="10dp">
+    android:layout_marginTop="25dp"
+    android:layout_marginBottom="25dp"
+    android:layout_marginLeft="40dp"
+    android:layout_marginRight="40dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,7 +43,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_add_new"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
+            android:scaleType="fitCenter"
             android:visibility="gone"/>
 
     </RelativeLayout>
