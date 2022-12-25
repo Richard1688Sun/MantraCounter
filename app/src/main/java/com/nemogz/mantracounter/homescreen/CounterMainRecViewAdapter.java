@@ -89,7 +89,7 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
             holder.mantraView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, masterCounter.getCounters().get(position).getDisplayName() + " Selected", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, masterCounter.getCounters().get(position).getDisplayName() + " Selected", Toast.LENGTH_SHORT).show();
                     db.masterCounterDAO().insertCounterPosition(new MasterCounter(position));
                     Intent counterScreenIntent = new Intent(context, MainActivity.class);
                     context.startActivity(counterScreenIntent);

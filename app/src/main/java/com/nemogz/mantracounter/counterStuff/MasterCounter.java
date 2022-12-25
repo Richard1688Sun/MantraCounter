@@ -101,6 +101,7 @@ public class MasterCounter implements MasterCounterInterface {
                                     //TODO make this more efficient can pass the whole counter so no more forloop
                                 }
                             }
+                            return true;
                         }
                     }
                 }
@@ -108,7 +109,6 @@ public class MasterCounter implements MasterCounterInterface {
                 else {
                     counter.increment(0);
                 }
-                return true;
             }
         }
 
