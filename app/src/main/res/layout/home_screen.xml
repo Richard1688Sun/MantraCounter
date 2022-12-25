@@ -39,6 +39,7 @@
                 android:layout_marginBottom="5dp"
                 android:background="@color/white"
                 android:text="Little House name"
+                android:textSize="35dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -48,6 +49,7 @@
                 android:layout_below="@+id/littleHouseNameItem"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
+                android:textSize="30dp"
                 android:text="Little House Count" />
 
         </RelativeLayout>
