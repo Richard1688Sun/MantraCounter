@@ -13,4 +13,13 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="HiddenTitleTheme" parent="Theme.MantraCounter">
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="noRipple" parent="Theme.MaterialComponents">
+        <item name="rippleColor">@android:color/transparent</item>
+    </style>
 </resources>

@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                                 }else{
                                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());;
                                 }
-                                if (hasVibratorFunction) vibrator.vibrate(200);
+                                if (hasVibratorFunction) vibrator.vibrate(100);
                                 setCounterView();
                             }
                         }

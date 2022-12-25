@@ -30,11 +30,6 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     private FloatingActionButton buttonHome;
     private FloatingActionButton buttonMode;
     private FloatingActionButton buttonTool;
-//    private TextView t1;
-//    private TextView t2;
-//    private TextView t3;
-//    private TextView t4;
-//    private TextView t5;
     private float TIME_FOR_LONG_CLICK = 500;
 
     private Boolean addMode = true;
@@ -94,7 +89,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                             }else{
                                 masterCounter.getLittleHouse().decrementLittleHouseCount();
                             }
-                            if (hasVibratorFunction) vibrator.vibrate(200);
+                            if (hasVibratorFunction) vibrator.vibrate(100);
                             setCounterView();
                         }
                         break;
@@ -127,31 +122,14 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         littleHouseNameScreen.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.d("test", "beforeTextChange");
-//                switch(masterCounter.getPositionCounters()) {
-//                    case 0:
-//                        textMantra.setHint(R.string.dabei);
-//                        break;
-//                    case 1:
-//                        textMantra.setHint(R.string.boruo);
-//                        break;
-//                    case 2:
-//                        textMantra.setHint(R.string.wangshen);
-//                        break;
-//                    case 3:
-//                        textMantra.setHint(R.string.qifo);
-//                        break;
-//                }
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d("test", "duringTextChange");
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d("test", "afterTextChange " + littleHouseNameScreen.getText());
                 masterCounter.getLittleHouse().setLittleHouseDisplayName(littleHouseNameScreen.getText().toString());
             }
         });
@@ -189,27 +167,12 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         buttonMode = findViewById(R.id.ModeButton);
         buttonTool = findViewById(R.id.ToolBarButton);
         littleHouseNameScreen = findViewById(R.id.littleHouseNameScreen);
-//        t1 = findViewById(R.id.textView);
-//        t2 = findViewById(R.id.textView2);
-//        t3 = findViewById(R.id.textView3);
-//        t4 = findViewById(R.id.textView4);
-//        t5 = findViewById(R.id.textView5);
     }
 
     private void setCounterView(){
         littleHouseNameScreen.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName());
         littleHouseCountScreen.setText(masterCounter.getLittleHouse().getLittleHouseCount().toString());
-//        testviewUP();
     }
-
-
-//    private void testviewUP(){
-//        t1.setText("DaBei = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.dabei))));
-//        t2.setText("BoRuo = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.boruo))));
-//        t3.setText("XiaoZai = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.wangshen))));
-//        t4.setText( "QiFo = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.qifo))));
-//        t5.setText("XiaoFangZi = " + Integer.toString(masterCounter.getLittleHouse().getLittleHouseCount()));
-//    }
 
     private void createDataBase(Context context) {
         db = MasterCounterDatabase.getINSTANCE(getApplicationContext());
