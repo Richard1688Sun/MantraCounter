@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Boolean addMode = true;
     private MasterCounter masterCounter;
+    private SettingsDataClass settingsDataClass;
     private Vibrator vibrator;
     private boolean hasVibratorFunction;
 
@@ -58,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
         masterCounter = new MasterCounter(getApplicationContext());
         setContentView(R.layout.counter_screen);
         createDataBase(getApplicationContext());
-        inputInitialSettings();
         if (!loadDataFromDatabase()) {
             createEssentailCounters();
+            inputInitialSettings();
         }
         instantiateViews();
         vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
@@ -271,12 +272,13 @@ public class MainActivity extends AppCompatActivity {
      * @return true if data was detected and loaded, false otherwise
      */
     private boolean loadDataFromDatabase() {
-        if(db.masterCounterDAO().getLittleHouse() == null) {
+        if(db.masterCounterDAO().getLittleHouse() == null || db.masterCounterDAO().getSettingsData() == null || db.masterCounterDAO().getAllCounters().size() == 0) {
             return false;
         }
         masterCounter.setCounters(db.masterCounterDAO().getAllCounters());
         masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
         masterCounter.setPositionCounters(db.masterCounterDAO().getMasterCounterPosition().getPositionCounters());
+        settingsDataClass = db.masterCounterDAO().getSettingsData();
         return true;
     }
 
@@ -293,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void inputInitialSettings() {
         if (db.masterCounterDAO().getSettingsData() == null) {
-            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false));
+            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false, 2,false, false));
         }
     }
 }

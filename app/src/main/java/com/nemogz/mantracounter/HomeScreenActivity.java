@@ -70,6 +70,14 @@ public class HomeScreenActivity extends AppCompatActivity {
                 counterAdapter.notifyItemRangeChanged(4, counterAdapter.getItemCount());
             }
         });
+
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent settingsScreenIntent = new Intent(getApplicationContext(), SettingsScreen.class);
+                startActivity(settingsScreenIntent);
+            }
+        });
     }
 
     //TODO update the adapter whenever there is a pause or exit from this activity
