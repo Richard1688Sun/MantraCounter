@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -45,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Boolean addMode = true;
     private MasterCounter masterCounter;
-//    private Vibrator vibrator;
-//    private boolean vibrate = false;
+    private Vibrator vibrator;
+    private boolean hasVibratorFunction;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -62,13 +63,12 @@ public class MainActivity extends AppCompatActivity {
             createEssentailCounters();
         }
         instantiateViews();
+        vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        hasVibratorFunction = vibrator.hasVibrator();
         setCounterView();
 
-//        if(vibrator.hasVibrator()){
-//            vibrate = true;
-//        }
 
-
+        //for all types of clicks on Main Button
         buttonCounter.setOnTouchListener(new View.OnTouchListener() {
             float xStart;
             float yStart;
@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                             if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
                                 ///long click
                                 masterCounter.setCount(masterCounter.getCounterAtPosition().getOriginalName(), 0);
+                                if (hasVibratorFunction) vibrator.vibrate(200);
                                 setCounterView();
                             }
                             else {
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                                 }else{
                                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());;
                                 }
+                                if (hasVibratorFunction) vibrator.vibrate(200);
                                 setCounterView();
                             }
                         }

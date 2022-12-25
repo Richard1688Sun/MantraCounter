@@ -1,14 +1,14 @@
 <resources>
     <string name="app_name">Mantra Counter</string>
-    <string name="dabei">Great Compassion Mantra(Da Bei Zhou)</string>
-    <string name="boruo">The Heart Sutra(Xin Jing)</string>
-    <string name="xiaozai">Jvala Mahaugra Dharani(Xiao Zai Ji Xiang Shen Zhou)</string>
-    <string name="qifo">Sapta Atitabuddha Karasaniya Dharani(Qi Fo Mie Zui Zhen Yan)</string>
-    <string name="zhunti">Cundi Dharani(Zhun Ti Shen Zou)</string>
-    <string name="jingkou">Dharani to Purify Karma from Speech(Jing Kou Ye Zhen Yan)</string>
-    <string name="lifo"> Eighty-eight Buddhas Great Repentance(Li Fo)</string>
-    <string name="wangshen">Amitabha Pure Land Rebirth Mantra(Wang Sheng Jing Tu Shen Zhou)</string>
-    <string name="jiejiezhou">Mantra to Untie Karmic Knots(Jie Jie Zhou)</string>
-    <string name="buchue">Dharani to Patch Flaws in Recitation(Bu Que Zhen Yan)</string>
-    <string name="xiaofangzi">Little House(Xiao Fang Zi)</string>
+    <string name="dabei">DaBeiZhou</string>
+    <string name="boruo">XinJing</string>
+    <string name="xiaozai">XiaoZaiJiXiangShenZhou</string>
+    <string name="qifo">QiFoMieZuiZhenYan</string>
+    <string name="zhunti">ZhunTiShenZou</string>
+    <string name="jingkou">JingKouYeZhenYan)</string>
+    <string name="lifo">Li Fo</string>
+    <string name="wangshen">WangShengJingTuShenZhou</string>
+    <string name="jiejiezhou">JieJieZhou</string>
+    <string name="buchue">BuQueZhenYan</string>
+    <string name="xiaofangzi">XiaoFangZi</string>
 </resources>

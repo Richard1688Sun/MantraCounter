@@ -89,7 +89,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     private void setBasicCounterView() {
-        littleHouseNameItem.setText(R.string.xiaofangzi);
+        littleHouseNameItem.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName());
         littleHouseCountItem.setText(masterCounter.getLittleHouse().getLittleHouseCount().toString());
     }
 

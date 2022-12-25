@@ -47,6 +47,9 @@ public class LittleHouse implements LittleHouseInterface {
     @ColumnInfo
     private Integer littleHouseCount;
 
+    @ColumnInfo
+    private String littleHouseDisplayName;
+
     @PrimaryKey
     @NotNull
     private String id = "littleHouse";
@@ -101,6 +104,7 @@ public class LittleHouse implements LittleHouseInterface {
         this.littleHouseMap.put(boruo, 0.0);
         this.littleHouseMap.put(wangshen, 0.0);
         this.littleHouseMap.put(qifo, 0.0);
+        this.littleHouseDisplayName = context.getString(R.string.xiaofangzi);
     }
 
 
@@ -198,5 +202,13 @@ public class LittleHouse implements LittleHouseInterface {
 
     public void setId(@NotNull String id) {
         this.id = id;
+    }
+
+    public String getLittleHouseDisplayName() {
+        return littleHouseDisplayName;
+    }
+
+    public void setLittleHouseDisplayName(String littleHouseDisplayName) {
+        this.littleHouseDisplayName = littleHouseDisplayName;
     }
 }

@@ -10,12 +10,14 @@
         android:id="@+id/MantraNameText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:imeOptions="actionDone"
-        android:gravity="center"
-        android:text="Mantra"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="5dp"
         android:background="@null"
+        android:gravity="center"
+        android:imeOptions="actionDone"
         android:inputType="text"
+        android:text="Mantra"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/RightButton"
@@ -36,24 +38,31 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MantraNameText"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ToolBarButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
         android:clickable="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
         android:src="@drawable/ic_setting_icon"
+        app:elevation="10dp"
+        app:fabCustomSize="80dp"
+        app:layout_constraintStart_toEndOf="@+id/ModeButton"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
         tools:srcCompat="@tools:sample/avatars" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/LeftButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:clickable="true"
         android:src="@drawable/ic_left_arrow"
+        app:elevation="10dp"
+        app:fabCustomSize="80dp"
+        app:layout_constraintBottom_toBottomOf="@+id/MantraNameText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/MantraNameText"
         tools:srcCompat="@tools:sample/avatars" />
@@ -62,8 +71,12 @@
         android:id="@+id/RightButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
         android:clickable="true"
         android:src="@drawable/ic_right_arrow"
+        app:elevation="10dp"
+        app:fabCustomSize="80dp"
+        app:layout_constraintBottom_toBottomOf="@+id/MantraNameText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/MantraNameText" />
 
@@ -73,8 +86,10 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:src="@drawable/ic_sub_sign"
-        app:layout_constraintEnd_toStartOf="@+id/ToolBarButton"
-        app:layout_constraintStart_toEndOf="@+id/HomePageButton"
+        app:elevation="10dp"
+        app:fabCustomSize="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
         tools:srcCompat="@tools:sample/avatars" />
 
@@ -82,10 +97,14 @@
         android:id="@+id/HomePageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="100dp"
         android:clickable="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline"
+        android:padding="5dp"
         android:src="@drawable/ic_home"
+        app:elevation="10dp"
+        app:fabCustomSize="80dp"
+        app:layout_constraintEnd_toStartOf="@+id/ModeButton"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
         tools:srcCompat="@tools:sample/avatars" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -93,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="77dp" />
+        app:layout_constraintGuide_percent="0.85" />
 
     <TextView
         android:id="@+id/textView"
