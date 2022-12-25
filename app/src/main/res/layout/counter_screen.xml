@@ -33,6 +33,7 @@
         android:autoSizeStepGranularity="2sp"
         android:autoSizeTextType="uniform"
         android:text="0"
+        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

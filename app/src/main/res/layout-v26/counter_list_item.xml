@@ -28,25 +28,27 @@
             android:text="Mantra Name"
             android:textStyle="bold"
             android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/mantraCount"
             app:layout_constraintEnd_toStartOf="@+id/removeButtonCounterHome"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/mantraCount"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mantraNameItem"
             android:layout_centerHorizontal="true"
             android:text="Mantra Count"
             android:visibility="visible"
-            app:autoSizeMaxTextSize="100dp"
-            app:autoSizeMinTextSize="5dp"
-            app:autoSizeStepGranularity="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mantraNameItem" />
+            app:layout_constraintTop_toBottomOf="@+id/mantraNameItem"
+            android:autoSizeMaxTextSize="200dp"
+            android:autoSizeMinTextSize="50dp"
+            android:autoSizeStepGranularity="2sp"
+            android:autoSizeTextType="uniform"
+            android:maxLines="1"/>
 
         <ImageView
             android:id="@+id/addImageView"
