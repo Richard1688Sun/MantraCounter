@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Completed 1" + getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
                                     }
                                 }else{
-                                    masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());;
+                                    masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());
                                 }
                                 if (hasVibratorFunction) vibrator.vibrate(100);
                                 setCounterView();
@@ -152,13 +152,21 @@ public class MainActivity extends AppCompatActivity {
         buttonMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(addMode) {
-                    addMode = false;
-                    buttonMode.setImageResource(R.drawable.ic_add_sign);
+                if (settingsDataClass.isAddSubButtonMode()) {
+                    if(addMode) {
+                        addMode = false;
+                        buttonMode.setImageResource(R.drawable.ic_add_sign);
+                    }
+                    else{
+                        addMode = true;
+                        buttonMode.setImageResource(R.drawable.ic_sub_sign);
+                    }
                 }
-                else{
+                else {
                     addMode = true;
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
+                    masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());
+                    setCounterView();
                 }
             }
         });
@@ -174,20 +182,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 Log.d("test", "beforeTextChange");
-//                switch(masterCounter.getPositionCounters()) {
-//                    case 0:
-//                        textMantra.setHint(R.string.dabei);
-//                        break;
-//                    case 1:
-//                        textMantra.setHint(R.string.boruo);
-//                        break;
-//                    case 2:
-//                        textMantra.setHint(R.string.wangshen);
-//                        break;
-//                    case 3:
-//                        textMantra.setHint(R.string.qifo);
-//                        break;
-//                }
             }
 
             @Override
