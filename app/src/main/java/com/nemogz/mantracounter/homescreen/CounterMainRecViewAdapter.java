@@ -65,7 +65,11 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
                 public void onClick(View v) {
                     //TODO maybe refresh with the masterCounter instead of pulling from database again
                     Counter counterToRemove = masterCounter.getCounters().remove(position);
+                    if (masterCounter.getPositionCounters() == position) {
+                        masterCounter.setPositionCounters(position - 1);
+                    }
                     db.masterCounterDAO().deleteCounter(counterToRemove);
+                    db.masterCounterDAO().insertCounterPosition(masterCounter);
                     notifyItemRemoved(position);
                 }
             });
