@@ -55,7 +55,7 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
         mantraName = view.findViewById(R.id.newMantraName);
         mantraCount = view.findViewById(R.id.newMantraCount);
         mantraName.setHint("New Name(Blank for no change)");
-        mantraCount.setHint("New Count(Blank for 0)");
+        mantraCount.setHint("New Count(Blank for no change)");
 
         builder.setView(view).setTitle("Changing Counter: " + counters.get(position).getDisplayName()).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -69,13 +69,14 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
                 Editable unParsedInt = mantraCount.getEditableText();
 
                 String name = notConvertedName.toString().equals("")? counters.get(position).getDisplayName(): notConvertedName.toString();
-                int newCount = unParsedInt.toString().equals("")? 0: Integer.parseInt(unParsedInt.toString());
+                int newCount = unParsedInt.toString().equals("")? counters.get(position).getCount(): Integer.parseInt(unParsedInt.toString());
 
                 counters.get(position).setCount(newCount);
                 counters.get(position).setDisplayName(name);
-                if (db.masterCounterDAO().getSettingsData().isAutoCalLittleHouse() && db.masterCounterDAO().getLittleHouse().getLittleHouseMap().containsKey(counters.get(position).getDisplayName())) {
+                if (db.masterCounterDAO().getLittleHouse().getLittleHouseMap().containsKey(counters.get(position).getOriginalName())) {
                     littleHouse = db.masterCounterDAO().getLittleHouse();
                     int counterCompletes = counters.get(position).getNumberOfCompletes();
+                    littleHouse.resetLittleHouseByName(counters.get(position).getOriginalName());
                     littleHouse.incrementByValueCount(counters.get(position).getOriginalName(), counterCompletes);
 
                     int littleHouseCompleted = littleHouse.updateLittleHouseMapAndCount();
@@ -91,6 +92,7 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
                         db.masterCounterDAO().insertAllCounters(counters);
                         //resets the grid view to include new counter
                         adapter.setCounters(counters);
+                        homeScreenActivity.setLittleHouse(littleHouse);
                         homeScreenActivity.setBasicCounterView();
                         adapter.notifyItemRangeChanged(0, 4);
                     }

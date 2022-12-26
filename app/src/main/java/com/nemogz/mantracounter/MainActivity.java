@@ -241,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         Log.d("state", "onRestart");
         loadDataFromDatabase();
+        setCounterView();
     }
 
     @Override
@@ -248,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.d("state", "onResume");
         loadDataFromDatabase();
+        setCounterView();
     }
 
     public static Resources getAppResources() {

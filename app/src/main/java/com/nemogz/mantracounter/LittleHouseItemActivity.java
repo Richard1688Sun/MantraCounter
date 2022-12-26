@@ -79,14 +79,14 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                         releasedTime = event.getEventTime();
                         if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
                             ///long click
-                            masterCounter.getLittleHouse().setLittleHouseCount(0);
+                            masterCounter.getLittleHouse().setLittleCount(0);
                             if (hasVibratorFunction) vibrator.vibrate(200);
                             setCounterView();
                         }
                         else {
                             //click
                             if(addMode){
-                                masterCounter.getLittleHouse().setLittleHouseCount(masterCounter.getLittleHouse().getLittleHouseCount() + 1);
+                                masterCounter.getLittleHouse().setLittleCount(masterCounter.getLittleHouse().getLittleHouseCount() + 1);
                             }else{
                                 masterCounter.getLittleHouse().decrementLittleHouseCount();
                             }
@@ -141,6 +141,14 @@ public class LittleHouseItemActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 masterCounter.getLittleHouse().setLittleHouseDisplayName(littleHouseNameScreen.getText().toString());
+            }
+        });
+
+        buttonTool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent settingsScreenIntent = new Intent(getApplicationContext(), SettingsScreen.class);
+                startActivity(settingsScreenIntent);
             }
         });
     }

@@ -91,17 +91,15 @@ public class MasterCounter implements MasterCounterInterface {
             if (counter.getOriginalName().equals(name)) {
                 if (littleHouse.getLittleHouseMap().containsKey(name)) {
                     if (counter.increment(littleHouse.getLittleHouseMap().get(name).intValue())) {
-                        //if incrementing the counter reached that counter's threshold
-
+                        //still updates the littleHouse map just no conversions to littleHouseCount
+                        int completedLittleHouses = littleHouse.incrementCount(name);
                         if (autoCountLittleHouse) {
-                            int completedLittleHouses = littleHouse.incrementCount(name);
                             if (completedLittleHouses != 0) {
                                 //changes the littleHouse amount
-                                littleHouse.setLittleHouseCount(littleHouse.getLittleHouseCount() + completedLittleHouses);
+                                littleHouse.setLittleCount(littleHouse.getLittleHouseCount() + completedLittleHouses);
                                 for (int i = 0; i < counters.size(); i ++) {
                                     if (littleHouse.getLittleHouseMap().containsKey(counters.get(i).getOriginalName())) {
                                         if(!counters.get(i).updateCounter(completedLittleHouses)) return false;
-                                        //TODO make this more efficient can pass the whole counter so no more forloop
                                     }
                                 }
                                 return true;
@@ -132,7 +130,13 @@ public class MasterCounter implements MasterCounterInterface {
     public boolean decrement(String name) {
         for (Counter counter: counters) {
             if (counter.getOriginalName().equals(name)) {
-                return counter.decrement();
+                if (counter.decrement()) {
+                    int newCompletes = counter.getNumberOfCompletes();
+                    if (littleHouse.getLittleHouseMap().containsKey(counter.getOriginalName()) && newCompletes != littleHouse.getCountByName(counter.getOriginalName())) {
+                        littleHouse.setLittleHouseByName(counter.getOriginalName(), newCompletes);
+                    }
+                    return true;
+                }
             }
         }
         return false;
@@ -167,7 +171,7 @@ public class MasterCounter implements MasterCounterInterface {
         for(Counter counter: counters) {
             counter.setCount(0);
         }
-        littleHouse.reset();
+        littleHouse.resetLittleHouse();
         return true;
     }
 

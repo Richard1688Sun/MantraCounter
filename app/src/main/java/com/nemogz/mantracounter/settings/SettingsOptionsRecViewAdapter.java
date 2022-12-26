@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Counter;
+import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 
@@ -71,12 +72,12 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
 
                         if (isChecked) {
                             //finding the # of littleHouse completed
-                            for (Counter counter: masterCounter.getCounters()) {
-                                if (masterCounter.getLittleHouse().getLittleHouseMap().containsKey(counter.getOriginalName())) {
-                                    int counterCompletes = counter.getNumberOfCompletes();
-                                    masterCounter.getLittleHouse().incrementByValueCount(counter.getOriginalName(), counterCompletes);
-                                }
-                            }
+//                            for (Counter counter: masterCounter.getCounters()) {
+//                                if (masterCounter.getLittleHouse().getLittleHouseMap().containsKey(counter.getOriginalName())) {
+//                                    int counterCompletes = counter.getNumberOfCompletes();
+//                                    masterCounter.getLittleHouse().incrementByValueCount(counter.getOriginalName(), counterCompletes);
+//                                }
+//                            }
                             int littleHouseCompleted = masterCounter.getLittleHouse().updateLittleHouseMapAndCount();
 
                             if (littleHouseCompleted != 0) {

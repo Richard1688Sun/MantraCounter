@@ -127,13 +127,30 @@ public class LittleHouse implements LittleHouseInterface {
     }
 
     @Override
-    public boolean reset() {
+    public boolean resetLittleHouse() {
 
         for(String key: littleHouseMap.keySet()) {
             littleHouseMap.put(key, 0.0);
         }
 
         littleHouseCount = 0;
+        return false;
+    }
+
+    public boolean resetLittleHouseByName(String name) {
+        if (littleHouseMap.containsKey(name)) {
+            littleHouseMap.put(name, 0.0);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean setLittleHouseByName(String name, int newCount) {
+        if (littleHouseMap.containsKey(name)) {
+            littleHouseMap.put(name, (double)newCount);
+            return true;
+
+        }
         return false;
     }
 
@@ -194,10 +211,6 @@ public class LittleHouse implements LittleHouseInterface {
 
     public Map<String, Double> getLittleHouseMap() {
         return littleHouseMap;
-    }
-
-    public void setLittleHouseCount(@NotNull Integer littleHouseCount) {
-        this.littleHouseCount = littleHouseCount;
     }
 
     public void setLittleHouseMap(Map<String, Double> littleHouseMap) {

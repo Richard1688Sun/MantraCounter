@@ -16,7 +16,9 @@ import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
+import com.nemogz.mantracounter.homescreen.ChangeLittleHousePrompt;
 import com.nemogz.mantracounter.homescreen.CounterMainRecViewAdapter;
+import com.nemogz.mantracounter.homescreen.NewCounterPrompt;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 import java.util.List;
@@ -61,6 +63,15 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
+        littleHouseItemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ChangeLittleHousePrompt changeLittleHousePrompt = new ChangeLittleHousePrompt(HomeScreenActivity.this);
+                changeLittleHousePrompt.show(getSupportFragmentManager(), "test");
+                return true;
+            }
+        });
+
         trashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,13 +108,17 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     public void setBasicCounterView() {
-        masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
+        //masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
         littleHouseNameItem.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName());
         littleHouseCountItem.setText(masterCounter.getLittleHouse().getLittleHouseCount().toString());
     }
 
     private void createDataBase(Context context) {
         db = MasterCounterDatabase.getINSTANCE(context);
+    }
+
+    public void setLittleHouse(LittleHouse littleHouse) {
+        masterCounter.setLittleHouse(littleHouse);
     }
 
     /**

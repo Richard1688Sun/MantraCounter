@@ -34,6 +34,6 @@ public interface LittleHouseInterface {
      * Reset all the counter values in littleHouseMap
      * @return true if successful, false otherwise
      */
-    public boolean reset();
+    public boolean resetLittleHouse();
 
 }
