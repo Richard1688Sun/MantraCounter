@@ -63,7 +63,6 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
             holder.deleteCounterButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //TODO maybe refresh with the masterCounter instead of pulling from database again
                     Counter counterToRemove = masterCounter.getCounters().remove(position);
                     if (masterCounter.getPositionCounters() == position) {
                         masterCounter.setPositionCounters(position - 1);
@@ -95,6 +94,14 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
                     context.startActivity(counterScreenIntent);
                 }
             });
+
+            holder.mantraView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    openChangeCounterPrompt(CounterMainRecViewAdapter.this, position);
+                    return true;
+                }
+            });
         }
         else {  //the last counter card(adding new card)
             holder.mantraName.setVisibility(View.GONE);
@@ -104,7 +111,7 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
             holder.mantraView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    openPrompt();
+                    openNewCounterPrompt(CounterMainRecViewAdapter.this);
                 }
             });
         }
@@ -115,9 +122,16 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
         return masterCounter.getCounters().size() + 1;
     }
 
-    private void openPrompt() {
-        NewCounterPrompt newCounterPrompt = new NewCounterPrompt();
+
+
+    private void openNewCounterPrompt(CounterMainRecViewAdapter adapter) {
+        NewCounterPrompt newCounterPrompt = new NewCounterPrompt(adapter);
         newCounterPrompt.show(((AppCompatActivity)context).getSupportFragmentManager(), "test");
+    }
+
+    private void openChangeCounterPrompt(CounterMainRecViewAdapter adapter, int position) {
+        ChangeCounterPrompt changeCounterPrompt = new ChangeCounterPrompt(adapter, position);
+        changeCounterPrompt.show(((AppCompatActivity)context).getSupportFragmentManager(), "test");
     }
 
     //generates the view objects(counterListItem)
@@ -144,5 +158,11 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
         //tells adapter that the data has been changed
         notifyDataSetChanged();
     }
+
+    public void setCounters(List<Counter> counters) {
+        this.masterCounter.setCounters(counters);
+    }
+
+
 
 }

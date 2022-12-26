@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -20,23 +19,22 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.nemogz.mantracounter.HomeScreenActivity;
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Counter;
-import com.nemogz.mantracounter.counterStuff.LittleHouse;
-import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public class NewCounterPrompt extends AppCompatDialogFragment {
+public class ChangeCounterPrompt extends AppCompatDialogFragment {
 
     private EditText mantraName;
     private EditText mantraCount;
     public MasterCounterDatabase db;
     private List<Counter> counters;
+    private int position;
     private CounterMainRecViewAdapter adapter;
 
-    public NewCounterPrompt(CounterMainRecViewAdapter adapter) {
+    public ChangeCounterPrompt(CounterMainRecViewAdapter adapter, int position) {
+        this.position = position;
         this.adapter = adapter;
     }
 
@@ -45,35 +43,39 @@ public class NewCounterPrompt extends AppCompatDialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         createDataBase(getContext());
-        counters = new ArrayList<>();
+        counters = db.masterCounterDAO().getAllCounters();
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.new_counter_prompt, null);
 
-        builder.setView(view).setTitle("New Mantra").setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        mantraName = view.findViewById(R.id.newMantraName);
+        mantraCount = view.findViewById(R.id.newMantraCount);
+        mantraName.setHint("New Name(Blank for no change)");
+        mantraCount.setHint("New Count(Blank for 0)");
+
+        builder.setView(view).setTitle("Changing Counter: " + counters.get(position).getDisplayName()).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(), "create new counter canceled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Change " + counters.get(position) + " cancelled", Toast.LENGTH_SHORT).show();
             }
-        }).setPositiveButton("create", new DialogInterface.OnClickListener() {
+        }).setPositiveButton("change", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Editable notConvertedName = mantraName.getEditableText();
                 Editable unParsedInt = mantraCount.getEditableText();
-                String name = notConvertedName.toString().equals("")? "blank": notConvertedName.toString();
-                int initialCount = unParsedInt.toString().equals("")? 0: Integer.parseInt(unParsedInt.toString());
-                counters = db.masterCounterDAO().getAllCounters();
-                Counter newCounter = new Counter(name, initialCount, requireContext());
-                db.masterCounterDAO().insertCounter(newCounter);
+
+                String name = notConvertedName.toString().equals("")? counters.get(position).getDisplayName(): notConvertedName.toString();
+                int newCount = unParsedInt.toString().equals("")? 0: Integer.parseInt(unParsedInt.toString());
+
+                counters.get(position).setCount(newCount);
+                counters.get(position).setDisplayName(name);
+                db.masterCounterDAO().insertCounter(counters.get(position));
                 //resets the grid view to include new counter
-                counters.add(newCounter);
                 adapter.setCounters(counters);
-                adapter.notifyItemInserted(counters.size()-1);
+                adapter.notifyItemChanged(position);
             }
         });
 
-        mantraName = view.findViewById(R.id.newMantraName);
-        mantraCount = view.findViewById(R.id.newMantraCount);
         return builder.create();
     }
 

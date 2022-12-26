@@ -31,6 +31,9 @@ public interface MasterCounterDAO {
     @Delete
     public void deleteCounter(Counter counter);
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public void insertCounter(Counter counter);
+
     @Query("SELECT * FROM mastercounter")
     public MasterCounter getMasterCounterPosition();
 
