@@ -1,4 +1,4 @@
-package com.nemogz.mantracounter.settingScreen;
+package com.nemogz.mantracounter.settings;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
-import com.nemogz.mantracounter.homescreen.CounterMainRecViewAdapter;
-import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<SettingsOptionsRecViewAdapter.ViewHolder> {
 
@@ -66,6 +64,18 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         settingsDataClass.setAutoCalLittleHouse(isChecked);
+                        db.masterCounterDAO().insertSettingsData(settingsDataClass);
+                    }
+                });
+                break;
+            case 2:
+                holder.iconView.setImageResource(R.drawable.ic_arrows_top_allow_foreground);
+                holder.switchView.setText("Enable Arrow Navigiation");
+                holder.switchView.setChecked(settingsDataClass.isArrowsNavigation());
+                holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        settingsDataClass.setArrowsNavigation(isChecked);
                         db.masterCounterDAO().insertSettingsData(settingsDataClass);
                     }
                 });

@@ -2,7 +2,6 @@ package com.nemogz.mantracounter.settings;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +13,7 @@ public class SettingsDataClass {
     private boolean homeSelectTrash;
 
     @ColumnInfo
-    private int numberSettingsItem;
+    private int numberSettingsItem = 3;
 
     @ColumnInfo
     private boolean autoCalLittleHouse;
@@ -22,23 +21,18 @@ public class SettingsDataClass {
     @ColumnInfo
     private boolean addSubButtonMode;
 
+    @ColumnInfo
+    private boolean arrowsNavigation;
+
     @PrimaryKey
     @NotNull
     public String id = "settingsDataClass";
 
-    @Ignore
-    public SettingsDataClass(boolean homeSelectTrash) {
+    public SettingsDataClass(boolean homeSelectTrash, boolean autoCalLittleHouse, boolean addSubButtonMode, boolean arrowsNavigation) {
         this.homeSelectTrash = homeSelectTrash;
-        this.numberSettingsItem = 2;
-        this.autoCalLittleHouse = false;
-        this.addSubButtonMode = false;
-    }
-
-    public SettingsDataClass(boolean homeSelectTrash, int numberSettingsItem, boolean autoCalLittleHouse, boolean addSubButtonMode) {
-        this.homeSelectTrash = homeSelectTrash;
-        this.numberSettingsItem = numberSettingsItem;
         this.autoCalLittleHouse = autoCalLittleHouse;
         this.addSubButtonMode = addSubButtonMode;
+        this.arrowsNavigation = arrowsNavigation;
     }
 
     public boolean isHomeSelectTrash() {
@@ -71,5 +65,13 @@ public class SettingsDataClass {
 
     public void setAddSubButtonMode(boolean addSubButtonMode) {
         this.addSubButtonMode = addSubButtonMode;
+    }
+
+    public boolean isArrowsNavigation() {
+        return arrowsNavigation;
+    }
+
+    public void setArrowsNavigation(boolean arrowsNavigation) {
+        this.arrowsNavigation = arrowsNavigation;
     }
 }

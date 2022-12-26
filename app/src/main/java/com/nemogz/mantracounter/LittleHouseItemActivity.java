@@ -34,6 +34,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
 
     private Boolean addMode = true;
     private MasterCounter masterCounter;
+    private SettingsDataClass settingsDataClass;
     private Vibrator vibrator;
     private boolean hasVibratorFunction;
 
@@ -101,13 +102,22 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         buttonMode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(addMode) {
-                    addMode = false;
-                    buttonMode.setImageResource(R.drawable.ic_add_sign);
+                if (settingsDataClass.isAddSubButtonMode()) {
+                    if(addMode) {
+                        addMode = false;
+                        buttonMode.setImageResource(R.drawable.ic_add_sign);
+                    }
+                    else{
+                        addMode = true;
+                        buttonMode.setImageResource(R.drawable.ic_sub_sign);
+                    }
                 }
-                else{
+                else {
                     addMode = true;
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
+                    masterCounter.getLittleHouse().decrementLittleHouseCount();
+                    if (hasVibratorFunction) vibrator.vibrate(100);
+                    setCounterView();
                 }
             }
         });
@@ -183,12 +193,13 @@ public class LittleHouseItemActivity extends AppCompatActivity {
      * @return true if data was detected and loaded, false otherwise
      */
     private boolean loadDataFromDatabase() {
-        if(db.masterCounterDAO().getLittleHouse() == null) {
+        if(db.masterCounterDAO().getLittleHouse() == null || db.masterCounterDAO().getSettingsData() == null || db.masterCounterDAO().getAllCounters().size() == 0) {
             return false;
         }
         masterCounter.setCounters(db.masterCounterDAO().getAllCounters());
         masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
         masterCounter.setPositionCounters(db.masterCounterDAO().getMasterCounterPosition().getPositionCounters());
+        settingsDataClass = db.masterCounterDAO().getSettingsData();
         return true;
     }
 
@@ -205,7 +216,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
 
     private void inputInitialSettings() {
         if (db.masterCounterDAO().getSettingsData() == null) {
-            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false));
+            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false));
         }
     }
 

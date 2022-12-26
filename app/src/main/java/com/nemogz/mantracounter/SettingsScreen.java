@@ -14,7 +14,7 @@ import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
-import com.nemogz.mantracounter.settingScreen.SettingsOptionsRecViewAdapter;
+import com.nemogz.mantracounter.settings.SettingsOptionsRecViewAdapter;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 import java.util.List;

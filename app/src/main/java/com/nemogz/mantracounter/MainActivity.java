@@ -15,7 +15,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -133,21 +132,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        buttonRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                masterCounter.incrementPositionCounter();
-                setCounterView();
-            }
-        });
+        if (settingsDataClass.isArrowsNavigation()) {
+            buttonRight.setVisibility(View.VISIBLE);
+            buttonLeft.setVisibility(View.VISIBLE);
+            buttonRight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    masterCounter.incrementPositionCounter();
+                    setCounterView();
+                }
+            });
 
-        buttonLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                masterCounter.decrementPositionCounter();
-                setCounterView();
-            }
-        });
+            buttonLeft.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    masterCounter.decrementPositionCounter();
+                    setCounterView();
+                }
+            });
+        }
+        else {
+            buttonLeft.setVisibility(View.GONE);
+            buttonRight.setVisibility(View.GONE);
+        }
 
         buttonMode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
                     addMode = true;
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());
+                    if (hasVibratorFunction) vibrator.vibrate(100);
                     setCounterView();
                 }
             }
@@ -288,8 +296,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inputInitialSettings() {
-        if (db.masterCounterDAO().getSettingsData() == null) {
-            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false, 2,false, false));
-        }
+        settingsDataClass = new SettingsDataClass(false,false, false, false);
     }
 }
