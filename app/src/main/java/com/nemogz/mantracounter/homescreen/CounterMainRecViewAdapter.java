@@ -58,7 +58,7 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
         SettingsDataClass settingsDataClass = db.masterCounterDAO().getSettingsData();
 
         //if trash button setting is on
-        if (settingsDataClass.isHomeSelectTrash() && position > 3 && position != getItemCount() - 1) {
+        if (settingsDataClass.isHomeSelectTrash() && position > 3 && position != getItemCount() -1) {
             holder.deleteCounterButton.setVisibility(View.VISIBLE);
             holder.deleteCounterButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -66,11 +66,15 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
                     Counter counterToRemove = masterCounter.getCounters().remove(position);
                     if (masterCounter.getPositionCounters() == position) {
                         masterCounter.setPositionCounters(position - 1);
+                        db.masterCounterDAO().insertCounterPosition(masterCounter);
                     }
+                    masterCounter.deleteCounter(counterToRemove.getOriginalName());
                     db.masterCounterDAO().deleteCounter(counterToRemove);
-                    db.masterCounterDAO().insertCounterPosition(masterCounter);
                     notifyItemRemoved(position);
+                    notifyItemChanged(position);
                 }
+
+
             });
         }
         else {
