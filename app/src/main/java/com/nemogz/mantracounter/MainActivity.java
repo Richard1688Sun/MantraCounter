@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView t4;
     private TextView t5;
     private float DISTANCE_FOR_SWIPE = 150;
-    private float TIME_FOR_LONG_CLICK = 500;
+    private float TIME_FOR_LONG_CLICK = 2000;
 
     private Boolean addMode = true;
     private MasterCounter masterCounter;
