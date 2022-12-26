@@ -105,6 +105,18 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                     }
                 });
                 break;
+            case 3:
+                holder.iconView.setImageResource(R.drawable.ic_swipe_allow_foreground);
+                holder.switchView.setText("Enable Swipe Navigiation");
+                holder.switchView.setChecked(settingsDataClass.isSwipeNavigation());
+                holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        settingsDataClass.setSwipeNavigation(isChecked);
+                        db.masterCounterDAO().insertSettingsData(settingsDataClass);
+                    }
+                });
+                break;
         }
     }
 

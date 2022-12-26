@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         //TODO track y location maybe
                         float yDiff = yStart - yEnd;
 
-                        if (Math.abs(xDiff) > DISTANCE_FOR_SWIPE) {
+                        if (settingsDataClass.isSwipeNavigation() && Math.abs(xDiff) > DISTANCE_FOR_SWIPE) {
                             if(xDiff < 0) {
                                 //left swipe
                                 masterCounter.decrementPositionCounter();
@@ -289,6 +289,7 @@ public class MainActivity extends AppCompatActivity {
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
         db.masterCounterDAO().insertCounterPosition(masterCounter);
+        db.masterCounterDAO().insertSettingsData(settingsDataClass);
     }
 
     private void openHomeScreen() {
@@ -297,6 +298,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inputInitialSettings() {
-        settingsDataClass = new SettingsDataClass(false,false, false, false);
+        settingsDataClass = new SettingsDataClass(false,false, false, false, false);
     }
 }
