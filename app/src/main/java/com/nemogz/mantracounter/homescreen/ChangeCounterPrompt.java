@@ -56,7 +56,7 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
         builder.setView(view).setTitle("Changing Counter: " + counters.get(position).getDisplayName()).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(), "Change " + counters.get(position) + " cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Change " + counters.get(position).getDisplayName() + " cancelled", Toast.LENGTH_SHORT).show();
             }
         }).setPositiveButton("change", new DialogInterface.OnClickListener() {
             @Override
@@ -69,7 +69,7 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
 
                 counters.get(position).setCount(newCount);
                 counters.get(position).setDisplayName(name);
-                db.masterCounterDAO().insertCounter(counters.get(position));
+                db.masterCounterDAO().insertAllCounters(counters);
                 //resets the grid view to include new counter
                 adapter.setCounters(counters);
                 adapter.notifyItemChanged(position);
