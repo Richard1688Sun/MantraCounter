@@ -65,7 +65,7 @@ public class MasterCounter implements MasterCounterInterface {
     //made for the sqlite I don't know why
     public MasterCounter(Integer positionCounters) {
         this.context = null;
-        this.littleHouse = new LittleHouse();
+        this.littleHouse = new LittleHouse(0);
         this.counters = new ArrayList<>();
         this.positionCounters = positionCounters;
         this.dabei = null;
@@ -86,27 +86,30 @@ public class MasterCounter implements MasterCounterInterface {
     }
 
     @Override
-    public boolean increment(String name) {
+    public boolean increment(String name, boolean autoCountLittleHouse) {
         for (Counter counter: counters) {
             if (counter.getOriginalName().equals(name)) {
                 if (littleHouse.getLittleHouseMap().containsKey(name)) {
                     if (counter.increment(littleHouse.getLittleHouseMap().get(name).intValue())) {
                         //if incrementing the counter reached that counter's threshold
-                        int completedLittleHouses = littleHouse.incrementCount(name);
 
-                        if (completedLittleHouses != 0) {
-                            for (int i = 0; i < counters.size(); i ++) {
-                                if (littleHouse.getLittleHouseMap().containsKey(counters.get(i).getOriginalName())) {
-                                    if(!counters.get(i).updateCounter(completedLittleHouses)) return false;
-                                    //TODO make this more efficient can pass the whole counter so no more forloop
+                        if (autoCountLittleHouse) {
+                            int completedLittleHouses = littleHouse.incrementCount(name);
+                            if (completedLittleHouses != 0) {
+                                //changes the littleHouse amount
+                                littleHouse.setLittleHouseCount(littleHouse.getLittleHouseCount() + completedLittleHouses);
+                                for (int i = 0; i < counters.size(); i ++) {
+                                    if (littleHouse.getLittleHouseMap().containsKey(counters.get(i).getOriginalName())) {
+                                        if(!counters.get(i).updateCounter(completedLittleHouses)) return false;
+                                        //TODO make this more efficient can pass the whole counter so no more forloop
+                                    }
                                 }
+                                return true;
                             }
-                            return true;
                         }
                     }
                 }
-                //when counter is created by the user
-                else {
+                else { //when counter is created by the user
                     counter.increment(0);
                 }
             }

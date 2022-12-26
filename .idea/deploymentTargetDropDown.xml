@@ -6,12 +6,12 @@
         <type value="RUNNING_DEVICE_TARGET" />
         <deviceKey>
           <Key>
-            <type value="SERIAL_NUMBER" />
-            <value value="9RJ0220516003558" />
+            <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="C:\Users\RichardLaptop\.android\avd\Huawei_P40_Pro_API_31.avd" />
           </Key>
         </deviceKey>
       </Target>
     </runningDeviceTargetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-12-25T23:24:27.582931800Z" />
+    <timeTargetWasSelectedWithDropDown value="2022-12-25T23:56:00.976795600Z" />
   </component>
 </project>

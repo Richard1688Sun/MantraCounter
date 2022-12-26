@@ -19,22 +19,22 @@ public class Counter implements CounterInterface {
 
     @Ignore
     Context context;
-    @Ignore
-    private static final int DaBeiLimit = 27;
-    @Ignore
-    private static final int BoRuoLimit = 49;
-    @Ignore
-    private static final int WangShenLimit = 84;
-    @Ignore
-    private static final int QiFoLimit = 87;
 //    @Ignore
-//    private static final int DaBeiLimit = 10;
+//    private static final int DaBeiLimit = 27;
 //    @Ignore
-//    private static final int BoRuoLimit = 9;
+//    private static final int BoRuoLimit = 49;
 //    @Ignore
-//    private static final int WangShenLimit = 8;
+//    private static final int WangShenLimit = 84;
 //    @Ignore
-//    private static final int QiFoLimit = 7;
+//    private static final int QiFoLimit = 87;
+    @Ignore
+    private static final int DaBeiLimit = 10;
+    @Ignore
+    private static final int BoRuoLimit = 9;
+    @Ignore
+    private static final int WangShenLimit = 8;
+    @Ignore
+    private static final int QiFoLimit = 7;
     @ColumnInfo
     private final String dabei;
     @ColumnInfo
@@ -136,6 +136,25 @@ public class Counter implements CounterInterface {
             }
         }
         return true;
+    }
+
+//    *
+//     * finds the number of times this counter has passed the littleHouse limit
+//     * @return number of times the limit has been passed
+    public int getNumberOfCompletes() {
+        if((originalName.equals(dabei)) && (count - DaBeiLimit >= 0)){
+            return count/DaBeiLimit;
+        }
+        else if(originalName.equals(boruo) && (count  - BoRuoLimit >= 0)){
+            return count/BoRuoLimit;
+        }
+        else if(originalName.equals(wangshen) && (count - WangShenLimit >= 0)){
+            return count/WangShenLimit;
+        }
+        else if(originalName.equals(qifo) && (count - QiFoLimit >= 0)){
+            return count/QiFoLimit;
+        }
+        return 0;
     }
 
     public String getOriginalName() {

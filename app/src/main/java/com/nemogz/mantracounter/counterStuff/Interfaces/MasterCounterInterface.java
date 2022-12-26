@@ -24,7 +24,7 @@ public interface MasterCounterInterface{
      * @param name name of counter to remove
      * @return true if the counter has reached te required limit
      */
-    public boolean increment(String name);
+    public boolean increment(String name, boolean autoCountLittleHouse);
 
     /**
      * Set the count amount to the newCount

@@ -6,6 +6,7 @@ public interface LittleHouseInterface {
      * Given a mantra name, increment that mantra by 1
      * @param name name of the mantra
      * @return number of times littleHouse was completed, else returns -1
+     * @modifies the littleHouse map but not littleHouse Count
      */
     public int incrementCount(String name);
 

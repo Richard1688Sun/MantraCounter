@@ -7,17 +7,19 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nemogz.mantracounter.R;
+import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 
 public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<SettingsOptionsRecViewAdapter.ViewHolder> {
 
-    private MasterCounter masterCounter = new MasterCounter(0);
+    private MasterCounter masterCounter;
     private SettingsDataClass settingsDataClass;
     private Context context;
     public MasterCounterDatabase db;
@@ -25,6 +27,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
     public SettingsOptionsRecViewAdapter(Context context) {
         this.context = context;
         db = MasterCounterDatabase.getINSTANCE(context);
+        masterCounter = new MasterCounter(context);
     }
 
     @NonNull
@@ -65,6 +68,28 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         settingsDataClass.setAutoCalLittleHouse(isChecked);
                         db.masterCounterDAO().insertSettingsData(settingsDataClass);
+
+                        if (isChecked) {
+                            //finding the # of littleHouse completed
+                            for (Counter counter: masterCounter.getCounters()) {
+                                if (masterCounter.getLittleHouse().getLittleHouseMap().containsKey(counter.getOriginalName())) {
+                                    int counterCompletes = counter.getNumberOfCompletes();
+                                    masterCounter.getLittleHouse().incrementByValueCount(counter.getOriginalName(), counterCompletes);
+                                }
+                            }
+                            int littleHouseCompleted = masterCounter.getLittleHouse().updateLittleHouseMapAndCount();
+
+                            if (littleHouseCompleted != 0) {
+                                Toast.makeText(context, "Completed " + littleHouseCompleted + " " + context.getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
+                                for (Counter counter: masterCounter.getCounters()) {
+                                    if (masterCounter.getLittleHouse().getLittleHouseMap().containsKey(counter.getOriginalName())) {
+                                        counter.updateCounter(littleHouseCompleted);
+                                    }
+                                }
+                                db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
+                            }
+                            db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
+                        }
                     }
                 });
                 break;

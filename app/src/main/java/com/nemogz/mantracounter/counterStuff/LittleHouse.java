@@ -4,12 +4,10 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.nemogz.mantracounter.MainActivity;
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Interfaces.LittleHouseInterface;
 
@@ -80,19 +78,6 @@ public class LittleHouse implements LittleHouseInterface {
         this.littleHouseMap.put(qifo, 0.0);
     }
 
-    public LittleHouse() {
-        this.littleHouseMap = new HashMap<>();
-        this.dabei = null;
-        this.boruo = null;
-        this.wangshen = null;
-        this.qifo = null;
-        this.littleHouseCount = 0;
-        this.littleHouseMap.put(dabei, 0.0);
-        this.littleHouseMap.put(boruo, 0.0);
-        this.littleHouseMap.put(wangshen, 0.0);
-        this.littleHouseMap.put(qifo, 0.0);
-    }
-
     public LittleHouse(Context context) {
         this.littleHouseMap = new HashMap<>();
         this.dabei = context.getString(R.string.dabei);
@@ -113,7 +98,7 @@ public class LittleHouse implements LittleHouseInterface {
         if(littleHouseMap.containsKey(name)) {
             double pastNum = littleHouseMap.get(name);
             littleHouseMap.put(name, pastNum + 1.0);
-            return updateLittleHouse();
+            return findLittleHouseCompleted();
         }
         return 0;
     }
@@ -152,19 +137,22 @@ public class LittleHouse implements LittleHouseInterface {
         return false;
     }
 
+    public int incrementByValueCount(String name, int count) {
+        if(littleHouseMap.containsKey(name)) {
+            double pastNum = littleHouseMap.get(name);
+            littleHouseMap.put(name, pastNum + count);
+            return findLittleHouseCompleted();
+        }
+        return 0;
+    }
+
     /**
      * update the littleHouse count
-     * @return true littleHouse was updated, false otherwise
+     * @return amount of littleHouse updated
+     * @modfies the littleHouse map and the littleHouse count
      */
-    private int updateLittleHouse() {
-        double minCount = -1.0;
-
-        //find the completion count out of all of mantras
-        for(String mantra: littleHouseMap.keySet()) {
-            if(littleHouseMap.get(mantra) < minCount || minCount == -1.0) {
-                minCount = littleHouseMap.get(mantra);
-            }
-        }
+    public int updateLittleHouseMapAndCount() {
+        double minCount = findLittleHouseCompleted();
 
         //subtracts the minvalue
         for(String mantra: littleHouseMap.keySet()) {
@@ -178,8 +166,29 @@ public class LittleHouse implements LittleHouseInterface {
         return 0;
     }
 
+    /**
+     * update the littleHouse count
+     * @return amount of littleHouse updated
+     * @modfies the littleHouse map and the littleHouse count
+     */
+    public int findLittleHouseCompleted() {
+        double minCount = -1.0;
+
+        //find the completion count out of all of mantras
+        for(String mantra: littleHouseMap.keySet()) {
+            if(littleHouseMap.get(mantra) < minCount || minCount == -1.0) {
+                minCount = littleHouseMap.get(mantra);
+            }
+        }
+
+        if(minCount > 0) {
+            return (int)minCount;
+        }
+        return 0;
+    }
+
     public Integer getLittleHouseCount() {
-        updateLittleHouse();
+        updateLittleHouseMapAndCount();
         return littleHouseCount;
     }
 
