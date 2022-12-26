@@ -38,9 +38,11 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
     private MasterCounter masterCounter = new MasterCounter(0);
     private Context context;
     public MasterCounterDatabase db;
+    private HomeScreenActivity homeScreenActivity;
 
-    public CounterMainRecViewAdapter(Context context) {
+    public CounterMainRecViewAdapter(Context context, HomeScreenActivity homeScreenActivity) {
         this.context = context;
+        this.homeScreenActivity = homeScreenActivity;
         db = MasterCounterDatabase.getINSTANCE(context);
     }
 
@@ -134,7 +136,7 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
     }
 
     private void openChangeCounterPrompt(CounterMainRecViewAdapter adapter, int position) {
-        ChangeCounterPrompt changeCounterPrompt = new ChangeCounterPrompt(adapter, position);
+        ChangeCounterPrompt changeCounterPrompt = new ChangeCounterPrompt(adapter, position, homeScreenActivity);
         changeCounterPrompt.show(((AppCompatActivity)context).getSupportFragmentManager(), "test");
     }
 

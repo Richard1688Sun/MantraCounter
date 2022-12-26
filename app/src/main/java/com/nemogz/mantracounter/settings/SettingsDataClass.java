@@ -13,7 +13,7 @@ public class SettingsDataClass {
     private boolean homeSelectTrash;
 
     @ColumnInfo
-    private int numberSettingsItem = 4;
+    private int numberSettingsItem = 5;
 
     @ColumnInfo
     private boolean autoCalLittleHouse;
@@ -27,16 +27,20 @@ public class SettingsDataClass {
     @ColumnInfo
     private boolean swipeNavigation;
 
+    @ColumnInfo
+    private boolean sidebarReminder;
+
     @PrimaryKey
     @NotNull
     public String id = "settingsDataClass";
 
-    public SettingsDataClass(boolean homeSelectTrash, boolean autoCalLittleHouse, boolean addSubButtonMode, boolean arrowsNavigation, boolean swipeNavigation) {
+    public SettingsDataClass(boolean homeSelectTrash, boolean autoCalLittleHouse, boolean addSubButtonMode, boolean arrowsNavigation, boolean swipeNavigation, boolean sidebarReminder) {
         this.homeSelectTrash = homeSelectTrash;
         this.autoCalLittleHouse = autoCalLittleHouse;
         this.addSubButtonMode = addSubButtonMode;
         this.arrowsNavigation = arrowsNavigation;
         this.swipeNavigation = swipeNavigation;
+        this.sidebarReminder = sidebarReminder;
     }
 
     public boolean isHomeSelectTrash() {
@@ -85,5 +89,13 @@ public class SettingsDataClass {
 
     public void setSwipeNavigation(boolean swipeNavigation) {
         this.swipeNavigation = swipeNavigation;
+    }
+
+    public boolean isSidebarReminder() {
+        return sidebarReminder;
+    }
+
+    public void setSidebarReminder(boolean sidebarReminder) {
+        this.sidebarReminder = sidebarReminder;
     }
 }

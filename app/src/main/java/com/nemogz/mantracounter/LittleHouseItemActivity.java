@@ -216,7 +216,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
 
     private void inputInitialSettings() {
         if (db.masterCounterDAO().getSettingsData() == null) {
-            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false, false));
+            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false, false, false));
         }
     }
 

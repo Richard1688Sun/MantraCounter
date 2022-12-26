@@ -69,6 +69,21 @@ public class MainActivity extends AppCompatActivity {
         setCounterView();
 
 
+        if (settingsDataClass.isSidebarReminder()) {
+            t1.setVisibility(View.VISIBLE);
+            t2.setVisibility(View.VISIBLE);
+            t3.setVisibility(View.VISIBLE);
+            t4.setVisibility(View.VISIBLE);
+            t5.setVisibility(View.VISIBLE);
+        }
+        else {
+            t1.setVisibility(View.GONE);
+            t2.setVisibility(View.GONE);
+            t3.setVisibility(View.GONE);
+            t4.setVisibility(View.GONE);
+            t5.setVisibility(View.GONE);
+        }
+
         //for all types of clicks on Main Button
         buttonCounter.setOnTouchListener(new View.OnTouchListener() {
             float xStart;
@@ -204,6 +219,14 @@ public class MainActivity extends AppCompatActivity {
                 masterCounter.getCounterAtPosition().setDisplayName(textMantra.getText().toString());
             }
         });
+
+        buttonTool.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent settingsScreenIntent = new Intent(getApplicationContext(), SettingsScreen.class);
+                startActivity(settingsScreenIntent);
+            }
+        });
     }
 
     @Override
@@ -259,11 +282,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void testviewUP(){
-        t1.setText("DaBei = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.dabei))));
-        t2.setText("BoRuo = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.boruo))));
-        t3.setText("XiaoZai = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.wangshen))));
-        t4.setText( "QiFo = " + Double.toString(masterCounter.getLittleHouse().getCountByName(getString(R.string.qifo))));
-        t5.setText("XiaoFangZi = " + Integer.toString(masterCounter.getLittleHouse().getLittleHouseCount()));
+        t1.setText( masterCounter.getCounters().get(0).getDisplayName() + ": " + (int)masterCounter.getLittleHouse().getCountByName(getString(R.string.dabei)));
+        t2.setText(masterCounter.getCounters().get(1).getDisplayName() + ": " + (int)masterCounter.getLittleHouse().getCountByName(getString(R.string.boruo)));
+        t3.setText(masterCounter.getCounters().get(2).getDisplayName() + ": " + (int)masterCounter.getLittleHouse().getCountByName(getString(R.string.wangshen)));
+        t4.setText( masterCounter.getCounters().get(3).getDisplayName() + ": " + (int)masterCounter.getLittleHouse().getCountByName(getString(R.string.qifo)));
+        t5.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName() + ": " + Integer.toString(masterCounter.getLittleHouse().getLittleHouseCount()));
     }
 
     private void createDataBase(Context context) {
@@ -298,6 +321,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inputInitialSettings() {
-        settingsDataClass = new SettingsDataClass(false,false, false, false, false);
+        settingsDataClass = new SettingsDataClass(false,false, false, false, false, false);
     }
 }

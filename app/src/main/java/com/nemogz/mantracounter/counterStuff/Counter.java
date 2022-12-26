@@ -103,6 +103,7 @@ public class Counter implements CounterInterface {
             count = newCount;
             return true;
         }
+        count = 0;
         return false;
     }
 

@@ -117,6 +117,18 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                     }
                 });
                 break;
+            case 4:
+                holder.iconView.setImageResource(R.drawable.ic_sidebar_allow_foreground);
+                holder.switchView.setText("Enable Sidebar Reminder");
+                holder.switchView.setChecked(settingsDataClass.isSidebarReminder());
+                holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        settingsDataClass.setSidebarReminder(isChecked);
+                        db.masterCounterDAO().insertSettingsData(settingsDataClass);
+                    }
+                });
+                break;
         }
     }
 

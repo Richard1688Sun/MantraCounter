@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.nemogz.mantracounter.HomeScreenActivity;
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Counter;
+import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 
 import java.util.ArrayList;
@@ -30,12 +31,15 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
     private EditText mantraCount;
     public MasterCounterDatabase db;
     private List<Counter> counters;
+    private LittleHouse littleHouse;
     private int position;
     private CounterMainRecViewAdapter adapter;
+    private HomeScreenActivity homeScreenActivity;
 
-    public ChangeCounterPrompt(CounterMainRecViewAdapter adapter, int position) {
+    public ChangeCounterPrompt(CounterMainRecViewAdapter adapter, int position, HomeScreenActivity homeScreenActivity) {
         this.position = position;
         this.adapter = adapter;
+        this.homeScreenActivity = homeScreenActivity;
     }
 
     @NonNull
@@ -69,10 +73,41 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
 
                 counters.get(position).setCount(newCount);
                 counters.get(position).setDisplayName(name);
-                db.masterCounterDAO().insertAllCounters(counters);
-                //resets the grid view to include new counter
-                adapter.setCounters(counters);
-                adapter.notifyItemChanged(position);
+                if (db.masterCounterDAO().getSettingsData().isAutoCalLittleHouse() && db.masterCounterDAO().getLittleHouse().getLittleHouseMap().containsKey(counters.get(position).getDisplayName())) {
+                    littleHouse = db.masterCounterDAO().getLittleHouse();
+                    int counterCompletes = counters.get(position).getNumberOfCompletes();
+                    littleHouse.incrementByValueCount(counters.get(position).getOriginalName(), counterCompletes);
+
+                    int littleHouseCompleted = littleHouse.updateLittleHouseMapAndCount();
+
+                    if(littleHouseCompleted != 0) {
+                        Toast.makeText(getContext(), "Completed " + littleHouseCompleted + " " + getContext().getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
+                        for (Counter counter: counters) {
+                            if (littleHouse.getLittleHouseMap().containsKey(counter.getOriginalName())) {
+                                counter.updateCounter(littleHouseCompleted);
+                            }
+                        }
+                        db.masterCounterDAO().insertLittleHouse(littleHouse);
+                        db.masterCounterDAO().insertAllCounters(counters);
+                        //resets the grid view to include new counter
+                        adapter.setCounters(counters);
+                        homeScreenActivity.setBasicCounterView();
+                        adapter.notifyItemRangeChanged(0, 4);
+                    }
+                    else{
+                        db.masterCounterDAO().insertLittleHouse(littleHouse);
+                        db.masterCounterDAO().insertAllCounters(counters);
+                        //resets the grid view to include new counter
+                        adapter.setCounters(counters);
+                        adapter.notifyItemChanged(position);
+                    }
+                }
+                else {
+                    db.masterCounterDAO().insertAllCounters(counters);
+                    //resets the grid view to include new counter
+                    adapter.setCounters(counters);
+                    adapter.notifyItemChanged(position);
+                }
             }
         });
 

@@ -46,7 +46,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         instantiateViews();
         setBasicCounterView();
 
-        CounterMainRecViewAdapter counterAdapter = new CounterMainRecViewAdapter(this);
+        CounterMainRecViewAdapter counterAdapter = new CounterMainRecViewAdapter(this, HomeScreenActivity.this);
         counterAdapter.setMasterCounters(masterCounter);
 
         mantraCountersListView.setAdapter(counterAdapter);
@@ -96,7 +96,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         trashButton = findViewById(R.id.trashButtonHome);
     }
 
-    private void setBasicCounterView() {
+    public void setBasicCounterView() {
+        masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
         littleHouseNameItem.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName());
         littleHouseCountItem.setText(masterCounter.getLittleHouse().getLittleHouseCount().toString());
     }
