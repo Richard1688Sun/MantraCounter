@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
                             if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
                                 ///long click
                                 masterCounter.setCount(masterCounter.getCounterAtPosition().getOriginalName(), 0);
+                                masterCounter.getLittleHouse().setLittleHouseByName(masterCounter.getCounterAtPosition().getOriginalName(), 0);
                                 if (hasVibratorFunction) vibrator.vibrate(200);
                                 setCounterView();
                             }
@@ -283,12 +284,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * displays the theoretical count amounts if there was autoLittleHouse conversions
+     */
     private void testviewUP(){
-        t1.setText( masterCounter.getCounters().get(0).getDisplayName() + ": " + (int)masterCounter.getLittleHouse().getCountByName(getString(R.string.dabei)));
-        t2.setText(masterCounter.getCounters().get(1).getDisplayName() + ": " + (int)masterCounter.getLittleHouse().getCountByName(getString(R.string.boruo)));
-        t3.setText(masterCounter.getCounters().get(2).getDisplayName() + ": " + (int)masterCounter.getLittleHouse().getCountByName(getString(R.string.wangshen)));
-        t4.setText( masterCounter.getCounters().get(3).getDisplayName() + ": " + (int)masterCounter.getLittleHouse().getCountByName(getString(R.string.qifo)));
-        t5.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName() + ": " + Integer.toString(masterCounter.getLittleHouse().getLittleHouseCount()));
+        int completed = masterCounter.getLittleHouse().findLittleHouseCompleted();
+        t1.setText( masterCounter.getCounters().get(0).getDisplayName() + ": " + masterCounter.getLittleHouse().getCountByName(masterCounter.getCounterAtPosition().getDabei()) + " -> " +(masterCounter.getCounters().get(0).getCount() -
+                masterCounter.getCounterAtPosition().DaBeiLimit*completed));
+
+        t2.setText(masterCounter.getCounters().get(1).getDisplayName() + ": " + masterCounter.getLittleHouse().getCountByName(masterCounter.getCounterAtPosition().getBoruo()) + " -> "+ (masterCounter.getCounters().get(1).getCount() -
+                masterCounter.getCounterAtPosition().BoRuoLimit*completed));
+
+        t3.setText(masterCounter.getCounters().get(2).getDisplayName() + ": " + masterCounter.getLittleHouse().getCountByName(masterCounter.getCounterAtPosition().getWangshen()) + " -> "+ (masterCounter.getCounters().get(2).getCount() -
+                masterCounter.getCounterAtPosition().WangShenLimit*completed));
+
+        t4.setText( masterCounter.getCounters().get(3).getDisplayName() + ": " + masterCounter.getLittleHouse().getCountByName(masterCounter.getCounterAtPosition().getQifo()) + " -> "+ (masterCounter.getCounters().get(3).getCount() -
+                masterCounter.getCounterAtPosition().QiFoLimit*completed));
+
+        t5.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseCount() + " -> "+ (completed + masterCounter.getLittleHouse().getLittleHouseCount()));
     }
 
     private void createDataBase(Context context) {

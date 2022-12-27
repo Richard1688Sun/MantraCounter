@@ -184,6 +184,24 @@ public class LittleHouse implements LittleHouseInterface {
     }
 
     /**
+     * updates the littleHouse map based on the count given
+     * @param count the amount of littleHouse completed so subtraction from the map is required
+     * @return true if something was subtracted from littleHouse map
+     */
+    public boolean updateLittleHouseMapAndCount(int count) {
+        //subtracts the minvalue
+        for(String mantra: littleHouseMap.keySet()) {
+            littleHouseMap.put(mantra, littleHouseMap.get(mantra) - (double)count);
+        }
+
+        if(count > 0) {
+            littleHouseCount = littleHouseCount + count;
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * update the littleHouse count
      * @return amount of littleHouse updated
      * @modfies the littleHouse map and the littleHouse count
@@ -205,7 +223,6 @@ public class LittleHouse implements LittleHouseInterface {
     }
 
     public Integer getLittleHouseCount() {
-        updateLittleHouseMapAndCount();
         return littleHouseCount;
     }
 

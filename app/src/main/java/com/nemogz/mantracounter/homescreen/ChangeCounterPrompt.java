@@ -81,7 +81,7 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
 
                     int littleHouseCompleted = littleHouse.updateLittleHouseMapAndCount();
 
-                    if(littleHouseCompleted != 0) {
+                    if(littleHouseCompleted != 0 && db.masterCounterDAO().getSettingsData().isAutoCalLittleHouse()) {
                         Toast.makeText(getContext(), "Completed " + littleHouseCompleted + " " + getContext().getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
                         for (Counter counter: counters) {
                             if (littleHouse.getLittleHouseMap().containsKey(counter.getOriginalName())) {
@@ -106,6 +106,7 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
                 }
                 else {
                     db.masterCounterDAO().insertAllCounters(counters);
+                    db.masterCounterDAO().insertLittleHouse(littleHouse);
                     //resets the grid view to include new counter
                     adapter.setCounters(counters);
                     adapter.notifyItemChanged(position);

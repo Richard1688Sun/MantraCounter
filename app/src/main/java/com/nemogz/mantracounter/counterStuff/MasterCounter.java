@@ -96,11 +96,9 @@ public class MasterCounter implements MasterCounterInterface {
                         if (autoCountLittleHouse) {
                             if (completedLittleHouses != 0) {
                                 //changes the littleHouse amount
-                                littleHouse.setLittleCount(littleHouse.getLittleHouseCount() + completedLittleHouses);
-                                for (int i = 0; i < counters.size(); i ++) {
-                                    if (littleHouse.getLittleHouseMap().containsKey(counters.get(i).getOriginalName())) {
-                                        if(!counters.get(i).updateCounter(completedLittleHouses)) return false;
-                                    }
+                                littleHouse.updateLittleHouseMapAndCount(completedLittleHouses);
+                                for (int i = 0; i < 4; i++) {
+                                    if(!counters.get(i).updateCounter(completedLittleHouses)) return false;
                                 }
                                 return true;
                             }
