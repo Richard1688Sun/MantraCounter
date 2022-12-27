@@ -19,22 +19,22 @@ public class Counter implements CounterInterface {
 
     @Ignore
     Context context;
-//    @Ignore
-//    public static final int DaBeiLimit = 27;
-//    @Ignore
-//    public static final int BoRuoLimit = 49;
-//    @Ignore
-//    public static final int WangShenLimit = 84;
-//    @Ignore
-//    public static final int QiFoLimit = 87;
     @Ignore
-    public static final int DaBeiLimit = 10;
+    public static final int DaBeiLimit = 27;
     @Ignore
-    public static final int BoRuoLimit = 9;
+    public static final int BoRuoLimit = 49;
     @Ignore
-    public static final int WangShenLimit = 8;
+    public static final int WangShenLimit = 84;
     @Ignore
-    public static final int QiFoLimit = 7;
+    public static final int QiFoLimit = 87;
+//    @Ignore
+//    public static final int DaBeiLimit = 10;
+//    @Ignore
+//    public static final int BoRuoLimit = 9;
+//    @Ignore
+//    public static final int WangShenLimit = 8;
+//    @Ignore
+//    public static final int QiFoLimit = 7;
     @ColumnInfo
     private final String dabei;
     @ColumnInfo

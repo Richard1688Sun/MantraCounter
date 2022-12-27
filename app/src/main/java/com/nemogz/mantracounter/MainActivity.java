@@ -289,16 +289,16 @@ public class MainActivity extends AppCompatActivity {
      */
     private void testviewUP(){
         int completed = masterCounter.getLittleHouse().findLittleHouseCompleted();
-        t1.setText( masterCounter.getCounters().get(0).getDisplayName() + ": " + masterCounter.getLittleHouse().getCountByName(masterCounter.getCounterAtPosition().getDabei()) + " -> " +(masterCounter.getCounters().get(0).getCount() -
+        t1.setText( masterCounter.getCounters().get(0).getDisplayName() + ": " + masterCounter.getCounters().get(0).getCount() + " -> " +(masterCounter.getCounters().get(0).getCount() -
                 masterCounter.getCounterAtPosition().DaBeiLimit*completed));
 
-        t2.setText(masterCounter.getCounters().get(1).getDisplayName() + ": " + masterCounter.getLittleHouse().getCountByName(masterCounter.getCounterAtPosition().getBoruo()) + " -> "+ (masterCounter.getCounters().get(1).getCount() -
+        t2.setText(masterCounter.getCounters().get(1).getDisplayName() + ": " + masterCounter.getCounters().get(1).getCount() + " -> "+ (masterCounter.getCounters().get(1).getCount() -
                 masterCounter.getCounterAtPosition().BoRuoLimit*completed));
 
-        t3.setText(masterCounter.getCounters().get(2).getDisplayName() + ": " + masterCounter.getLittleHouse().getCountByName(masterCounter.getCounterAtPosition().getWangshen()) + " -> "+ (masterCounter.getCounters().get(2).getCount() -
+        t3.setText(masterCounter.getCounters().get(2).getDisplayName() + ": " + masterCounter.getCounters().get(2).getCount() + " -> "+ (masterCounter.getCounters().get(2).getCount() -
                 masterCounter.getCounterAtPosition().WangShenLimit*completed));
 
-        t4.setText( masterCounter.getCounters().get(3).getDisplayName() + ": " + masterCounter.getLittleHouse().getCountByName(masterCounter.getCounterAtPosition().getQifo()) + " -> "+ (masterCounter.getCounters().get(3).getCount() -
+        t4.setText( masterCounter.getCounters().get(3).getDisplayName() + ": " + masterCounter.getCounters().get(3).getCount() + " -> "+ (masterCounter.getCounters().get(3).getCount() -
                 masterCounter.getCounterAtPosition().QiFoLimit*completed));
 
         t5.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseCount() + " -> "+ (completed + masterCounter.getLittleHouse().getLittleHouseCount()));
