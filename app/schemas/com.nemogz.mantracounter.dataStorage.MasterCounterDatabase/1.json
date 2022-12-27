@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "aa39c72d5293897a9dcc258db995362d",
+    "identityHash": "287a27e38f69633529f7a47101bc2b11",
     "entities": [
       {
         "tableName": "Counter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dabei` TEXT, `boruo` TEXT, `wangshen` TEXT, `qifo` TEXT, `name` TEXT NOT NULL, `count` INTEGER, PRIMARY KEY(`name`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dabei` TEXT, `boruo` TEXT, `wangshen` TEXT, `qifo` TEXT, `originalName` TEXT NOT NULL, `displayName` TEXT, `count` INTEGER, PRIMARY KEY(`originalName`))",
         "fields": [
           {
             "fieldPath": "dabei",
@@ -33,10 +33,16 @@
             "notNull": false
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
+            "fieldPath": "originalName",
+            "columnName": "originalName",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "count",
@@ -47,7 +53,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "name"
+            "originalName"
           ],
           "autoGenerate": false
         },
@@ -56,7 +62,7 @@
       },
       {
         "tableName": "LittleHouse",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`littleHouseMap` TEXT, `littleHouseCount` INTEGER, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`littleHouseMap` TEXT, `littleHouseCount` INTEGER, `littleHouseDisplayName` TEXT, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "littleHouseMap",
@@ -69,6 +75,100 @@
             "columnName": "littleHouseCount",
             "affinity": "INTEGER",
             "notNull": false
+          },
+          {
+            "fieldPath": "littleHouseDisplayName",
+            "columnName": "littleHouseDisplayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "MasterCounter",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `positionCounters` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "positionCounters",
+            "columnName": "positionCounters",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "SettingsDataClass",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`homeSelectTrash` INTEGER NOT NULL, `numberSettingsItem` INTEGER NOT NULL, `autoCalLittleHouse` INTEGER NOT NULL, `addSubButtonMode` INTEGER NOT NULL, `arrowsNavigation` INTEGER NOT NULL, `swipeNavigation` INTEGER NOT NULL, `sidebarReminder` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "homeSelectTrash",
+            "columnName": "homeSelectTrash",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "numberSettingsItem",
+            "columnName": "numberSettingsItem",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "autoCalLittleHouse",
+            "columnName": "autoCalLittleHouse",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "addSubButtonMode",
+            "columnName": "addSubButtonMode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "arrowsNavigation",
+            "columnName": "arrowsNavigation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "swipeNavigation",
+            "columnName": "swipeNavigation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sidebarReminder",
+            "columnName": "sidebarReminder",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "id",
@@ -90,7 +190,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aa39c72d5293897a9dcc258db995362d')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '287a27e38f69633529f7a47101bc2b11')"
     ]
   }
 }
