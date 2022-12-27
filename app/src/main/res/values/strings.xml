@@ -19,7 +19,7 @@
     <string name="ChangeCounter">Change Counter</string>
     <string name="NewName">New Name(Blank for no change)</string>
     <string name="NewCount">New Count(Blank for no change)</string>
-    <string name="cancel">cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="Cancelled">Cancelled</string>
     <string name="Change">change</string>
     <string name="Changing">Changing</string>

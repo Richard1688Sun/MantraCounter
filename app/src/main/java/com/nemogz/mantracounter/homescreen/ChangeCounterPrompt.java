@@ -57,7 +57,7 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
         mantraName.setHint(getString(R.string.NewName));
         mantraCount.setHint(getString(R.string.NewCount));
 
-        builder.setView(view).setTitle( getString(R.string.ChangeCounter) + ": " + counters.get(position).getDisplayName()).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        builder.setView(view).setTitle(getString(R.string.ChangeCounter) + ": " + counters.get(position).getDisplayName()).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getContext(), getString(R.string.Change) +" " + counters.get(position).getDisplayName() + " " + getString(R.string.Cancelled), Toast.LENGTH_SHORT).show();
