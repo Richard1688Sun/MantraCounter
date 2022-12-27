@@ -50,17 +50,17 @@ public class NewCounterPrompt extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.new_counter_prompt, null);
 
-        builder.setView(view).setTitle("New Mantra").setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        builder.setView(view).setTitle(getString(R.string.NewMantra)).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(), "create new counter canceled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.createNewCounterCancelled), Toast.LENGTH_SHORT).show();
             }
-        }).setPositiveButton("create", new DialogInterface.OnClickListener() {
+        }).setPositiveButton(getString(R.string.Change), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Editable notConvertedName = mantraName.getEditableText();
                 Editable unParsedInt = mantraCount.getEditableText();
-                String name = notConvertedName.toString().equals("")? "blank": notConvertedName.toString();
+                String name = notConvertedName.toString().equals("")? getString(R.string.blank): notConvertedName.toString();
                 int initialCount = unParsedInt.toString().equals("")? 0: Integer.parseInt(unParsedInt.toString());
                 counters = db.masterCounterDAO().getAllCounters();
                 Counter newCounter = new Counter(name, initialCount, requireContext());

@@ -54,15 +54,15 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
 
         mantraName = view.findViewById(R.id.newMantraName);
         mantraCount = view.findViewById(R.id.newMantraCount);
-        mantraName.setHint("New Name(Blank for no change)");
-        mantraCount.setHint("New Count(Blank for no change)");
+        mantraName.setHint(getString(R.string.NewName));
+        mantraCount.setHint(getString(R.string.NewCount));
 
-        builder.setView(view).setTitle("Changing Counter: " + counters.get(position).getDisplayName()).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        builder.setView(view).setTitle( getString(R.string.ChangeCounter) + ": " + counters.get(position).getDisplayName()).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(), "Change " + counters.get(position).getDisplayName() + " cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.Change) +" " + counters.get(position).getDisplayName() + " " + getString(R.string.Cancelled), Toast.LENGTH_SHORT).show();
             }
-        }).setPositiveButton("change", new DialogInterface.OnClickListener() {
+        }).setPositiveButton(getString(R.string.Change), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Editable notConvertedName = mantraName.getEditableText();
@@ -82,7 +82,7 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
                     int littleHouseCompleted = littleHouse.updateLittleHouseMapAndCount();
 
                     if(littleHouseCompleted != 0 && db.masterCounterDAO().getSettingsData().isAutoCalLittleHouse()) {
-                        Toast.makeText(getContext(), "Completed " + littleHouseCompleted + " " + getContext().getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), getString(R.string.Completed)+" " + littleHouseCompleted + " " + getContext().getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
                         for (Counter counter: counters) {
                             if (littleHouse.getLittleHouseMap().containsKey(counter.getOriginalName())) {
                                 counter.updateCounter(littleHouseCompleted);

@@ -50,7 +50,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
         switch (position) {
             case 0:
                 holder.iconView.setImageResource(R.drawable.ic_touch_icon_foreground);
-                holder.switchView.setText("Enable Add and Aubtract Mode");
+                holder.switchView.setText(context.getString(R.string.settingsAddSub));
                 holder.switchView.setChecked(settingsDataClass.isAddSubButtonMode());
                 holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -62,7 +62,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                 break;
             case 1:
                 holder.iconView.setImageResource(R.drawable.ic_auto_cal_littlehouse_foreground);
-                holder.switchView.setText("Enable Auto LittleHouse Calculation");
+                holder.switchView.setText(context.getString(R.string.settingsAutoCal));
                 holder.switchView.setChecked(settingsDataClass.isAutoCalLittleHouse());
                 holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -71,17 +71,10 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                         db.masterCounterDAO().insertSettingsData(settingsDataClass);
 
                         if (isChecked) {
-                            //finding the # of littleHouse completed
-//                            for (Counter counter: masterCounter.getCounters()) {
-//                                if (masterCounter.getLittleHouse().getLittleHouseMap().containsKey(counter.getOriginalName())) {
-//                                    int counterCompletes = counter.getNumberOfCompletes();
-//                                    masterCounter.getLittleHouse().incrementByValueCount(counter.getOriginalName(), counterCompletes);
-//                                }
-//                            }
                             int littleHouseCompleted = masterCounter.getLittleHouse().updateLittleHouseMapAndCount();
 
                             if (littleHouseCompleted != 0) {
-                                Toast.makeText(context, "Completed " + littleHouseCompleted + " " + context.getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.Completed)+" " + littleHouseCompleted + " " + context.getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
                                 for (Counter counter: masterCounter.getCounters()) {
                                     if (masterCounter.getLittleHouse().getLittleHouseMap().containsKey(counter.getOriginalName())) {
                                         counter.updateCounter(littleHouseCompleted);
@@ -96,7 +89,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                 break;
             case 2:
                 holder.iconView.setImageResource(R.drawable.ic_arrows_top_allow_foreground);
-                holder.switchView.setText("Enable Arrow Navigiation");
+                holder.switchView.setText(context.getString(R.string.settingsArrowNavigation));
                 holder.switchView.setChecked(settingsDataClass.isArrowsNavigation());
                 holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -108,7 +101,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                 break;
             case 3:
                 holder.iconView.setImageResource(R.drawable.ic_swipe_allow_foreground);
-                holder.switchView.setText("Enable Swipe Navigiation");
+                holder.switchView.setText(context.getString(R.string.settingsSwipeNavigation));
                 holder.switchView.setChecked(settingsDataClass.isSwipeNavigation());
                 holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -120,7 +113,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                 break;
             case 4:
                 holder.iconView.setImageResource(R.drawable.ic_sidebar_allow_foreground);
-                holder.switchView.setText("Enable Sidebar Reminder");
+                holder.switchView.setText(context.getString(R.string.settingsSideBar));
                 holder.switchView.setChecked(settingsDataClass.isSidebarReminder());
                 holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override

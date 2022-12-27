@@ -12,5 +12,21 @@
     <string name="jiejiezhou">解结咒</string>
     <string name="buchue">补阙真言</string>
     <string name="xiaofangzi">小房子</string>
+    <string name="settingsAddSub">加减切换</string>
+    <string name="settingsAutoCal">小房子计算</string>
+    <string name="settingsArrowNavigation">箭头界面切换</string>
+    <string name="settingsSwipeNavigation">划手界面切换</string>
+    <string name="settingsSideBar">小房子计算提醒</string>
+    <string name="cancel">取消</string>
+    <string name="Cancelled">取消了</string>
+    <string name="ChangeCounter">改变计数器</string>
+    <string name="Change">改变</string>
+    <string name="Changing">改变</string>
+    <string name="Completed">完成</string>
+    <string name="createNewCounterCancelled">添加计数器取消</string>
+    <string name="NewMantra">新经文</string>
+    <string name="blank">空白</string>
+    <string name="NewName">名字（空白=不变）</string>
+    <string name="NewCount">数字（空白=不变）</string>
 
 </resources>

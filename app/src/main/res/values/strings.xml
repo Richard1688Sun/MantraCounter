@@ -11,4 +11,20 @@
     <string name="jiejiezhou">JieJieZhou</string>
     <string name="buchue">BuQueZhenYan</string>
     <string name="xiaofangzi">XiaoFangZi</string>
+    <string name="settingsAddSub">Add and Subtract Mode</string>
+    <string name="settingsAutoCal">Auto Littlehouse Calculation</string>
+    <string name="settingsArrowNavigation">Top Arrow Navigation</string>
+    <string name="settingsSwipeNavigation">Swipe Navigation</string>
+    <string name="settingsSideBar">Sidebar Counter Reminder</string>
+    <string name="ChangeCounter">Change Counter</string>
+    <string name="NewName">New Name(Blank for no change)</string>
+    <string name="NewCount">New Count(Blank for no change)</string>
+    <string name="cancel">cancel</string>
+    <string name="Cancelled">Cancelled</string>
+    <string name="Change">change</string>
+    <string name="Changing">Changing</string>
+    <string name="Completed">Completed</string>
+    <string name="createNewCounterCancelled">Create New Counter Cancelled</string>
+    <string name="NewMantra">New Mantra</string>
+    <string name="blank">blank</string>
 </resources>

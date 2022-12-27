@@ -134,7 +134,8 @@ public class MainActivity extends AppCompatActivity {
                                 //click
                                 if(addMode){
                                     if (masterCounter.increment(masterCounter.getCounterAtPosition().getOriginalName(), settingsDataClass.isAutoCalLittleHouse())) {
-                                        Toast.makeText(getApplicationContext(), "Completed 1" + getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), getString(R.string.Completed)+ " 1" + " " + getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
+
                                     }
                                 }else{
                                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());
@@ -206,17 +207,14 @@ public class MainActivity extends AppCompatActivity {
         textMantra.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                Log.d("test", "beforeTextChange");
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Log.d("test", "duringTextChange");
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d("test", "afterTextChange " + textMantra.getText());
                 masterCounter.getCounterAtPosition().setDisplayName(textMantra.getText().toString());
             }
         });

@@ -46,15 +46,15 @@ public class ChangeLittleHousePrompt extends AppCompatDialogFragment {
 
         mantraName = view.findViewById(R.id.newMantraName);
         mantraCount = view.findViewById(R.id.newMantraCount);
-        mantraName.setHint("New Name(Blank for no change)");
-        mantraCount.setHint("New Count(Blank for no change)");
+        mantraName.setHint(getString(R.string.NewName));
+        mantraCount.setHint(getString(R.string.NewCount));
 
-        builder.setView(view).setTitle("Changing: " + littleHouse.getLittleHouseDisplayName()).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+        builder.setView(view).setTitle( getString(R.string.Changing) + ": " + littleHouse.getLittleHouseDisplayName()).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(), "Change " + littleHouse.getLittleHouseDisplayName() + " cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getString(R.string.Change) + " " + littleHouse.getLittleHouseDisplayName() + " " + getString(R.string.Cancelled), Toast.LENGTH_SHORT).show();
             }
-        }).setPositiveButton("change", new DialogInterface.OnClickListener() {
+        }).setPositiveButton(getString(R.string.Change), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Editable notConvertedName = mantraName.getEditableText();
