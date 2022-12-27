@@ -4,7 +4,7 @@
 * [Setup](#setup)
 
 ## General info
-This project is simple Lorem ipsum dolor generator.
+This project is Mantra Counter app. Can automatically update LittleHouse mantra count when the corresponding mantras(DaBeiZhou, XingJin, WangShengJingTuShenZhou, QiFoMieZuiZhenYan) reach their required amount.
 	
 ## Technologies
 Project is created with:
