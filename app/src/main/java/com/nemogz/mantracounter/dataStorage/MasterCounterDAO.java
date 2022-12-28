@@ -35,7 +35,7 @@ public interface MasterCounterDAO {
     public void insertCounter(Counter counter);
 
     @Query("SELECT * FROM mastercounter")
-    public MasterCounter getMasterCounterPosition();
+    public MasterCounter getMasterCounter();
 
     @Query("SELECT * FROM counter")
     public List<Counter> getAllCounters();

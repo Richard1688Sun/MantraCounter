@@ -106,7 +106,6 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
                 }
                 else {
                     db.masterCounterDAO().insertAllCounters(counters);
-                    db.masterCounterDAO().insertLittleHouse(littleHouse);
                     //resets the grid view to include new counter
                     adapter.setCounters(counters);
                     adapter.notifyItemChanged(position);

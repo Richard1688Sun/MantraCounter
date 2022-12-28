@@ -18,7 +18,6 @@ import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 import com.nemogz.mantracounter.homescreen.ChangeLittleHousePrompt;
 import com.nemogz.mantracounter.homescreen.CounterMainRecViewAdapter;
-import com.nemogz.mantracounter.homescreen.NewCounterPrompt;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 import java.util.List;
@@ -29,6 +28,9 @@ public class HomeScreenActivity extends AppCompatActivity {
     private CardView littleHouseItemView;
     private TextView littleHouseNameItem;
     private TextView littleHouseCountItem;
+    private CardView homeworkItemView;
+    private TextView homeworkNameItem;
+    private TextView homeworkCountItem;
     private FloatingActionButton settingButton;
     private FloatingActionButton trashButton;
     public MasterCounterDatabase db;
@@ -72,6 +74,24 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
+        homeworkItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent homeworkScreenIntent = new Intent(getApplicationContext(), HomeworkScreenActivity.class);
+                startActivity(homeworkScreenIntent);
+            }
+        });
+
+//        homeworkItemView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                ChangeLittleHousePrompt changeLittleHousePrompt = new ChangeLittleHousePrompt(HomeScreenActivity.this);
+//                changeLittleHousePrompt.show(getSupportFragmentManager(), "test");
+//                return true;
+//                return false;
+//            }
+//        });
+
         trashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,12 +125,17 @@ public class HomeScreenActivity extends AppCompatActivity {
         littleHouseNameItem = findViewById(R.id.littleHouseNameItem);
         settingButton = findViewById(R.id.settingButtonHome);
         trashButton = findViewById(R.id.trashButtonHome);
+        homeworkItemView = findViewById(R.id.homeworkItem);
+        homeworkCountItem = findViewById(R.id.homeworkCountItem);
+        homeworkNameItem = findViewById(R.id.homeworkNameItem);
     }
 
     public void setBasicCounterView() {
         //masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
         littleHouseNameItem.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName());
         littleHouseCountItem.setText(masterCounter.getLittleHouse().getLittleHouseCount().toString());
+        homeworkNameItem.setText(masterCounter.getHomeworkDisplayName());
+        homeworkCountItem.setText(masterCounter.getHomeworkCount().toString());
     }
 
     private void createDataBase(Context context) {
@@ -131,9 +156,12 @@ public class HomeScreenActivity extends AppCompatActivity {
         }
         List<Counter> c = db.masterCounterDAO().getAllCounters();
         LittleHouse lh = db.masterCounterDAO().getLittleHouse();
+        MasterCounter mc = db.masterCounterDAO().getMasterCounter();
         masterCounter.setCounters(c);
         masterCounter.setLittleHouse(lh);
-        masterCounter.setPositionCounters(db.masterCounterDAO().getMasterCounterPosition().getPositionCounters());
+        masterCounter.setPositionCounters(mc.getPositionCounters());
+        masterCounter.setHomeworkDisplayName(mc.getHomeworkDisplayName());
+        masterCounter.setHomeworkCount(mc.getHomeworkCount());
         return true;
     }
 }

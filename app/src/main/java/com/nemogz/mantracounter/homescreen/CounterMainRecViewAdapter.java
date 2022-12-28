@@ -35,7 +35,7 @@ import java.util.List;
 
 public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainRecViewAdapter.ViewHolder>{
 
-    private MasterCounter masterCounter = new MasterCounter(0);
+    private MasterCounter masterCounter;
     private Context context;
     public MasterCounterDatabase db;
     private HomeScreenActivity homeScreenActivity;
@@ -95,7 +95,8 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
                 @Override
                 public void onClick(View v) {
                     //Toast.makeText(context, masterCounter.getCounters().get(position).getDisplayName() + " Selected", Toast.LENGTH_SHORT).show();
-                    db.masterCounterDAO().insertCounterPosition(new MasterCounter(position));
+                    masterCounter.setPositionCounters(position);
+                    db.masterCounterDAO().insertCounterPosition(masterCounter);
                     Intent counterScreenIntent = new Intent(context, MainActivity.class);
                     context.startActivity(counterScreenIntent);
                 }

@@ -22,10 +22,12 @@ import java.util.List;
 public class SettingsScreen extends AppCompatActivity {
 
     public MasterCounterDatabase db;
-    private MasterCounter masterCounter = new MasterCounter(0);
+    private MasterCounter masterCounter = new MasterCounter(0,0,"temp");
     private RecyclerView settingsRecView;
     private FloatingActionButton homeButton;
     private SettingsDataClass settingsDataClass;
+    private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +75,10 @@ public class SettingsScreen extends AppCompatActivity {
         LittleHouse lh = db.masterCounterDAO().getLittleHouse();
         masterCounter.setCounters(c);
         masterCounter.setLittleHouse(lh);
-        masterCounter.setPositionCounters(db.masterCounterDAO().getMasterCounterPosition().getPositionCounters());
+        MasterCounter mc = db.masterCounterDAO().getMasterCounter();
+        masterCounter.setPositionCounters(mc.getPositionCounters());
+        masterCounter.setHomeworkDisplayName(mc.getHomeworkDisplayName());
+        masterCounter.setHomeworkCount(mc.getHomeworkCount());
         settingsDataClass = db.masterCounterDAO().getSettingsData();
         return true;
     }

@@ -27,4 +27,7 @@
     <string name="createNewCounterCancelled">Create New Counter Cancelled</string>
     <string name="NewMantra">New Mantra</string>
     <string name="blank">blank</string>
+    <string name="dailyHomework">Daily Homework</string>
+    <string name="cannotCompleteHW">Cannot Complete Homework</string>
+    <string name="missing">Missing: </string>
 </resources>

@@ -44,7 +44,6 @@ public class Counter implements CounterInterface {
     @ColumnInfo
     private final String qifo;
 
-
     @PrimaryKey
     @NotNull
     private final String originalName;
@@ -55,6 +54,9 @@ public class Counter implements CounterInterface {
     @ColumnInfo
     private Integer count;
 
+    @ColumnInfo
+    private Integer homeworkAmount;
+
     public Counter(@NonNull String originalName, Integer count, String dabei, String boruo, String qifo, String wangshen) {
         this.originalName = originalName;
         this.count = count;
@@ -63,6 +65,7 @@ public class Counter implements CounterInterface {
         this.wangshen = wangshen;
         this.qifo = qifo;
         this.displayName = originalName;
+        this.homeworkAmount = 0;
     }
 
     public Counter(@NonNull String originalName, Integer count, Context context) {
@@ -74,6 +77,7 @@ public class Counter implements CounterInterface {
         this.boruo = context.getString(R.string.boruo);
         this.wangshen = context.getString(R.string.wangshen);
         this.qifo = context.getString(R.string.qifo);
+        this.homeworkAmount = 0;
     }
 
     @Override
@@ -158,6 +162,29 @@ public class Counter implements CounterInterface {
         return 0;
     }
 
+    /**
+     * Finds the amount the count needs to complete 1 homework
+     * @return the number of counts that are missing to complete homework
+     */
+    public int homeworkAmountMissing() {
+        if (count >= homeworkAmount) {
+            return 0;
+        }
+        return homeworkAmount - count;
+    }
+
+    /**
+     * subtracts from count the homework amount
+     * @return true if count is non-negative after subtraction
+     */
+    public boolean completeHomework() {
+        if(count - homeworkAmount >= 0) {
+            count = count - homeworkAmount;
+            return true;
+        }
+        return false;
+    }
+
     public String getOriginalName() {
         return originalName;
     }
@@ -188,5 +215,15 @@ public class Counter implements CounterInterface {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public Integer getHomeworkAmount() {
+        return homeworkAmount;
+    }
+
+    public void setHomeworkAmount(Integer homeworkAmount) {
+        if (homeworkAmount >= 0) {
+            this.homeworkAmount = homeworkAmount;
+        }
     }
 }

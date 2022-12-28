@@ -27,6 +27,8 @@ import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
+import java.util.UUID;
 
 public class NewCounterPrompt extends AppCompatDialogFragment {
 
@@ -61,9 +63,17 @@ public class NewCounterPrompt extends AppCompatDialogFragment {
                 Editable notConvertedName = mantraName.getEditableText();
                 Editable unParsedInt = mantraCount.getEditableText();
                 String name = notConvertedName.toString().equals("")? getString(R.string.blank): notConvertedName.toString();
+                String DName = name;
                 int initialCount = unParsedInt.toString().equals("")? 0: Integer.parseInt(unParsedInt.toString());
                 counters = db.masterCounterDAO().getAllCounters();
+
+                for (Counter counter: counters) {
+                    if (name.equals(counter.getOriginalName())) {
+                        name = DName + UUID.randomUUID().toString();
+                    }
+                }
                 Counter newCounter = new Counter(name, initialCount, requireContext());
+                newCounter.setDisplayName(DName);
                 db.masterCounterDAO().insertCounter(newCounter);
                 //resets the grid view to include new counter
                 counters.add(newCounter);

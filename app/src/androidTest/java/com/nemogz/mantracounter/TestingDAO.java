@@ -1,20 +1,15 @@
 package com.nemogz.mantracounter;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.room.Ignore;
 import androidx.room.Room;
-import androidx.room.RoomDatabase;
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
-import com.nemogz.mantracounter.dataStorage.MasterCounterDAO;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 
 import org.junit.After;
@@ -126,7 +121,7 @@ public class TestingDAO {
         MasterCounter masterCounter = new MasterCounter(2);
         db.masterCounterDAO().insertCounterPosition(masterCounter);
 
-        int l = db.masterCounterDAO().getMasterCounterPosition().getPositionCounters();
+        int l = db.masterCounterDAO().getMasterCounter().getPositionCounters();
 
         Log.d("positionCounter", "testingPositionCounter: " + l);
     }

@@ -16,12 +16,12 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="15dp"
         android:elevation="10dp"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toStartOf="@+id/settingButtonHome"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardBackgroundColor="@color/white">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -75,6 +75,69 @@
 
     </androidx.cardview.widget.CardView>
 
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/homeworkItem"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="15dp"
+        android:elevation="10dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline6">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:minWidth="100dp"
+            android:minHeight="100dp"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/homeworkNameItem"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:autoSizeMaxTextSize="45sp"
+                android:autoSizeMinTextSize="25sp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
+                android:background="@color/white"
+                android:padding="5dp"
+                android:text="homework name"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/homeworkCountItem"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/homeworkCountItem"
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:autoSizeMaxTextSize="55sp"
+                android:autoSizeMinTextSize="30sp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:text="homework Count"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/homeworkNameItem" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/settingButtonHome"
         android:layout_width="wrap_content"
@@ -85,7 +148,7 @@
         android:elevation="100dp"
         android:src="@drawable/ic_baseline_settings_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/littleHouseItem" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/trashButtonHome"
@@ -97,18 +160,15 @@
         android:clickable="true"
         android:elevation="100dp"
         android:src="@drawable/ic_trash_icon"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settingButtonHome" />
+        app:layout_constraintBottom_toBottomOf="@+id/littleHouseItem"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/HomeScreenRecView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@+id/littleHouseItem"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
-        android:layout_marginRight="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.842"
@@ -120,6 +180,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="163dp" />
+        app:layout_constraintGuide_begin="331dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="184dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

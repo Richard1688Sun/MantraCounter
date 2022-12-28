@@ -1,6 +1,8 @@
 package com.nemogz.mantracounter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,17 +16,24 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nemogz.mantracounter.counterStuff.Counter;
+import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
+import com.nemogz.mantracounter.homeworkScreen.HomeworkItemAdapter;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
-public class LittleHouseItemActivity extends AppCompatActivity {
+import java.util.List;
+
+public class HomeworkScreenActivity extends AppCompatActivity {
 
     public MasterCounterDatabase db;
-    private EditText littleHouseNameScreen;
-    private Button littleHouseCountScreen;
+    private EditText homeworkNameScreen;
+    private Button homeworkCountScreen;
+    private RecyclerView homeworkRecView;
     private FloatingActionButton buttonHome;
     private FloatingActionButton buttonMode;
     private FloatingActionButton buttonTool;
@@ -42,7 +51,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("state", "onCreate");
         masterCounter = new MasterCounter(getApplicationContext());
-        setContentView(R.layout.activity_littlehouse_screen);
+        setContentView(R.layout.activity_homework_screen);
         createDataBase(getApplicationContext());
         inputInitialSettings();
         if (!loadDataFromDatabase()) {
@@ -53,9 +62,15 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         hasVibratorFunction = vibrator.hasVibrator();
         setCounterView();
 
+        HomeworkItemAdapter homeworkItemAdapter = new HomeworkItemAdapter(this);
+        homeworkItemAdapter.setMasterCounter(masterCounter);
+
+        homeworkRecView.setAdapter(homeworkItemAdapter);
+
+        homeworkRecView.setLayoutManager(new LinearLayoutManager(this));
 
         //for all types of clicks on Main Button
-        littleHouseCountScreen.setOnTouchListener(new View.OnTouchListener() {
+        homeworkCountScreen.setOnTouchListener(new View.OnTouchListener() {
             float xStart;
             float yStart;
             float xEnd;
@@ -77,18 +92,26 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                         releasedTime = event.getEventTime();
                         if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
                             ///long click
-                            masterCounter.getLittleHouse().setLittleCount(0);
+                            masterCounter.resetHomeworkCount();
                             if (hasVibratorFunction) vibrator.vibrate(200);
                             setCounterView();
                         }
                         else {
                             //click
                             if(addMode){
-                                masterCounter.getLittleHouse().setLittleCount(masterCounter.getLittleHouse().getLittleHouseCount() + 1);
+                                if (masterCounter.canCompleteHomework()) {
+                                    masterCounter.incrementHomework();
+                                    homeworkItemAdapter.notifyDataSetChanged();
+                                    if (hasVibratorFunction) vibrator.vibrate(100);
+                                }
+                                else {
+                                    Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.cannotCompleteHW), Toast.LENGTH_SHORT).show();
+                                    if (hasVibratorFunction) vibrator.vibrate(200);
+                                }
                             }else{
-                                masterCounter.getLittleHouse().decrementLittleHouseCount();
+                                masterCounter.decrementHomework();
+                                if (hasVibratorFunction) vibrator.vibrate(100);
                             }
-                            if (hasVibratorFunction) vibrator.vibrate(100);
                             setCounterView();
                         }
                         break;
@@ -113,7 +136,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                 else {
                     addMode = true;
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
-                    masterCounter.getLittleHouse().decrementLittleHouseCount();
+                    masterCounter.decrementHomework();
                     if (hasVibratorFunction) vibrator.vibrate(100);
                     setCounterView();
                 }
@@ -127,7 +150,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
             }
         });
 
-        littleHouseNameScreen.addTextChangedListener(new TextWatcher() {
+        homeworkNameScreen.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -138,7 +161,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                masterCounter.getLittleHouse().setLittleHouseDisplayName(littleHouseNameScreen.getText().toString());
+                masterCounter.setHomeworkDisplayName(homeworkNameScreen.getText().toString());
             }
         });
 
@@ -178,16 +201,17 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     }
 
     private void instantiateViews(){
-        littleHouseCountScreen = findViewById(R.id.littleHouseCountScreen);
+        homeworkCountScreen = findViewById(R.id.HomeworkCountScreen);
         buttonHome = findViewById(R.id.HomePageButton);
         buttonMode = findViewById(R.id.ModeButton);
         buttonTool = findViewById(R.id.ToolBarButton);
-        littleHouseNameScreen = findViewById(R.id.littleHouseNameScreen);
+        homeworkNameScreen = findViewById(R.id.HomeworkNameScreen);
+        homeworkRecView = findViewById(R.id.homeworkRecyclerView);
     }
 
     private void setCounterView(){
-        littleHouseNameScreen.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName());
-        littleHouseCountScreen.setText(masterCounter.getLittleHouse().getLittleHouseCount().toString());
+        homeworkNameScreen.setText(masterCounter.getHomeworkDisplayName());
+        homeworkCountScreen.setText(masterCounter.getHomeworkCount().toString());
     }
 
     private void createDataBase(Context context) {
@@ -199,12 +223,14 @@ public class LittleHouseItemActivity extends AppCompatActivity {
      * @return true if data was detected and loaded, false otherwise
      */
     private boolean loadDataFromDatabase() {
-        if(db.masterCounterDAO().getLittleHouse() == null || db.masterCounterDAO().getSettingsData() == null || db.masterCounterDAO().getAllCounters().size() == 0) {
+        if(db.masterCounterDAO().getAllCounters().size() == 0 && db.masterCounterDAO().getLittleHouse() == null) {
             return false;
         }
-        masterCounter.setCounters(db.masterCounterDAO().getAllCounters());
-        masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
+        List<Counter> c = db.masterCounterDAO().getAllCounters();
+        LittleHouse lh = db.masterCounterDAO().getLittleHouse();
         MasterCounter mc = db.masterCounterDAO().getMasterCounter();
+        masterCounter.setCounters(c);
+        masterCounter.setLittleHouse(lh);
         masterCounter.setPositionCounters(mc.getPositionCounters());
         masterCounter.setHomeworkDisplayName(mc.getHomeworkDisplayName());
         masterCounter.setHomeworkCount(mc.getHomeworkCount());

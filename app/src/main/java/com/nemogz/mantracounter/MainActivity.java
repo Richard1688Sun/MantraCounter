@@ -19,9 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nemogz.mantracounter.counterStuff.Counter;
+import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -316,8 +320,11 @@ public class MainActivity extends AppCompatActivity {
         }
         masterCounter.setCounters(db.masterCounterDAO().getAllCounters());
         masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
-        masterCounter.setPositionCounters(db.masterCounterDAO().getMasterCounterPosition().getPositionCounters());
         settingsDataClass = db.masterCounterDAO().getSettingsData();
+        MasterCounter mc = db.masterCounterDAO().getMasterCounter();
+        masterCounter.setPositionCounters(mc.getPositionCounters());
+        masterCounter.setHomeworkDisplayName(mc.getHomeworkDisplayName());
+        masterCounter.setHomeworkCount(mc.getHomeworkCount());
         return true;
     }
 

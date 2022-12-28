@@ -2,6 +2,7 @@ package com.nemogz.mantracounter.counterStuff;
 
 import android.content.Context;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -49,7 +50,12 @@ public class MasterCounter implements MasterCounterInterface {
     @NotNull
     private String id = "masterCounter";
 
+    @ColumnInfo
     private Integer positionCounters;
+    @ColumnInfo
+    private Integer homeworkCount;
+    @ColumnInfo
+    private String homeworkDisplayName;
 
     public MasterCounter(Context context) {
         this.context = context;
@@ -60,10 +66,12 @@ public class MasterCounter implements MasterCounterInterface {
         this.boruo = context.getString(R.string.boruo);
         this.wangshen = context.getString(R.string.wangshen);
         this.qifo = context.getString(R.string.qifo);
+        this.homeworkCount = 0;
+        this.homeworkDisplayName = context.getString(R.string.dailyHomework);
     }
 
     //made for the sqlite I don't know why
-    public MasterCounter(Integer positionCounters) {
+    public MasterCounter(Integer positionCounters, Integer homeworkCount, String homeworkDisplayName) {
         this.context = null;
         this.littleHouse = new LittleHouse(0);
         this.counters = new ArrayList<>();
@@ -72,6 +80,8 @@ public class MasterCounter implements MasterCounterInterface {
         this.boruo = null;
         this.wangshen = null;
         this.qifo = null;
+        this.homeworkCount = homeworkCount;
+        this.homeworkDisplayName = homeworkDisplayName;
     }
 
     public MasterCounter(Context context, LittleHouse littleHouse, List<Counter> counters, int positionCounters) {
@@ -83,6 +93,8 @@ public class MasterCounter implements MasterCounterInterface {
         this.boruo = context.getString(R.string.boruo);
         this.wangshen = context.getString(R.string.wangshen);
         this.qifo = context.getString(R.string.qifo);
+        this.homeworkCount = 0;
+        this.homeworkDisplayName = context.getString(R.string.dailyHomework);
     }
 
     @Override
@@ -236,5 +248,57 @@ public class MasterCounter implements MasterCounterInterface {
 
     public void setId(@NotNull String id) {
         this.id = id;
+    }
+
+    public Integer getHomeworkCount() {
+        return homeworkCount;
+    }
+
+    public void setHomeworkCount(Integer homeworkCount) {
+        this.homeworkCount = homeworkCount;
+    }
+
+    public String getHomeworkDisplayName() {
+        return homeworkDisplayName;
+    }
+
+    public void setHomeworkDisplayName(String homeworkDisplayName) {
+        this.homeworkDisplayName = homeworkDisplayName;
+    }
+
+    /**
+     * assume homework can be completed
+     */
+    public void incrementHomework() {
+
+        for (Counter counter: counters) {
+            counter.completeHomework();
+        }
+        homeworkCount++;
+    }
+
+    /**
+     * Checks if homework can be completed
+     * @return true if homework can be completed, false otherwise
+     */
+    public boolean canCompleteHomework() {
+        for (Counter counter: counters) {
+            if (counter.homeworkAmountMissing() != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean decrementHomework() {
+        if (homeworkCount - 1 < 0) {
+            return false;
+        }
+        homeworkCount--;
+        return true;
+    }
+
+    public void resetHomeworkCount() {
+        homeworkCount = 0;
     }
 }
