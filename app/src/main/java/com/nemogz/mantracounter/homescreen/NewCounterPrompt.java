@@ -85,7 +85,7 @@ public class NewCounterPrompt extends AppCompatDialogFragment {
         mantraName = view.findViewById(R.id.newMantraName);
         mantraCount = view.findViewById(R.id.newMantraCount);
         mantraName.setHint(getString(R.string.NewMantra));
-        mantraCount.setHint(getString(R.string.NewCount));
+        mantraCount.setHint(getString(R.string.NewCountZero));
         return builder.create();
     }
 

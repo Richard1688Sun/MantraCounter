@@ -18,6 +18,7 @@ import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 import com.nemogz.mantracounter.homescreen.ChangeLittleHousePrompt;
 import com.nemogz.mantracounter.homescreen.CounterMainRecViewAdapter;
+import com.nemogz.mantracounter.homeworkScreen.ChangeHomeworkPrompt;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 import java.util.List;
@@ -82,15 +83,14 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
-//        homeworkItemView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                ChangeLittleHousePrompt changeLittleHousePrompt = new ChangeLittleHousePrompt(HomeScreenActivity.this);
-//                changeLittleHousePrompt.show(getSupportFragmentManager(), "test");
-//                return true;
-//                return false;
-//            }
-//        });
+        homeworkItemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                ChangeHomeworkPrompt changeHomeworkPrompt = new ChangeHomeworkPrompt(HomeScreenActivity.this);
+                changeHomeworkPrompt.show(getSupportFragmentManager(), "test");
+                return true;
+            }
+        });
 
         trashButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +144,10 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     public void setLittleHouse(LittleHouse littleHouse) {
         masterCounter.setLittleHouse(littleHouse);
+    }
+
+    public void setMasterCounter(MasterCounter masterCounter) {
+        this.masterCounter = masterCounter;
     }
 
     /**

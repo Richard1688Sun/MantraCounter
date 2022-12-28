@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
@@ -287,10 +288,10 @@ public class MainActivity extends AppCompatActivity {
      */
     private void testViewUP(){
         if (settingsDataClass.isAutoCalLittleHouse()) {
-            t1.setText(masterCounter.getCounters().get(0).getDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.dabei)).intValue());
-            t2.setText(masterCounter.getCounters().get(1).getDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.boruo)).intValue());
-            t3.setText(masterCounter.getCounters().get(2).getDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.wangshen)).intValue());
-            t4.setText(masterCounter.getCounters().get(3).getDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.qifo)).intValue());
+            t1.setText(masterCounter.getCounters().get(0).getDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.dabei)).intValue() + " -> " + (masterCounter.getCounters().get(0).getCount() - masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.dabei)).intValue()* Counter.DaBeiLimit));
+            t2.setText(masterCounter.getCounters().get(1).getDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.boruo)).intValue() + " -> " + (masterCounter.getCounters().get(1).getCount() - masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.boruo)).intValue()* Counter.BoRuoLimit));
+            t3.setText(masterCounter.getCounters().get(2).getDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.wangshen)).intValue() + " -> " + (masterCounter.getCounters().get(2).getCount() - masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.wangshen)).intValue()* Counter.WangShenLimit));
+            t4.setText(masterCounter.getCounters().get(3).getDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.qifo)).intValue() + " -> " + (masterCounter.getCounters().get(3).getCount() - masterCounter.getLittleHouse().getLittleHouseMap().get(getString(R.string.qifo)).intValue()* Counter.QiFoLimit));
             t5.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName() + ": " + masterCounter.getLittleHouse().getLittleHouseCount());
         }
         else {

@@ -215,4 +215,6 @@ public class Counter implements CounterInterface {
             this.homeworkAmount = homeworkAmount;
         }
     }
+
+
 }

@@ -31,5 +31,6 @@
     <string name="dailyHomework">每日功课</string>
     <string name="cannotCompleteHW">不能完成功课</string>
     <string name="missing">缺失：</string>
+    <string name="NewCountZero">数字（空白=0）</string>
 
 </resources>
