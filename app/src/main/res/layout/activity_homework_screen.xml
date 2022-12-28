@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/basicBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gold_light">
+    android:theme="@style/Theme.MantraCounter">
 
     <EditText
         android:id="@+id/HomeworkNameScreen"
@@ -27,11 +28,11 @@
         android:id="@+id/homeworkRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:backgroundTint="@color/gold_dark"
         app:layout_constraintBottom_toTopOf="@+id/guideline5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/HomeworkNameScreen"
-        android:backgroundTint="@color/gold_dark"/>
+        app:layout_constraintTop_toBottomOf="@+id/HomeworkNameScreen" />
 
     <Button
         android:id="@+id/HomeworkCountScreen"
@@ -42,16 +43,15 @@
         android:autoSizeMinTextSize="50dp"
         android:autoSizeStepGranularity="2sp"
         android:autoSizeTextType="uniform"
-        android:backgroundTint="@color/gold_light"
         android:gravity="center_horizontal"
         android:maxLines="1"
         android:text="0"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline5" />
+        app:layout_constraintTop_toTopOf="@+id/guideline5"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ToolBarButton"

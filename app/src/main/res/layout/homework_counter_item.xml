@@ -2,6 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homeworkItemCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
@@ -24,9 +25,8 @@
 
         <EditText
             android:id="@+id/homeworkCounterAmountItem"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
             android:autofillHints=""
             android:background="@null"
             android:cursorVisible="false"
@@ -38,6 +38,7 @@
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -46,7 +47,7 @@
             android:layout_height="0dp"
             android:layout_marginRight="5dp"
             android:autoSizeMaxTextSize="35dp"
-            android:autoSizeMinTextSize="15dp"
+            android:autoSizeMinTextSize="10dp"
             android:autoSizeStepGranularity="2dp"
             android:autoSizeTextType="uniform"
             android:gravity="center_vertical"
@@ -61,13 +62,13 @@
             android:id="@+id/homeworkWarning"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="64dp"
             android:gravity="center"
             android:text="missing: 0"
             android:textColor="#ED125D"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/homeworkCounterAmountItem"
+            app:layout_constraintEnd_toEndOf="@+id/homeworkCounterAmountItem"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 

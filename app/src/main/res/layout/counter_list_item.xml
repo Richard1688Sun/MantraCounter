@@ -20,7 +20,7 @@
         <TextView
             android:id="@+id/mantraNameItem"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_margin="5dp"
             android:autoSizeMaxTextSize="25sp"
             android:autoSizeMinTextSize="10sp"
@@ -32,6 +32,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/guideline7"
             app:layout_constraintEnd_toStartOf="@+id/removeButtonCounterHome"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +42,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_centerHorizontal="true"
-            android:autoSizeMaxTextSize="30sp"
+            android:autoSizeMaxTextSize="35sp"
             android:autoSizeMinTextSize="20sp"
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
@@ -53,7 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mantraNameItem" />
+            app:layout_constraintTop_toTopOf="@+id/guideline7"/>
 
         <ImageView
             android:id="@+id/addImageView"
@@ -82,6 +83,13 @@
             app:fabSize="mini"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="45dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

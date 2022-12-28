@@ -15,6 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nemogz.mantracounter.R;
@@ -77,25 +78,6 @@ public class HomeworkItemAdapter extends RecyclerView.Adapter<HomeworkItemAdapte
                 return false;
             }
         });
-
-//        holder.homeworkCount.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                holder.homeworkCount.setHint("Test");
-//                Log.d("test", "working");
-//                String unconverted = holder.homeworkCount.getText().toString();
-//                if (unconverted.equals("")) {
-//                    masterCounter.getCounters().get(position).setHomeworkAmount(0);
-//                    db.masterCounterDAO().insertCounter(masterCounter.getCounters().get(position));
-//                    notifyItemChanged(position);
-//                }
-//                else {
-//                    masterCounter.getCounters().get(position).setHomeworkAmount(Integer.parseInt(unconverted));
-//                    db.masterCounterDAO().insertCounter(masterCounter.getCounters().get(position));
-//                    notifyItemChanged(position);
-//                }
-//            }
-//        });
     }
 
 
@@ -109,12 +91,14 @@ public class HomeworkItemAdapter extends RecyclerView.Adapter<HomeworkItemAdapte
         TextView homeworkText;
         EditText homeworkCount;
         TextView homeworkMissingText;
+        CardView homeworkItemCardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             homeworkText = itemView.findViewById(R.id.homeworkCounterNameItem);
             homeworkCount = itemView.findViewById(R.id.homeworkCounterAmountItem);
             homeworkMissingText = itemView.findViewById(R.id.homeworkWarning);
+            homeworkItemCardView = itemView.findViewById(R.id.homeworkItemCardView);
         }
     }
 
