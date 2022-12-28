@@ -28,5 +28,8 @@
     <string name="blank">空白</string>
     <string name="NewName">名字（空白=不变）</string>
     <string name="NewCount">数字（空白=不变）</string>
+    <string name="dailyHomework">每日功课</string>
+    <string name="cannotCompleteHW">不能完成功课</string>
+    <string name="missing">缺失：</string>
 
 </resources>
