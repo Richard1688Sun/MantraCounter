@@ -173,17 +173,6 @@ public class Counter implements CounterInterface {
         return homeworkAmount - count;
     }
 
-    /**
-     * subtracts from count the homework amount
-     * @return true if count is non-negative after subtraction
-     */
-    public boolean completeHomework() {
-        if(count - homeworkAmount >= 0) {
-            count = count - homeworkAmount;
-            return true;
-        }
-        return false;
-    }
 
     public String getOriginalName() {
         return originalName;

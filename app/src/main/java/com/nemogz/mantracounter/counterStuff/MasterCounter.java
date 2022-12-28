@@ -272,7 +272,9 @@ public class MasterCounter implements MasterCounterInterface {
     public void incrementHomework() {
 
         for (Counter counter: counters) {
-            counter.completeHomework();
+            for (int i =0; i < counter.getHomeworkAmount(); i++) {
+                this.decrement(counter.getOriginalName());
+            }
         }
         homeworkCount++;
     }
