@@ -20,6 +20,8 @@ Counter Screen:
 HomePage:
 * Tap box to enter the counter screen of counter
 * Hold box to rename counter or set the counter amount 
+* Tap Trash Button to enable counter deletion
+* * cannot delete first 4 counters
 <img src="https://user-images.githubusercontent.com/112845533/209893816-5baa8eb9-4ff2-4bc4-9889-85121c4c147a.jpg" height="20%" width="20%" >
 
 ## Features
