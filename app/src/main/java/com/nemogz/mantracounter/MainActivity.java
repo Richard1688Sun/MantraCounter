@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                                 ///long click
                                 masterCounter.setCount(masterCounter.getCounterAtPosition().getOriginalName(), 0);
                                 masterCounter.getLittleHouse().setLittleHouseByName(masterCounter.getCounterAtPosition().getOriginalName(), 0);
-                                if (hasVibratorFunction) vibrator.vibrate(200);
+                                if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
                                 setCounterView();
                             }
                             else {
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                                     boolean bool = masterCounter.increment(masterCounter.getCounterAtPosition().getOriginalName(), settingsDataClass.isAutoCalLittleHouse());
                                     if (bool) {
                                         Toast.makeText(getApplicationContext(), getString(R.string.Completed)+ " 1" + " " + getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
-                                        if (hasVibratorFunction) vibrator.vibrate(1000);
+                                        if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(1000);
                                         if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
                                         setCounterView();
                                         break;
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());
                                     if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                                 }
-                                if (hasVibratorFunction) vibrator.vibrate(100);
+                                if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                                 setCounterView();
                             }
                         }
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                     addMode = true;
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());
-                    if (hasVibratorFunction) vibrator.vibrate(100);
+                    if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                     if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                     setCounterView();
                 }
@@ -362,7 +362,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inputInitialSettings() {
-        settingsDataClass = new SettingsDataClass(false,false, false, false, false, false, false);
+        settingsDataClass = new SettingsDataClass(false,false, false, false, false, false, false, false);
     }
 
     private void createMediaPlayer() {

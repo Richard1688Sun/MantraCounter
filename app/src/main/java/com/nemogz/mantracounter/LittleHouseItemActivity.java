@@ -86,7 +86,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                         if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
                             ///long click
                             masterCounter.getLittleHouse().setLittleCount(0);
-                            if (hasVibratorFunction) vibrator.vibrate(200);
+                            if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
                             setCounterView();
                         }
                         else {
@@ -98,7 +98,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                                 masterCounter.getLittleHouse().decrementLittleHouseCount();
                                 if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                             }
-                            if (hasVibratorFunction) vibrator.vibrate(100);
+                            if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                             setCounterView();
                         }
                         break;
@@ -124,7 +124,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                     addMode = true;
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.getLittleHouse().decrementLittleHouseCount();
-                    if (hasVibratorFunction) vibrator.vibrate(100);
+                    if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                     if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
 
                     setCounterView();
@@ -237,7 +237,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
 
     private void inputInitialSettings() {
         if (db.masterCounterDAO().getSettingsData() == null) {
-            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false, false, false, false));
+            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false, false, false, false, false));
         }
     }
 

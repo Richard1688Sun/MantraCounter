@@ -32,5 +32,7 @@
     <string name="cannotCompleteHW">不能完成功课</string>
     <string name="missing">缺失：</string>
     <string name="NewCountZero">数字（空白=0）</string>
+    <string name="sound">声音提醒</string>
+    <string name="vibrations">振动提醒</string>
 
 </resources>

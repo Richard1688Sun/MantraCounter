@@ -5,6 +5,8 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
+import android.os.Build;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nemogz.mantracounter.R;
@@ -31,12 +34,17 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
     private SoundPool soundPool;
     private boolean loaded = false;
     private int littleHouseID;
+    private Vibrator vibrator;
+    boolean hasVibratorFunction;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public SettingsOptionsRecViewAdapter(Context context) {
         this.context = context;
         db = MasterCounterDatabase.getINSTANCE(context);
         masterCounter = new MasterCounter(context);
         createMediaPlayer();
+        vibrator = (Vibrator)context.getSystemService(Context.VIBRATOR_SERVICE);
+        hasVibratorFunction = vibrator.hasVibrator();
     }
 
     @NonNull
@@ -83,6 +91,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
 
                             if (littleHouseCompleted != 0) {
                                 Toast.makeText(context, context.getString(R.string.Completed)+" " + littleHouseCompleted + " " + context.getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
+                                if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(1000);
                                 if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
                                 for (Counter counter: masterCounter.getCounters()) {
                                     if (masterCounter.getLittleHouse().getLittleHouseMap().containsKey(counter.getOriginalName())) {
@@ -140,6 +149,18 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         settingsDataClass.setSoundEffect(isChecked);
+                        db.masterCounterDAO().insertSettingsData(settingsDataClass);
+                    }
+                });
+                break;
+            case 6:
+                holder.iconView.setImageResource(R.drawable.ic_vibration_icon_foreground);
+                holder.switchView.setText(context.getString(R.string.vibrations));
+                holder.switchView.setChecked(settingsDataClass.isVibrationsEffect());
+                holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        settingsDataClass.setVibrationsEffect(isChecked);
                         db.masterCounterDAO().insertSettingsData(settingsDataClass);
                     }
                 });

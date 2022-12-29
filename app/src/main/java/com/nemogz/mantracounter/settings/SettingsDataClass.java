@@ -13,7 +13,7 @@ public class SettingsDataClass {
     private boolean homeSelectTrash;
 
     @ColumnInfo
-    private int numberSettingsItem = 6;
+    private int numberSettingsItem = 7;
 
     @ColumnInfo
     private boolean autoCalLittleHouse;
@@ -33,11 +33,14 @@ public class SettingsDataClass {
     @ColumnInfo
     private boolean soundEffect;
 
+    @ColumnInfo
+    private boolean vibrationsEffect;
+
     @PrimaryKey
     @NotNull
     public String id = "settingsDataClass";
 
-    public SettingsDataClass(boolean homeSelectTrash, boolean autoCalLittleHouse, boolean addSubButtonMode, boolean arrowsNavigation, boolean swipeNavigation, boolean sidebarReminder, boolean soundEffect) {
+    public SettingsDataClass(boolean homeSelectTrash, boolean autoCalLittleHouse, boolean addSubButtonMode, boolean arrowsNavigation, boolean swipeNavigation, boolean sidebarReminder, boolean soundEffect, boolean vibrationsEffect) {
         this.homeSelectTrash = homeSelectTrash;
         this.autoCalLittleHouse = autoCalLittleHouse;
         this.addSubButtonMode = addSubButtonMode;
@@ -45,6 +48,7 @@ public class SettingsDataClass {
         this.swipeNavigation = swipeNavigation;
         this.sidebarReminder = sidebarReminder;
         this.soundEffect = soundEffect;
+        this.vibrationsEffect = vibrationsEffect;
     }
 
     public boolean isHomeSelectTrash() {
@@ -109,5 +113,13 @@ public class SettingsDataClass {
 
     public void setSoundEffect(boolean soundEffect) {
         this.soundEffect = soundEffect;
+    }
+
+    public boolean isVibrationsEffect() {
+        return vibrationsEffect;
+    }
+
+    public void setVibrationsEffect(boolean vibrationsEffect) {
+        this.vibrationsEffect = vibrationsEffect;
     }
 }

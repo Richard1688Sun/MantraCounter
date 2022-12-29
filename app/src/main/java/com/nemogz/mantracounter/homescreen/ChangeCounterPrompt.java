@@ -103,7 +103,7 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
                     if(littleHouseCompleted != 0 && settingsDataClass.isAutoCalLittleHouse()) {
                         Toast.makeText(getContext(), getString(R.string.Completed)+" " + littleHouseCompleted + " " + getContext().getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
                         if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
-                        if(vibrator.hasVibrator()) vibrator.vibrate(1000);
+                        if(vibrator.hasVibrator() && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(1000);
                         for (Counter counter: counters) {
                             if (littleHouse.getLittleHouseMap().containsKey(counter.getOriginalName())) {
                                 counter.updateCounter(littleHouseCompleted);

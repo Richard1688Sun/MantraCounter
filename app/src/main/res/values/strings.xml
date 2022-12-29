@@ -32,4 +32,5 @@
     <string name="cannotCompleteHW">Cannot Complete Homework</string>
     <string name="missing">Missing: </string>
     <string name="sound">Sounds When Clicking</string>
+    <string name="vibrations">Vibration When Clicking</string>
 </resources>

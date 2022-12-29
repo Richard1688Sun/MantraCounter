@@ -102,7 +102,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                         if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
                             ///long click
                             masterCounter.resetHomeworkCount();
-                            if (hasVibratorFunction) vibrator.vibrate(200);
+                            if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
                             setCounterView();
                         }
                         else {
@@ -111,17 +111,17 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                                 if (masterCounter.canCompleteHomework()) {
                                     masterCounter.incrementHomework();
                                     homeworkItemAdapter.notifyDataSetChanged();
-                                    if (hasVibratorFunction) vibrator.vibrate(100);
+                                    if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                                     if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
 
                                 }
                                 else {
                                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.cannotCompleteHW), Toast.LENGTH_SHORT).show();
-                                    if (hasVibratorFunction) vibrator.vibrate(200);
+                                    if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
                                 }
                             }else{
                                 masterCounter.decrementHomework();
-                                if (hasVibratorFunction) vibrator.vibrate(100);
+                                if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                                 if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                             }
                             setCounterView();
@@ -149,7 +149,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                     addMode = true;
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.decrementHomework();
-                    if (hasVibratorFunction) vibrator.vibrate(100);
+                    if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                     if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
 
                     setCounterView();
@@ -265,7 +265,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
 
     private void inputInitialSettings() {
         if (db.masterCounterDAO().getSettingsData() == null) {
-            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false, false, false, false));
+            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false, false, false, false, false));
         }
     }
 
