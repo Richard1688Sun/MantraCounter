@@ -1,6 +1,6 @@
 ## Table of contents
 * [General info](#general-info)
-* [Use Intructions](#user manual)
+* [Use Intructions](#user)
 * [Technologies](#technologies)
 * [Setup](#setup)
 
