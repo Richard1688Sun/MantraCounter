@@ -6,7 +6,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -43,8 +45,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView t3;
     private TextView t4;
     private TextView t5;
-    private MediaPlayer mpClick;
-    private MediaPlayer mpLittleHouse;
+    private SoundPool soundPool;
+    private boolean loaded = false;
+    private int dingID;
+    private int littleHouseID;
     private float DISTANCE_FOR_SWIPE = 150;
     private float TIME_FOR_LONG_CLICK = 2000;
 
@@ -140,16 +144,16 @@ public class MainActivity extends AppCompatActivity {
                                     if (bool) {
                                         Toast.makeText(getApplicationContext(), getString(R.string.Completed)+ " 1" + " " + getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
                                         if (hasVibratorFunction) vibrator.vibrate(1000);
-                                        if (settingsDataClass.isSoundEffect()) mpLittleHouse.start();
+                                        if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
                                         setCounterView();
                                         break;
                                     }
                                     else {
-                                        if (settingsDataClass.isSoundEffect()) mpClick.start();
+                                        if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                                     }
                                 }else{
                                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());
-                                    if (settingsDataClass.isSoundEffect()) mpClick.start();
+                                    if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                                 }
                                 if (hasVibratorFunction) vibrator.vibrate(100);
                                 setCounterView();
@@ -203,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());
                     if (hasVibratorFunction) vibrator.vibrate(100);
-                    if (settingsDataClass.isSoundEffect()) mpClick.start();
+                    if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                     setCounterView();
                 }
             }
@@ -362,7 +366,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createMediaPlayer() {
-        mpClick = MediaPlayer.create(this, R.raw.ding1);
-        mpLittleHouse = MediaPlayer.create(this, R.raw.littlehouse);
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        // Load the sound
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                       int status) {
+                loaded = true;
+            }
+        });
+        dingID = soundPool.load(this, R.raw.ding1, 1);
+        littleHouseID = soundPool.load(this, R.raw.littlehouse, 1);
     }
 }

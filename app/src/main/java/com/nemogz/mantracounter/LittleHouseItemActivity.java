@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -36,7 +38,10 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     private SettingsDataClass settingsDataClass;
     private Vibrator vibrator;
     private boolean hasVibratorFunction;
-    private MediaPlayer mpClick;
+    private SoundPool soundPool;
+    private boolean loaded = false;
+    private int dingID;
+    private int littleHouseID;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -88,12 +93,12 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                             //click
                             if(addMode){
                                 masterCounter.getLittleHouse().setLittleCount(masterCounter.getLittleHouse().getLittleHouseCount() + 1);
-
+                                if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
                             }else{
                                 masterCounter.getLittleHouse().decrementLittleHouseCount();
+                                if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                             }
                             if (hasVibratorFunction) vibrator.vibrate(100);
-                            if (settingsDataClass.isSoundEffect()) mpClick.start();
                             setCounterView();
                         }
                         break;
@@ -120,7 +125,8 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.getLittleHouse().decrementLittleHouseCount();
                     if (hasVibratorFunction) vibrator.vibrate(100);
-                    if (settingsDataClass.isSoundEffect()) mpClick.start();
+                    if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
+
                     setCounterView();
                 }
             }
@@ -236,7 +242,17 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     }
 
     private void createMediaPlayer() {
-        mpClick = MediaPlayer.create(this, R.raw.ding1);
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        // Load the sound
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                       int status) {
+                loaded = true;
+            }
+        });
+        dingID = soundPool.load(this, R.raw.ding1, 1);
+        littleHouseID = soundPool.load(this, R.raw.littlehouse, 1);
     }
-
 }

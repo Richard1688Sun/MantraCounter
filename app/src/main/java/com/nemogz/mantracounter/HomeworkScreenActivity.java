@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -46,8 +48,10 @@ public class HomeworkScreenActivity extends AppCompatActivity {
     private SettingsDataClass settingsDataClass;
     private Vibrator vibrator;
     private boolean hasVibratorFunction;
-    private MediaPlayer mpClick;
-    private MediaPlayer mpLittleHouse;
+    private SoundPool soundPool;
+    private boolean loaded = false;
+    private int dingID;
+    private int littleHouseID;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -63,8 +67,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
         }
         instantiateViews();
         vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
-        mpClick = MediaPlayer.create(this, R.raw.ding1);
-        mpLittleHouse = MediaPlayer.create(this, R.raw.littlehouse);
+        createMediaPlayer();
         hasVibratorFunction = vibrator.hasVibrator();
         setCounterView();
 
@@ -109,7 +112,8 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                                     masterCounter.incrementHomework();
                                     homeworkItemAdapter.notifyDataSetChanged();
                                     if (hasVibratorFunction) vibrator.vibrate(100);
-                                    if (settingsDataClass.isSoundEffect()) mpLittleHouse.start();
+                                    if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
+
                                 }
                                 else {
                                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.cannotCompleteHW), Toast.LENGTH_SHORT).show();
@@ -118,7 +122,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                             }else{
                                 masterCounter.decrementHomework();
                                 if (hasVibratorFunction) vibrator.vibrate(100);
-                                if (settingsDataClass.isSoundEffect()) mpClick.start();
+                                if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                             }
                             setCounterView();
                         }
@@ -146,7 +150,8 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.decrementHomework();
                     if (hasVibratorFunction) vibrator.vibrate(100);
-                    if (settingsDataClass.isSoundEffect()) mpClick.start();
+                    if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
+
                     setCounterView();
                 }
             }
@@ -264,4 +269,18 @@ public class HomeworkScreenActivity extends AppCompatActivity {
         }
     }
 
+    private void createMediaPlayer() {
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        // Load the sound
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                       int status) {
+                loaded = true;
+            }
+        });
+        dingID = soundPool.load(this, R.raw.ding1, 1);
+        littleHouseID = soundPool.load(this, R.raw.littlehouse, 1);
+    }
 }

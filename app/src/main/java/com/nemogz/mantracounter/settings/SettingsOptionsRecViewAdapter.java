@@ -1,7 +1,10 @@
 package com.nemogz.mantracounter.settings;
 
+import android.app.Activity;
 import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +28,15 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
     private SettingsDataClass settingsDataClass;
     private Context context;
     public MasterCounterDatabase db;
-    private MediaPlayer mpLittleHouse;
+    private SoundPool soundPool;
+    private boolean loaded = false;
+    private int littleHouseID;
 
     public SettingsOptionsRecViewAdapter(Context context) {
         this.context = context;
         db = MasterCounterDatabase.getINSTANCE(context);
         masterCounter = new MasterCounter(context);
-        mpLittleHouse = MediaPlayer.create(context, R.raw.littlehouse);
+        createMediaPlayer();
     }
 
     @NonNull
@@ -78,7 +83,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
 
                             if (littleHouseCompleted != 0) {
                                 Toast.makeText(context, context.getString(R.string.Completed)+" " + littleHouseCompleted + " " + context.getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
-                                if (settingsDataClass.isSoundEffect()) mpLittleHouse.start();
+                                if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
                                 for (Counter counter: masterCounter.getCounters()) {
                                     if (masterCounter.getLittleHouse().getLittleHouseMap().containsKey(counter.getOriginalName())) {
                                         counter.updateCounter(littleHouseCompleted);
@@ -128,7 +133,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                 });
                 break;
             case 5:
-                holder.iconView.setImageResource(R.drawable.ic_baseline_hearing_24);
+                holder.iconView.setImageResource(R.drawable.ic_sound_icon_foreground);
                 holder.switchView.setText(context.getString(R.string.sound));
                 holder.switchView.setChecked(settingsDataClass.isSoundEffect());
                 holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -162,6 +167,20 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
     public void setSettingsDataClass(SettingsDataClass settingsDataClass) {
         this.settingsDataClass = settingsDataClass;
         notifyDataSetChanged();
+    }
+
+    private void createMediaPlayer() {
+        ((Activity)context).getWindow().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        // Load the sound
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                       int status) {
+                loaded = true;
+            }
+        });
+        littleHouseID = soundPool.load(context, R.raw.littlehouse, 1);
     }
 }
 

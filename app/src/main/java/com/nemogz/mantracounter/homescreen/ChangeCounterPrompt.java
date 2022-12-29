@@ -1,11 +1,14 @@
 package com.nemogz.mantracounter.homescreen;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -25,6 +28,7 @@ import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
+import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +43,19 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
     private int position;
     private CounterMainRecViewAdapter adapter;
     private HomeScreenActivity homeScreenActivity;
+    private SettingsDataClass settingsDataClass;
     private Vibrator vibrator;
     private Context context;
-    private MediaPlayer mpLittleHouse;
+    private SoundPool soundPool;
+    private boolean loaded = false;
+    private int littleHouseID;
 
     public ChangeCounterPrompt(CounterMainRecViewAdapter adapter, int position, HomeScreenActivity homeScreenActivity, Context context) {
         this.position = position;
         this.adapter = adapter;
         this.homeScreenActivity = homeScreenActivity;
         this.context = context;
+        createMediaPlayer();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -58,7 +66,6 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
         createDataBase(getContext());
         counters = db.masterCounterDAO().getAllCounters();
         vibrator = (Vibrator)context.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
-        mpLittleHouse = MediaPlayer.create(context, R.raw.littlehouse);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.new_counter_prompt, null);
@@ -92,15 +99,17 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
 
                     int littleHouseCompleted = littleHouse.findLittleHouseCompleted();
 
-                    if(littleHouseCompleted != 0 && db.masterCounterDAO().getSettingsData().isAutoCalLittleHouse()) {
+                    settingsDataClass = db.masterCounterDAO().getSettingsData();
+                    if(littleHouseCompleted != 0 && settingsDataClass.isAutoCalLittleHouse()) {
                         Toast.makeText(getContext(), getString(R.string.Completed)+" " + littleHouseCompleted + " " + getContext().getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
-                        mpLittleHouse.start();
+                        if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
                         if(vibrator.hasVibrator()) vibrator.vibrate(1000);
                         for (Counter counter: counters) {
                             if (littleHouse.getLittleHouseMap().containsKey(counter.getOriginalName())) {
                                 counter.updateCounter(littleHouseCompleted);
                             }
                         }
+                        littleHouse.updateLittleHouseMapAndCount(littleHouseCompleted);
                         db.masterCounterDAO().insertLittleHouse(littleHouse);
                         db.masterCounterDAO().insertAllCounters(counters);
                         //resets the grid view to include new counter
@@ -131,6 +140,20 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
 
     private void createDataBase(Context context) {
         db = MasterCounterDatabase.getINSTANCE(context);
+    }
+
+    private void createMediaPlayer() {
+        ((Activity)context).getWindow().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        // Load the sound
+        soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundPool.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                       int status) {
+                loaded = true;
+            }
+        });
+        littleHouseID = soundPool.load(context, R.raw.littlehouse, 1);
     }
 
 }
