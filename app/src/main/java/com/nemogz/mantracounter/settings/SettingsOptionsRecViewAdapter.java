@@ -130,7 +130,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
             case 5:
                 holder.iconView.setImageResource(R.drawable.ic_baseline_hearing_24);
                 holder.switchView.setText(context.getString(R.string.sound));
-                holder.switchView.setChecked(settingsDataClass.isSidebarReminder());
+                holder.switchView.setChecked(settingsDataClass.isSoundEffect());
                 holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
