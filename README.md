@@ -1,13 +1,13 @@
 ## Table of contents
 * [General info](#general-info)
+* [Use Intructions](#user manual)
 * [Technologies](#technologies)
 * [Setup](#setup)
-* [Use Intructions](#user manual)
 
 ## General info
 This project is Mantra Counter app. Can automatically update LittleHouse mantra count when the corresponding mantras(DaBeiZhou, XingJin, WangShengJingTuShenZhou, QiFoMieZuiZhenYan) reach their required amount.
 
-## Use Instructions
+## Use Intructions
 
 	
 ## Technologies
