@@ -1,6 +1,7 @@
 package com.nemogz.mantracounter.settings;
 
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +25,13 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
     private SettingsDataClass settingsDataClass;
     private Context context;
     public MasterCounterDatabase db;
+    private MediaPlayer mpLittleHouse;
 
     public SettingsOptionsRecViewAdapter(Context context) {
         this.context = context;
         db = MasterCounterDatabase.getINSTANCE(context);
         masterCounter = new MasterCounter(context);
+        mpLittleHouse = MediaPlayer.create(context, R.raw.littlehouse);
     }
 
     @NonNull
@@ -75,6 +78,7 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
 
                             if (littleHouseCompleted != 0) {
                                 Toast.makeText(context, context.getString(R.string.Completed)+" " + littleHouseCompleted + " " + context.getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
+                                if (settingsDataClass.isSoundEffect()) mpLittleHouse.start();
                                 for (Counter counter: masterCounter.getCounters()) {
                                     if (masterCounter.getLittleHouse().getLittleHouseMap().containsKey(counter.getOriginalName())) {
                                         counter.updateCounter(littleHouseCompleted);
@@ -119,6 +123,18 @@ public class SettingsOptionsRecViewAdapter extends RecyclerView.Adapter<Settings
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         settingsDataClass.setSidebarReminder(isChecked);
+                        db.masterCounterDAO().insertSettingsData(settingsDataClass);
+                    }
+                });
+                break;
+            case 5:
+                holder.iconView.setImageResource(R.drawable.ic_baseline_hearing_24);
+                holder.switchView.setText(context.getString(R.string.sound));
+                holder.switchView.setChecked(settingsDataClass.isSidebarReminder());
+                holder.switchView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        settingsDataClass.setSoundEffect(isChecked);
                         db.masterCounterDAO().insertSettingsData(settingsDataClass);
                     }
                 });

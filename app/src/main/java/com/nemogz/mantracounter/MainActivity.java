@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView t3;
     private TextView t4;
     private TextView t5;
+    private MediaPlayer mpClick;
+    private MediaPlayer mpLittleHouse;
     private float DISTANCE_FOR_SWIPE = 150;
     private float TIME_FOR_LONG_CLICK = 2000;
 
@@ -67,8 +70,8 @@ public class MainActivity extends AppCompatActivity {
         instantiateViews();
         vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         hasVibratorFunction = vibrator.hasVibrator();
+        createMediaPlayer();
         setCounterView();
-
 
         if (settingsDataClass.isSidebarReminder()) {
             t1.setVisibility(View.VISIBLE);
@@ -133,13 +136,20 @@ public class MainActivity extends AppCompatActivity {
                             else {
                                 //click
                                 if(addMode){
-                                    if (masterCounter.increment(masterCounter.getCounterAtPosition().getOriginalName(), settingsDataClass.isAutoCalLittleHouse())) {
+                                    boolean bool = masterCounter.increment(masterCounter.getCounterAtPosition().getOriginalName(), settingsDataClass.isAutoCalLittleHouse());
+                                    if (bool) {
                                         Toast.makeText(getApplicationContext(), getString(R.string.Completed)+ " 1" + " " + getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
                                         if (hasVibratorFunction) vibrator.vibrate(1000);
+                                        if (settingsDataClass.isSoundEffect()) mpLittleHouse.start();
+                                        setCounterView();
                                         break;
+                                    }
+                                    else {
+                                        if (settingsDataClass.isSoundEffect()) mpClick.start();
                                     }
                                 }else{
                                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());
+                                    if (settingsDataClass.isSoundEffect()) mpClick.start();
                                 }
                                 if (hasVibratorFunction) vibrator.vibrate(100);
                                 setCounterView();
@@ -193,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());
                     if (hasVibratorFunction) vibrator.vibrate(100);
+                    if (settingsDataClass.isSoundEffect()) mpClick.start();
                     setCounterView();
                 }
             }
@@ -347,6 +358,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void inputInitialSettings() {
-        settingsDataClass = new SettingsDataClass(false,false, false, false, false, false);
+        settingsDataClass = new SettingsDataClass(false,false, false, false, false, false, false);
+    }
+
+    private void createMediaPlayer() {
+        mpClick = MediaPlayer.create(this, R.raw.ding1);
+        mpLittleHouse = MediaPlayer.create(this, R.raw.littlehouse);
     }
 }

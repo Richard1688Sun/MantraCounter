@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -45,6 +46,8 @@ public class HomeworkScreenActivity extends AppCompatActivity {
     private SettingsDataClass settingsDataClass;
     private Vibrator vibrator;
     private boolean hasVibratorFunction;
+    private MediaPlayer mpClick;
+    private MediaPlayer mpLittleHouse;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -60,6 +63,8 @@ public class HomeworkScreenActivity extends AppCompatActivity {
         }
         instantiateViews();
         vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
+        mpClick = MediaPlayer.create(this, R.raw.ding1);
+        mpLittleHouse = MediaPlayer.create(this, R.raw.littlehouse);
         hasVibratorFunction = vibrator.hasVibrator();
         setCounterView();
 
@@ -104,6 +109,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                                     masterCounter.incrementHomework();
                                     homeworkItemAdapter.notifyDataSetChanged();
                                     if (hasVibratorFunction) vibrator.vibrate(100);
+                                    if (settingsDataClass.isSoundEffect()) mpLittleHouse.start();
                                 }
                                 else {
                                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.cannotCompleteHW), Toast.LENGTH_SHORT).show();
@@ -112,6 +118,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                             }else{
                                 masterCounter.decrementHomework();
                                 if (hasVibratorFunction) vibrator.vibrate(100);
+                                if (settingsDataClass.isSoundEffect()) mpClick.start();
                             }
                             setCounterView();
                         }
@@ -139,6 +146,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.decrementHomework();
                     if (hasVibratorFunction) vibrator.vibrate(100);
+                    if (settingsDataClass.isSoundEffect()) mpClick.start();
                     setCounterView();
                 }
             }
@@ -252,7 +260,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
 
     private void inputInitialSettings() {
         if (db.masterCounterDAO().getSettingsData() == null) {
-            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false, false, false));
+            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false, false, false, false));
         }
     }
 

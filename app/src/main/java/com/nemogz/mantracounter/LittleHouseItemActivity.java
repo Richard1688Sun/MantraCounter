@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -35,6 +36,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     private SettingsDataClass settingsDataClass;
     private Vibrator vibrator;
     private boolean hasVibratorFunction;
+    private MediaPlayer mpClick;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -51,6 +53,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         instantiateViews();
         vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         hasVibratorFunction = vibrator.hasVibrator();
+        createMediaPlayer();
         setCounterView();
 
 
@@ -85,10 +88,12 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                             //click
                             if(addMode){
                                 masterCounter.getLittleHouse().setLittleCount(masterCounter.getLittleHouse().getLittleHouseCount() + 1);
+
                             }else{
                                 masterCounter.getLittleHouse().decrementLittleHouseCount();
                             }
                             if (hasVibratorFunction) vibrator.vibrate(100);
+                            if (settingsDataClass.isSoundEffect()) mpClick.start();
                             setCounterView();
                         }
                         break;
@@ -115,6 +120,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.getLittleHouse().decrementLittleHouseCount();
                     if (hasVibratorFunction) vibrator.vibrate(100);
+                    if (settingsDataClass.isSoundEffect()) mpClick.start();
                     setCounterView();
                 }
             }
@@ -225,8 +231,12 @@ public class LittleHouseItemActivity extends AppCompatActivity {
 
     private void inputInitialSettings() {
         if (db.masterCounterDAO().getSettingsData() == null) {
-            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false, false, false));
+            db.masterCounterDAO().insertSettingsData(new SettingsDataClass(false,false, false, false, false, false, false));
         }
+    }
+
+    private void createMediaPlayer() {
+        mpClick = MediaPlayer.create(this, R.raw.ding1);
     }
 
 }

@@ -13,7 +13,7 @@ public class SettingsDataClass {
     private boolean homeSelectTrash;
 
     @ColumnInfo
-    private int numberSettingsItem = 5;
+    private int numberSettingsItem = 6;
 
     @ColumnInfo
     private boolean autoCalLittleHouse;
@@ -30,17 +30,21 @@ public class SettingsDataClass {
     @ColumnInfo
     private boolean sidebarReminder;
 
+    @ColumnInfo
+    private boolean soundEffect;
+
     @PrimaryKey
     @NotNull
     public String id = "settingsDataClass";
 
-    public SettingsDataClass(boolean homeSelectTrash, boolean autoCalLittleHouse, boolean addSubButtonMode, boolean arrowsNavigation, boolean swipeNavigation, boolean sidebarReminder) {
+    public SettingsDataClass(boolean homeSelectTrash, boolean autoCalLittleHouse, boolean addSubButtonMode, boolean arrowsNavigation, boolean swipeNavigation, boolean sidebarReminder, boolean soundEffect) {
         this.homeSelectTrash = homeSelectTrash;
         this.autoCalLittleHouse = autoCalLittleHouse;
         this.addSubButtonMode = addSubButtonMode;
         this.arrowsNavigation = arrowsNavigation;
         this.swipeNavigation = swipeNavigation;
         this.sidebarReminder = sidebarReminder;
+        this.soundEffect = soundEffect;
     }
 
     public boolean isHomeSelectTrash() {
@@ -97,5 +101,13 @@ public class SettingsDataClass {
 
     public void setSidebarReminder(boolean sidebarReminder) {
         this.sidebarReminder = sidebarReminder;
+    }
+
+    public boolean isSoundEffect() {
+        return soundEffect;
+    }
+
+    public void setSoundEffect(boolean soundEffect) {
+        this.soundEffect = soundEffect;
     }
 }
