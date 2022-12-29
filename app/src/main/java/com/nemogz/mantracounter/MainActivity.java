@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean loaded = false;
     private int dingID;
     private int littleHouseID;
-    private float DISTANCE_FOR_SWIPE = 150;
+    private float DISTANCE_FOR_SWIPE = 550;
     private float TIME_FOR_LONG_CLICK = 2000;
 
     private Boolean addMode = true;
