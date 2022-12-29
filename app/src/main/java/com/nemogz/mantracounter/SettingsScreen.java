@@ -66,7 +66,6 @@ public class SettingsScreen extends AppCompatActivity {
      * Tries to load data from database. Return if successful
      * @return true if data was detected and loaded, false otherwise
      */
-    //TODO maybe not necessary to check since this is not starting screen
     private boolean loadDataFromDatabase() {
         if(db.masterCounterDAO().getAllCounters().size() == 0 && db.masterCounterDAO().getLittleHouse() == null) {
             return false;

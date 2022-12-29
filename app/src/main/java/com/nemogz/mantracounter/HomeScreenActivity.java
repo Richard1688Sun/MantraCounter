@@ -111,8 +111,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
-    //TODO update the adapter whenever there is a pause or exit from this activity
-
     public void createEssentailCounters(){
         masterCounter = new MasterCounter(getApplicationContext());
         masterCounter.createBasicCounters();

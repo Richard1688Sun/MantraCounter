@@ -108,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                         releasedTime = event.getEventTime();
 
                         float xDiff = xStart - xEnd;
-                        //TODO track y location maybe
                         float yDiff = yStart - yEnd;
 
                         if (settingsDataClass.isSwipeNavigation() && Math.abs(xDiff) > DISTANCE_FOR_SWIPE) {
@@ -136,7 +135,8 @@ public class MainActivity extends AppCompatActivity {
                                 if(addMode){
                                     if (masterCounter.increment(masterCounter.getCounterAtPosition().getOriginalName(), settingsDataClass.isAutoCalLittleHouse())) {
                                         Toast.makeText(getApplicationContext(), getString(R.string.Completed)+ " 1" + " " + getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
-
+                                        if (hasVibratorFunction) vibrator.vibrate(1000);
+                                        break;
                                     }
                                 }else{
                                     masterCounter.decrement(masterCounter.getCounterAtPosition().getOriginalName());

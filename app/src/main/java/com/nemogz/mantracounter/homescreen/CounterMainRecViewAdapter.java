@@ -94,7 +94,6 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
             holder.mantraView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //Toast.makeText(context, masterCounter.getCounters().get(position).getDisplayName() + " Selected", Toast.LENGTH_SHORT).show();
                     masterCounter.setPositionCounters(position);
                     db.masterCounterDAO().insertCounterPosition(masterCounter);
                     Intent counterScreenIntent = new Intent(context, MainActivity.class);
@@ -105,7 +104,7 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
             holder.mantraView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    openChangeCounterPrompt(CounterMainRecViewAdapter.this, position);
+                    openChangeCounterPrompt(CounterMainRecViewAdapter.this, position, context);
                     return true;
                 }
             });
@@ -136,8 +135,8 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
         newCounterPrompt.show(((AppCompatActivity)context).getSupportFragmentManager(), "test");
     }
 
-    private void openChangeCounterPrompt(CounterMainRecViewAdapter adapter, int position) {
-        ChangeCounterPrompt changeCounterPrompt = new ChangeCounterPrompt(adapter, position, homeScreenActivity);
+    private void openChangeCounterPrompt(CounterMainRecViewAdapter adapter, int position, Context context) {
+        ChangeCounterPrompt changeCounterPrompt = new ChangeCounterPrompt(adapter, position, homeScreenActivity, context);
         changeCounterPrompt.show(((AppCompatActivity)context).getSupportFragmentManager(), "test");
     }
 

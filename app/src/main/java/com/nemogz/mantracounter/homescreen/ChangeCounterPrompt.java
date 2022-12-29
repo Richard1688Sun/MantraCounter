@@ -5,7 +5,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.nemogz.mantracounter.HomeScreenActivity;
@@ -35,19 +38,24 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
     private int position;
     private CounterMainRecViewAdapter adapter;
     private HomeScreenActivity homeScreenActivity;
+    private Vibrator vibrator;
+    private Context context;
 
-    public ChangeCounterPrompt(CounterMainRecViewAdapter adapter, int position, HomeScreenActivity homeScreenActivity) {
+    public ChangeCounterPrompt(CounterMainRecViewAdapter adapter, int position, HomeScreenActivity homeScreenActivity, Context context) {
         this.position = position;
         this.adapter = adapter;
         this.homeScreenActivity = homeScreenActivity;
+        this.context = context;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         createDataBase(getContext());
         counters = db.masterCounterDAO().getAllCounters();
+        vibrator = (Vibrator)context.getApplicationContext().getSystemService(Context.VIBRATOR_SERVICE);
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.new_counter_prompt, null);
@@ -83,6 +91,7 @@ public class ChangeCounterPrompt extends AppCompatDialogFragment {
 
                     if(littleHouseCompleted != 0 && db.masterCounterDAO().getSettingsData().isAutoCalLittleHouse()) {
                         Toast.makeText(getContext(), getString(R.string.Completed)+" " + littleHouseCompleted + " " + getContext().getString(R.string.xiaofangzi), Toast.LENGTH_SHORT).show();
+                        if(vibrator.hasVibrator()) vibrator.vibrate(1000);
                         for (Counter counter: counters) {
                             if (littleHouse.getLittleHouseMap().containsKey(counter.getOriginalName())) {
                                 counter.updateCounter(littleHouseCompleted);
