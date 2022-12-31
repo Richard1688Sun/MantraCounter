@@ -34,5 +34,9 @@
     <string name="NewCountZero">数字（空白=0）</string>
     <string name="sound">声音提醒</string>
     <string name="vibrations">振动提醒</string>
+    <string name="confirmResetTitle">确认全部清零</string>
+    <string name="resetCancel">全部清零取消</string>
+    <string name="resetConfirmed">全部清零</string>
+    <string name="reset">清零</string>
 
 </resources>
