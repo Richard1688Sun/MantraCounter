@@ -17,12 +17,8 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.nemogz.mantracounter.HomeScreenActivity;
 import com.nemogz.mantracounter.R;
-import com.nemogz.mantracounter.counterStuff.Counter;
-import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
-
-import java.util.List;
 
 public class ChangeHomeworkPrompt extends AppCompatDialogFragment {
     private EditText mantraName;
@@ -70,7 +66,7 @@ public class ChangeHomeworkPrompt extends AppCompatDialogFragment {
                 masterCounter.setHomeworkDisplayName(name);
 
                 if (!notConvertedName.toString().equals("") || !unParsedInt.toString().equals("")) {
-                    db.masterCounterDAO().insertCounterPosition(masterCounter);
+                    db.masterCounterDAO().insertMasterCounter(masterCounter);
                     homeScreenActivity.setMasterCounter(masterCounter);
                     homeScreenActivity.setBasicCounterView();
                 }

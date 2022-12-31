@@ -1,7 +1,6 @@
 package com.nemogz.mantracounter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -9,7 +8,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -255,7 +253,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
     private void setDataFromDatabase() {
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
-        db.masterCounterDAO().insertCounterPosition(masterCounter);
+        db.masterCounterDAO().insertMasterCounter(masterCounter);
     }
 
     private void openHomeScreen() {

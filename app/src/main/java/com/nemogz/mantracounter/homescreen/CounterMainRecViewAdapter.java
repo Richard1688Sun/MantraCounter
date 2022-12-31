@@ -1,36 +1,28 @@
 package com.nemogz.mantracounter.homescreen;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nemogz.mantracounter.HomeScreenActivity;
-import com.nemogz.mantracounter.LittleHouseItemActivity;
 import com.nemogz.mantracounter.MainActivity;
 import com.nemogz.mantracounter.R;
 import com.nemogz.mantracounter.counterStuff.Counter;
-import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainRecViewAdapter.ViewHolder>{
@@ -68,7 +60,7 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
                     Counter counterToRemove = masterCounter.getCounters().remove(position);
                     if (masterCounter.getPositionCounters() == position) {
                         masterCounter.setPositionCounters(position - 1);
-                        db.masterCounterDAO().insertCounterPosition(masterCounter);
+                        db.masterCounterDAO().insertMasterCounter(masterCounter);
                     }
                     masterCounter.deleteCounter(counterToRemove.getOriginalName());
                     db.masterCounterDAO().deleteCounter(counterToRemove);
@@ -95,7 +87,7 @@ public class CounterMainRecViewAdapter extends RecyclerView.Adapter<CounterMainR
                 @Override
                 public void onClick(View v) {
                     masterCounter.setPositionCounters(position);
-                    db.masterCounterDAO().insertCounterPosition(masterCounter);
+                    db.masterCounterDAO().insertMasterCounter(masterCounter);
                     Intent counterScreenIntent = new Intent(context, MainActivity.class);
                     context.startActivity(counterScreenIntent);
                 }

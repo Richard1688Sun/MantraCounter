@@ -1,11 +1,13 @@
 package com.nemogz.mantracounter;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -14,6 +16,7 @@ import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
+import com.nemogz.mantracounter.settings.ResetPrompt;
 import com.nemogz.mantracounter.settings.SettingsOptionsRecViewAdapter;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
@@ -27,8 +30,9 @@ public class SettingsScreen extends AppCompatActivity {
     private FloatingActionButton homeButton;
     private SettingsDataClass settingsDataClass;
     private Context context;
+    private FloatingActionButton resetButton;
 
-
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +57,14 @@ public class SettingsScreen extends AppCompatActivity {
             public void onClick(View v) {
                 Intent homeScreenIntent = new Intent(getApplicationContext(), HomeScreenActivity.class);
                 startActivity(homeScreenIntent);
+            }
+        });
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ResetPrompt resetPrompt = new ResetPrompt();
+                resetPrompt.show(getSupportFragmentManager(), "test");
             }
         });
     }
@@ -89,5 +101,6 @@ public class SettingsScreen extends AppCompatActivity {
     private void instantiateViews() {
         settingsRecView = findViewById(R.id.settingsRecView);
         homeButton = findViewById(R.id.HomePageButton);
+        resetButton = findViewById(R.id.resetButtonSettings);
     }
 }

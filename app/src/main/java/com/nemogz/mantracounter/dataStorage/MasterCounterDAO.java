@@ -23,7 +23,7 @@ public interface MasterCounterDAO {
     public void insertLittleHouse(LittleHouse littleHouse);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public void insertCounterPosition(MasterCounter masterCounter);
+    public void insertMasterCounter(MasterCounter masterCounter);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertSettingsData(SettingsDataClass settingsDataClass);

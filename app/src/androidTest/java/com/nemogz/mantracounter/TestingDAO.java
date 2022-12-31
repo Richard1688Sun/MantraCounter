@@ -119,7 +119,7 @@ public class TestingDAO {
     public void testingPositionCounter() {
 
         MasterCounter masterCounter = new MasterCounter(2);
-        db.masterCounterDAO().insertCounterPosition(masterCounter);
+        db.masterCounterDAO().insertMasterCounter(masterCounter);
 
         int l = db.masterCounterDAO().getMasterCounter().getPositionCounters();
 

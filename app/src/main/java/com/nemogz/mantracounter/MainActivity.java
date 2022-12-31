@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -352,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
     private void setDataFromDatabase() {
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
-        db.masterCounterDAO().insertCounterPosition(masterCounter);
+        db.masterCounterDAO().insertMasterCounter(masterCounter);
         db.masterCounterDAO().insertSettingsData(settingsDataClass);
     }
 

@@ -33,4 +33,8 @@
     <string name="missing">Missing: </string>
     <string name="sound">Sounds When Clicking</string>
     <string name="vibrations">Vibration When Clicking</string>
+    <string name="confirmResetTitle">Confirm Resetting All Counters</string>
+    <string name="resetCancel">Resetting All Counters Cancelled</string>
+    <string name="resetConfirmed">All Counter Have Reset</string>
+    <string name="reset">Reset</string>
 </resources>
