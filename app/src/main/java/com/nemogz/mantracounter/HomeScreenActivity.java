@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private FloatingActionButton trashButton;
     public MasterCounterDatabase db;
     private MasterCounter masterCounter;
+    private CounterMainRecViewAdapter counterAdapter;
 
     @Override
 
@@ -51,7 +53,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         instantiateViews();
         setBasicCounterView();
 
-        CounterMainRecViewAdapter counterAdapter = new CounterMainRecViewAdapter(this, HomeScreenActivity.this);
+        counterAdapter = new CounterMainRecViewAdapter(this, HomeScreenActivity.this);
         counterAdapter.setMasterCounters(masterCounter);
 
         mantraCountersListView.setAdapter(counterAdapter);
@@ -111,6 +113,31 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("state", "onPause");
+        setDataFromDatabase();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("state", "onRestart");
+        loadDataFromDatabase();
+        counterAdapter.notifyDataSetChanged();
+        setBasicCounterView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("state", "onResume");
+        loadDataFromDatabase();
+        counterAdapter.notifyDataSetChanged();
+        setBasicCounterView();
+    }
+
     public void createEssentailCounters(){
         masterCounter = new MasterCounter(getApplicationContext());
         masterCounter.createBasicCounters();
@@ -165,5 +192,11 @@ public class HomeScreenActivity extends AppCompatActivity {
         masterCounter.setHomeworkDisplayName(mc.getHomeworkDisplayName());
         masterCounter.setHomeworkCount(mc.getHomeworkCount());
         return true;
+    }
+
+    private void setDataFromDatabase() {
+        db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
+        db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
+        db.masterCounterDAO().insertMasterCounter(masterCounter);
     }
 }

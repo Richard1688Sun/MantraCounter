@@ -76,20 +76,7 @@ public class MainActivity extends AppCompatActivity {
         createMediaPlayer();
         setCounterView();
 
-        if (settingsDataClass.isSidebarReminder()) {
-            t1.setVisibility(View.VISIBLE);
-            t2.setVisibility(View.VISIBLE);
-            t3.setVisibility(View.VISIBLE);
-            t4.setVisibility(View.VISIBLE);
-            t5.setVisibility(View.VISIBLE);
-        }
-        else {
-            t1.setVisibility(View.GONE);
-            t2.setVisibility(View.GONE);
-            t3.setVisibility(View.GONE);
-            t4.setVisibility(View.GONE);
-            t5.setVisibility(View.GONE);
-        }
+        setSideBar();
 
         //for all types of clicks on Main Button
         buttonCounter.setOnTouchListener(new View.OnTouchListener() {
@@ -164,29 +151,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if (settingsDataClass.isArrowsNavigation()) {
-            buttonRight.setVisibility(View.VISIBLE);
-            buttonLeft.setVisibility(View.VISIBLE);
-            buttonRight.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    masterCounter.incrementPositionCounter();
-                    setCounterView();
-                }
-            });
-
-            buttonLeft.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    masterCounter.decrementPositionCounter();
-                    setCounterView();
-                }
-            });
-        }
-        else {
-            buttonLeft.setVisibility(View.GONE);
-            buttonRight.setVisibility(View.GONE);
-        }
+        setNavArrows();
 
         buttonMode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -256,6 +221,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("state", "onRestart");
         loadDataFromDatabase();
         setCounterView();
+        testViewUP();
+        setNavArrows();
+        setSideBar();
     }
 
     @Override
@@ -264,6 +232,9 @@ public class MainActivity extends AppCompatActivity {
         Log.d("state", "onResume");
         loadDataFromDatabase();
         setCounterView();
+        testViewUP();
+        setNavArrows();
+        setSideBar();
     }
 
     public static Resources getAppResources() {
@@ -275,6 +246,48 @@ public class MainActivity extends AppCompatActivity {
         masterCounter.createBasicCounters();
     }
 
+    private void setNavArrows() {
+        if (settingsDataClass.isArrowsNavigation()) {
+            buttonRight.setVisibility(View.VISIBLE);
+            buttonLeft.setVisibility(View.VISIBLE);
+            buttonRight.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    masterCounter.incrementPositionCounter();
+                    setCounterView();
+                }
+            });
+
+            buttonLeft.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    masterCounter.decrementPositionCounter();
+                    setCounterView();
+                }
+            });
+        }
+        else {
+            buttonLeft.setVisibility(View.GONE);
+            buttonRight.setVisibility(View.GONE);
+        }
+    }
+
+    private void setSideBar() {
+        if (settingsDataClass.isSidebarReminder()) {
+            t1.setVisibility(View.VISIBLE);
+            t2.setVisibility(View.VISIBLE);
+            t3.setVisibility(View.VISIBLE);
+            t4.setVisibility(View.VISIBLE);
+            t5.setVisibility(View.VISIBLE);
+        }
+        else {
+            t1.setVisibility(View.GONE);
+            t2.setVisibility(View.GONE);
+            t3.setVisibility(View.GONE);
+            t4.setVisibility(View.GONE);
+            t5.setVisibility(View.GONE);
+        }
+    }
     private void instantiateViews(){
         buttonCounter = findViewById(R.id.MainButton);
         buttonHome = findViewById(R.id.HomePageButton);

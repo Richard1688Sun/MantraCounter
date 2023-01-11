@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.nemogz.mantracounter.R;
+import com.nemogz.mantracounter.SettingsScreen;
 import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
@@ -28,7 +29,11 @@ public class ResetPrompt extends AppCompatDialogFragment {
     private SettingsDataClass settingsDataClass;
     private Vibrator vibrator;
     public MasterCounterDatabase db;
+    private SettingsScreen settingsScreen;
 
+    public ResetPrompt(SettingsScreen settingsScreen) {
+        this.settingsScreen = settingsScreen;
+    }
 
     @NonNull
     @Override
@@ -67,6 +72,7 @@ public class ResetPrompt extends AppCompatDialogFragment {
                 db.masterCounterDAO().insertMasterCounter(masterCounter);
                 if(vibrator.hasVibrator() && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(500);
                 Toast.makeText(getContext(), getString(R.string.resetConfirmed), Toast.LENGTH_SHORT).show();
+                settingsScreen.setSettingsAdapter();
             }
         });
         return builder.create();

@@ -198,6 +198,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
         super.onRestart();
         Log.d("state", "onRestart");
         loadDataFromDatabase();
+        setCounterView();
     }
 
     @Override
@@ -205,6 +206,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
         super.onResume();
         Log.d("state", "onResume");
         loadDataFromDatabase();
+        setCounterView();
     }
 
     public void createEssentailCounters(){

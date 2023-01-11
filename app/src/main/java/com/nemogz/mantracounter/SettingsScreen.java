@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,6 +32,7 @@ public class SettingsScreen extends AppCompatActivity {
     private SettingsDataClass settingsDataClass;
     private Context context;
     private FloatingActionButton resetButton;
+    private SettingsOptionsRecViewAdapter settingsOptionsRecViewAdapter;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -44,7 +46,7 @@ public class SettingsScreen extends AppCompatActivity {
         }
         instantiateViews();
 
-        SettingsOptionsRecViewAdapter settingsOptionsRecViewAdapter = new SettingsOptionsRecViewAdapter(this);
+        settingsOptionsRecViewAdapter = new SettingsOptionsRecViewAdapter(this);
         settingsOptionsRecViewAdapter.setMasterCounter(masterCounter);
         settingsOptionsRecViewAdapter.setSettingsDataClass(settingsDataClass);
 
@@ -63,10 +65,41 @@ public class SettingsScreen extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ResetPrompt resetPrompt = new ResetPrompt();
+                ResetPrompt resetPrompt = new ResetPrompt(SettingsScreen.this);
                 resetPrompt.show(getSupportFragmentManager(), "test");
             }
         });
+    }
+
+    //not needed since data is set inside adapter
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        Log.d("state", "onPause");
+//        setDataFromDatabase();
+//    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("state", "onRestart");
+        loadDataFromDatabase();
+        settingsOptionsRecViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("state", "onResume");
+        loadDataFromDatabase();
+        settingsOptionsRecViewAdapter.notifyDataSetChanged();
+    }
+
+    private void setDataFromDatabase() {
+        db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
+        db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
+        db.masterCounterDAO().insertMasterCounter(masterCounter);
+        db.masterCounterDAO().insertSettingsData(settingsDataClass);
     }
 
     public void createEssentailCounters(){
@@ -102,5 +135,12 @@ public class SettingsScreen extends AppCompatActivity {
         settingsRecView = findViewById(R.id.settingsRecView);
         homeButton = findViewById(R.id.HomePageButton);
         resetButton = findViewById(R.id.resetButtonSettings);
+    }
+
+    public void setSettingsAdapter() {
+        loadDataFromDatabase();
+        settingsOptionsRecViewAdapter.setMasterCounter(masterCounter);
+        settingsOptionsRecViewAdapter.setSettingsDataClass(settingsDataClass);
+        settingsRecView.setAdapter(settingsOptionsRecViewAdapter);
     }
 }

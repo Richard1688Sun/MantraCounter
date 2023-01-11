@@ -174,6 +174,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         super.onRestart();
         Log.d("state", "onRestart");
         loadDataFromDatabase();
+        setCounterView();
     }
 
     @Override
@@ -181,6 +182,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         super.onResume();
         Log.d("state", "onResume");
         loadDataFromDatabase();
+        setCounterView();
     }
 
     public void createEssentailCounters(){
