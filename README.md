@@ -33,4 +33,5 @@ Project is created with:
 * Android Studio Chipmunk | 2021.2.1 Patch 1
 	
 ## Setup
-To download, grab a Android Phone and install it locally using apk file
+Download app from Google Play
+https://play.google.com/store/apps/details?id=com.nemogz.mantracounter
