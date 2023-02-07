@@ -117,13 +117,13 @@ public class SettingsScreen extends AppCompatActivity {
         }
         List<Counter> c = db.masterCounterDAO().getAllCounters();
         LittleHouse lh = db.masterCounterDAO().getLittleHouse();
+        masterCounter = db.masterCounterDAO().getMasterCounter();
         masterCounter.setCounters(c);
         masterCounter.setLittleHouse(lh);
-        MasterCounter mc = db.masterCounterDAO().getMasterCounter();
-        masterCounter.setPositionCounters(mc.getPositionCounters());
-        masterCounter.setHomeworkDisplayName(mc.getHomeworkDisplayName());
-        masterCounter.setHomeworkCount(mc.getHomeworkCount());
-        settingsDataClass = db.masterCounterDAO().getSettingsData();
+//        masterCounter.setPositionCounters(mc.getPositionCounters());
+//        masterCounter.setHomeworkDisplayName(mc.getHomeworkDisplayName());
+//        masterCounter.setHomeworkCount(mc.getHomeworkCount());
+//        settingsDataClass = db.masterCounterDAO().getSettingsData();
         return true;
     }
 

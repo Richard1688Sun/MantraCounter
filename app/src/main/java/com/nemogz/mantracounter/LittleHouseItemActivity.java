@@ -215,12 +215,9 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         if(db.masterCounterDAO().getLittleHouse() == null || db.masterCounterDAO().getSettingsData() == null || db.masterCounterDAO().getAllCounters().size() == 0) {
             return false;
         }
+        masterCounter = db.masterCounterDAO().getMasterCounter();
         masterCounter.setCounters(db.masterCounterDAO().getAllCounters());
         masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
-        MasterCounter mc = db.masterCounterDAO().getMasterCounter();
-        masterCounter.setPositionCounters(mc.getPositionCounters());
-        masterCounter.setHomeworkDisplayName(mc.getHomeworkDisplayName());
-        masterCounter.setHomeworkCount(mc.getHomeworkCount());
         settingsDataClass = db.masterCounterDAO().getSettingsData();
         return true;
     }

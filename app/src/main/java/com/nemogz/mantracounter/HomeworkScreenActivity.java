@@ -1,5 +1,6 @@
 package com.nemogz.mantracounter;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -84,6 +86,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
             float yEnd;
             float clickedDownTime;
             float releasedTime;
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -100,6 +103,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                         if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
                             ///long click
                             masterCounter.resetHomeworkCount();
+                            masterCounter.setNewHomeworkTimeDate();
                             if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
                             setCounterView();
                         }
@@ -108,10 +112,10 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                             if(addMode){
                                 if (masterCounter.canCompleteHomework()) {
                                     masterCounter.incrementHomework();
+                                    masterCounter.setNewHomeworkTimeDate();
                                     homeworkItemAdapter.notifyDataSetChanged();
                                     if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                                     if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
-
                                 }
                                 else {
                                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.cannotCompleteHW), Toast.LENGTH_SHORT).show();
@@ -119,6 +123,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                                 }
                             }else{
                                 masterCounter.decrementHomework();
+                                masterCounter.setNewHomeworkTimeDate();
                                 if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                                 if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                             }
@@ -147,6 +152,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                     addMode = true;
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.decrementHomework();
+                    masterCounter.setNewHomeworkTimeDate();
                     if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                     if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
 
@@ -242,12 +248,9 @@ public class HomeworkScreenActivity extends AppCompatActivity {
         }
         List<Counter> c = db.masterCounterDAO().getAllCounters();
         LittleHouse lh = db.masterCounterDAO().getLittleHouse();
-        MasterCounter mc = db.masterCounterDAO().getMasterCounter();
+        masterCounter = db.masterCounterDAO().getMasterCounter();
         masterCounter.setCounters(c);
         masterCounter.setLittleHouse(lh);
-        masterCounter.setPositionCounters(mc.getPositionCounters());
-        masterCounter.setHomeworkDisplayName(mc.getHomeworkDisplayName());
-        masterCounter.setHomeworkCount(mc.getHomeworkCount());
         settingsDataClass = db.masterCounterDAO().getSettingsData();
         return true;
     }
@@ -255,6 +258,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
     private void setDataFromDatabase() {
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
+        System.out.println(masterCounter.getLastHomeworkDateTime());
         db.masterCounterDAO().insertMasterCounter(masterCounter);
     }
 
