@@ -316,7 +316,7 @@ public class MasterCounter implements MasterCounterInterface {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void setNewHomeworkTimeDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("'Date:\n'dd-MM-yyyy '\n\nTime:\n'HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("'Date:\n'MM-dd-yyyy '\n\nTime:\n'hh:mm a");
         lastHomeworkDateTime = sdf.format(new Date());
     }
 
