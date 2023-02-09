@@ -27,12 +27,13 @@ import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
+import com.nemogz.mantracounter.dataStorage.OnDataChangedListener;
 import com.nemogz.mantracounter.homeworkScreen.HomeworkItemAdapter;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 import java.util.List;
 
-public class HomeworkScreenActivity extends AppCompatActivity {
+public class HomeworkScreenActivity extends AppCompatActivity{
 
     public MasterCounterDatabase db;
     private EditText homeworkNameScreen;
@@ -52,6 +53,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
     private boolean loaded = false;
     private int dingID;
     private int littleHouseID;
+    private OnDataChangedListener onDataChangedListener;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -59,6 +61,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.d("state", "onCreate");
         masterCounter = new MasterCounter(getApplicationContext());
+        createOnDataChangeListener();
         setContentView(R.layout.activity_homework_screen);
         createDataBase(getApplicationContext());
         inputInitialSettings();
@@ -71,7 +74,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
         hasVibratorFunction = vibrator.hasVibrator();
         setCounterView();
 
-        HomeworkItemAdapter homeworkItemAdapter = new HomeworkItemAdapter(this);
+        HomeworkItemAdapter homeworkItemAdapter = new HomeworkItemAdapter(this, onDataChangedListener);
         homeworkItemAdapter.setMasterCounter(masterCounter);
 
         homeworkRecView.setAdapter(homeworkItemAdapter);
@@ -104,6 +107,8 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                             ///long click
                             masterCounter.resetHomeworkCount();
                             masterCounter.setNewHomeworkTimeDate();
+                            //whenever I change masterCounter the Adapter must reflect the change
+                            homeworkItemAdapter.setMasterCounter(masterCounter);
                             if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
                             setCounterView();
                         }
@@ -113,6 +118,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                                 if (masterCounter.canCompleteHomework()) {
                                     masterCounter.incrementHomework();
                                     masterCounter.setNewHomeworkTimeDate();
+                                    homeworkItemAdapter.setMasterCounter(masterCounter);
                                     homeworkItemAdapter.notifyDataSetChanged();
                                     if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                                     if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
@@ -124,6 +130,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                             }else{
                                 masterCounter.decrementHomework();
                                 masterCounter.setNewHomeworkTimeDate();
+                                homeworkItemAdapter.setMasterCounter(masterCounter);
                                 if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                                 if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
                             }
@@ -136,6 +143,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
         });
 
         buttonMode.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
                 if (settingsDataClass.isAddSubButtonMode()) {
@@ -153,6 +161,7 @@ public class HomeworkScreenActivity extends AppCompatActivity {
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.decrementHomework();
                     masterCounter.setNewHomeworkTimeDate();
+                    homeworkItemAdapter.setMasterCounter(masterCounter);
                     if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                     if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
 
@@ -286,5 +295,15 @@ public class HomeworkScreenActivity extends AppCompatActivity {
         });
         dingID = soundPool.load(this, R.raw.ding1, 1);
         littleHouseID = soundPool.load(this, R.raw.littlehouse, 1);
+    }
+
+    private void createOnDataChangeListener() {
+        onDataChangedListener = new OnDataChangedListener() {
+            @Override
+            public void onDataChanged() {
+                //since adapter one changes this field
+                masterCounter.setCounters(db.masterCounterDAO().getAllCounters());
+            }
+        };
     }
 }

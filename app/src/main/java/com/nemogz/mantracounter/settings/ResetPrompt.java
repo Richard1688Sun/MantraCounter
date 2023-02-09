@@ -23,8 +23,6 @@ import java.util.List;
 
 public class ResetPrompt extends AppCompatDialogFragment {
 
-    private LittleHouse littleHouse;
-    private List<Counter> counters;
     private MasterCounter masterCounter;
     private SettingsDataClass settingsDataClass;
     private Vibrator vibrator;
@@ -56,19 +54,17 @@ public class ResetPrompt extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 vibrator = (Vibrator)getContext().getSystemService(Context.VIBRATOR_SERVICE);
 
-                counters = db.masterCounterDAO().getAllCounters();
-                littleHouse = db.masterCounterDAO().getLittleHouse();
                 masterCounter = db.masterCounterDAO().getMasterCounter();
+                masterCounter.setCounters(db.masterCounterDAO().getAllCounters());
+                masterCounter.setLittleHouse(db.masterCounterDAO().getLittleHouse());
                 settingsDataClass = db.masterCounterDAO().getSettingsData();
 
-                for (Counter counter: counters) {
-                    counter.setCount(0);
-                }
-                littleHouse.resetLittleHouse();
+                masterCounter.resetCountersAndLittleHouse();
                 masterCounter.resetHomeworkCount();
+                masterCounter.setLastHomeworkDateTime("");
 
-                db.masterCounterDAO().insertLittleHouse(littleHouse);
-                db.masterCounterDAO().insertAllCounters(counters);
+                db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
+                db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
                 db.masterCounterDAO().insertMasterCounter(masterCounter);
                 if(vibrator.hasVibrator() && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(500);
                 Toast.makeText(getContext(), getString(R.string.resetConfirmed), Toast.LENGTH_SHORT).show();

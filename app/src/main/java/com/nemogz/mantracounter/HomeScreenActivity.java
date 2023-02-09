@@ -114,12 +114,13 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("state", "onPause");
-        setDataFromDatabase();
-    }
+    //DONT NEED BECAUSE ALL CHANGES ARE LOADED TO DATABASE FROM ADAPTER
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        Log.d("state", "onPause");
+//        setDataFromDatabase();
+//    }
 
     @Override
     protected void onRestart() {
@@ -196,6 +197,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         return true;
     }
 
+    //NEVER WANT TO USE UNLESS U CAN COMMUNICATE WITH ADAPTER
     private void setDataFromDatabase() {
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());

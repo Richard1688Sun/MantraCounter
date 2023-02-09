@@ -19,22 +19,27 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nemogz.mantracounter.R;
+import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
+import com.nemogz.mantracounter.dataStorage.OnDataChangedListener;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 import com.nemogz.mantracounter.settings.SettingsOptionsRecViewAdapter;
+
+import java.util.List;
 
 public class HomeworkItemAdapter extends RecyclerView.Adapter<HomeworkItemAdapter.ViewHolder> {
 
     private MasterCounter masterCounter;
-    private SettingsDataClass settingsDataClass;
     private Context context;
     public MasterCounterDatabase db;
+    private OnDataChangedListener onDataChangedListener;
 
-    public HomeworkItemAdapter(Context context) {
+    public HomeworkItemAdapter(Context context, OnDataChangedListener onDataChangedListener) {
         this.context = context;
-        db = MasterCounterDatabase.getINSTANCE(context);
-        masterCounter = new MasterCounter(context);
+        this.db = MasterCounterDatabase.getINSTANCE(context);
+        this.masterCounter = new MasterCounter(context);
+        this.onDataChangedListener = onDataChangedListener;
     }
 
     @NonNull
@@ -67,12 +72,14 @@ public class HomeworkItemAdapter extends RecyclerView.Adapter<HomeworkItemAdapte
                 String unconverted = holder.homeworkCount.getText().toString();
                 if (unconverted.equals("")) {
                     masterCounter.getCounters().get(position).setHomeworkAmount(0);
-                    db.masterCounterDAO().insertCounter(masterCounter.getCounters().get(position));
+                    db.masterCounterDAO().updateCounter(masterCounter.getCounters().get(position));
+                    onDataChangedListener.onDataChanged();
                     notifyItemChanged(position);
                 }
                 else {
                     masterCounter.getCounters().get(position).setHomeworkAmount(Integer.parseInt(unconverted));
-                    db.masterCounterDAO().insertCounter(masterCounter.getCounters().get(position));
+                    db.masterCounterDAO().updateCounter(masterCounter.getCounters().get(position));
+                    onDataChangedListener.onDataChanged();
                     notifyItemChanged(position);
                 }
                 return false;

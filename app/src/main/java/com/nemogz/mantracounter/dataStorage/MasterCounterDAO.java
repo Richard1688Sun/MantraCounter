@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.nemogz.mantracounter.counterStuff.Counter;
 import com.nemogz.mantracounter.counterStuff.LittleHouse;
@@ -33,6 +34,9 @@ public interface MasterCounterDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public void insertCounter(Counter counter);
+
+    @Update
+    public void updateCounter(Counter counter);
 
     @Query("SELECT * FROM mastercounter")
     public MasterCounter getMasterCounter();
