@@ -54,6 +54,7 @@ public class HomeworkScreenActivity extends AppCompatActivity{
     private int dingID;
     private int littleHouseID;
     private OnDataChangedListener onDataChangedListener;
+    private HomeworkItemAdapter homeworkItemAdapter;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -62,6 +63,7 @@ public class HomeworkScreenActivity extends AppCompatActivity{
         Log.d("state", "onCreate");
         masterCounter = new MasterCounter(getApplicationContext());
         createOnDataChangeListener();
+        homeworkItemAdapter = new HomeworkItemAdapter(this, onDataChangedListener);
         setContentView(R.layout.activity_homework_screen);
         createDataBase(getApplicationContext());
         inputInitialSettings();
@@ -73,8 +75,6 @@ public class HomeworkScreenActivity extends AppCompatActivity{
         createMediaPlayer();
         hasVibratorFunction = vibrator.hasVibrator();
         setCounterView();
-
-        HomeworkItemAdapter homeworkItemAdapter = new HomeworkItemAdapter(this, onDataChangedListener);
         homeworkItemAdapter.setMasterCounter(masterCounter);
 
         homeworkRecView.setAdapter(homeworkItemAdapter);
@@ -90,7 +90,7 @@ public class HomeworkScreenActivity extends AppCompatActivity{
             float clickedDownTime;
             float releasedTime;
             @RequiresApi(api = Build.VERSION_CODES.N)
-            @SuppressLint("ClickableViewAccessibility")
+            @SuppressLint({"ClickableViewAccessibility", "NotifyDataSetChanged"})
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getActionMasked()) {
@@ -106,7 +106,7 @@ public class HomeworkScreenActivity extends AppCompatActivity{
                         if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
                             ///long click
                             masterCounter.resetHomeworkCount();
-                            masterCounter.setNewHomeworkTimeDate();
+                            masterCounter.setLastHomeworkDateTime("");
                             //whenever I change masterCounter the Adapter must reflect the change
                             homeworkItemAdapter.setMasterCounter(masterCounter);
                             if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
@@ -129,7 +129,6 @@ public class HomeworkScreenActivity extends AppCompatActivity{
                                 }
                             }else{
                                 masterCounter.decrementHomework();
-                                masterCounter.setNewHomeworkTimeDate();
                                 homeworkItemAdapter.setMasterCounter(masterCounter);
                                 if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                                 if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
@@ -160,7 +159,6 @@ public class HomeworkScreenActivity extends AppCompatActivity{
                     addMode = true;
                     buttonMode.setImageResource(R.drawable.ic_sub_sign);
                     masterCounter.decrementHomework();
-                    masterCounter.setNewHomeworkTimeDate();
                     homeworkItemAdapter.setMasterCounter(masterCounter);
                     if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                     if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
@@ -261,13 +259,13 @@ public class HomeworkScreenActivity extends AppCompatActivity{
         masterCounter.setCounters(c);
         masterCounter.setLittleHouse(lh);
         settingsDataClass = db.masterCounterDAO().getSettingsData();
+        homeworkItemAdapter.setMasterCounter(masterCounter);
         return true;
     }
 
     private void setDataFromDatabase() {
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
-        System.out.println(masterCounter.getLastHomeworkDateTime());
         db.masterCounterDAO().insertMasterCounter(masterCounter);
     }
 
