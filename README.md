@@ -1,4 +1,4 @@
-## Table of contents
+# Table of contents
 * [General info](#general-info)
 * [Use Instructions](#use-instructions)
 	* [Counter Screen](#counter-screen)
@@ -8,14 +8,14 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 
-## General info
+# General info
 This is multifunction counter app designed specifically to automate mantra counting. Special features include automatic LittleHouse incrementation, Daily Homework organization, and Language settings for Chinese and English. 
 Other features include:
 * persistent data storage accorss multiple life cycles of the app
 * dark/light modes that syncronizes with your device settings
 * user customizable functions like: sounds on clicks, vibration on clicks, adding and subtraction modes, swipe or arrow navigation across different counters, and more!
 
-## Use Instructions
+# Use Instructions
 
 ### Counter Screen
 * Tap center to increment counter
@@ -28,8 +28,8 @@ Other features include:
 
 <table>
   <tr>
-    <td align="center">Default Counter Screen</td>
-    <td align="center">Counter Screen During Name Change</td>
+    <td align="center"><strong>Default Counter Screen</strong></td>
+    <td align="center"><strong>Counter Screen During Name Change</strong></td>
   </tr>
   <tr>
     <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222872718-7d67dd90-1c7d-4d5f-b18e-c84e61119464.png" height="50%" width="50%" alt="Counter Screen"></td>
@@ -50,10 +50,10 @@ Other features include:
 
 <table>
   <tr>
-    <td align="center">Default Home Screen</td>
-    <td align="center">Creating new Counter Pompt</td>
-    <td align="center">Changing Counter Prompt</td>
-    <td align="center">Delete Counter Mode</td>
+    <td align="center"><strong>Default Home Screen</strong></td>
+    <td align="center"><strong>Creating new Counter Pompt</strong></td>
+    <td align="center"><strong>Changing Counter Prompt</strong></td>
+    <td align="center"><strong>Delete Counter Mode</strong></td>
   </tr>
   <tr>
     <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222874397-3a4a6975-68fe-478d-93b5-eb1be8a5d9fe.png" height="100%" width="100%" alt="Home Screen"></td>
@@ -67,6 +67,7 @@ Other features include:
 * Tap on counter to change homework values
 	* If all counter amount is >= homework amount, all counters will decrement by homework value
 	* If all counter amount is < homework amount, homework value increment will fail
+* Tap name to rename the counter
 * Tap main counter to increment counter
 * Tap bottom middle button to decrement counter OR switch to subtraction mode(depends on settings)
 * Tap Home button to switch to home screen
@@ -74,9 +75,9 @@ Other features include:
 
 <table>
   <tr>
-    <td align="center">Default Homework Screen</td>
-    <td align="center">Changing Homework Value</td>
-    <td align="center">Failed Homework Increment</td>
+    <td align="center"><strong>Default Homework Screen</strong></td>
+    <td align="center"><strong>Changing Homework Value</strong></td>
+    <td align="center"><strong>Failed Homework Increment</strong></td>
   </tr>
   <tr>
     <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222875125-eb7f25c9-d3d9-495c-bf3a-1dad3084c1a5.png" height="75%" width="75%" alt="Homework Screen"></td>
@@ -94,8 +95,8 @@ Other features include:
  
  <table>
   <tr>
-    <td align="center">Settings Screen Page 1</td>
-    <td align="center">Settings Screen Page 2</td>
+    <td align="center"><strong>Settings Screen Page 1</strong></td>
+    <td align="center"><strong>Settings Screen Page 2</strong></td>
   </tr>
   <tr>
     <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222876367-71dde142-c3da-45f0-8ff5-8c763f46ce64.png" height="50%" width="50%" alt="Settings Screen Page 1"></td>
@@ -104,10 +105,11 @@ Other features include:
  </table>
 
 
-## Technologies
+# Technologies
 Project is created with:
 * Android Studio Chipmunk | 2021.2.1 Patch 1
 	
-## Setup
-Download app from Google Play
+# Setup
+<strong>Download app from Google Play!!!</strong>
+<br>
 https://play.google.com/store/apps/details?id=com.nemogz.mantracounter
