@@ -20,12 +20,11 @@ Other features include:
 ### Counter Screen
 * Tap center to increment counter
 * Hold center for 3 seconds to reset
-* Hold top to rename the counter
-* Tap bottom middle button to decrement counter OR switch to subtraction mode(depends on settings)
-* Swipe left or right to switch counters(depends on settings)
-* Switch to home screen with bottom left button
-* Switch to settings screen with bottom right button
-* Navigate to other screens by tapping the bottom left and bottom right buttons
+* Tap name to rename the counter
+* Tap bottom middle button to decrement counter OR switch to subtraction mode (depends on settings)
+* Swipe left or right OR click top 2 arrows to switch counters (depends on settings)
+* Tap Home button to switch to home screen
+* Tap Settings button to switch settings screen
 
 <table>
   <tr>
@@ -34,56 +33,59 @@ Other features include:
   </tr>
   <tr>
     <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222872718-7d67dd90-1c7d-4d5f-b18e-c84e61119464.png" height="50%" width="50%" alt="Counter Screen"></td>
-    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222873229-669f1745-422e-40a0-8c9d-97146355e07a.png" height="50%" width="50% alt="Changing Name">
+    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222873229-669f1745-422e-40a0-8c9d-97146355e07a.png" height="50%" width="50%" alt="Changing Name">
   </tr>
- </table>
+</table>
 
 
 ### Home Screen
 * Tap box to enter the counter screen
 	* Can scroll when there are more counters
-	* Click on adding box to add new counter
+* Tap last box to create new counter
 * Hold box to rename counter and/or set the counter amount 
 * Tap Trash Button to enable counter deletion
 	* Cannot delete first 4 counters
 	* To Disable counter deletion press Trash Button again
-* Tap bottom left button to switch to home screen
-* Tap bottom right to switch settings screen
+* Tap Settings Button to switch settings screen
 
 <table>
   <tr>
     <td align="center">Default Home Screen</td>
-    <td align="center">Changing Counter Prompt</td>
     <td align="center">Creating new Counter Pompt</td>
+    <td align="center">Changing Counter Prompt</td>
     <td align="center">Delete Counter Mode</td>
   </tr>
   <tr>
     <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222874397-3a4a6975-68fe-478d-93b5-eb1be8a5d9fe.png" height="100%" width="100%" alt="Home Screen"></td>
-    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222874761-76d1e23a-53d0-4f56-bf01-055feeed502d.png" height="100%" width="100%" alt="Change Counter Prompt"></td>
     <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222874291-ecc44f27-7415-4c3a-b93e-724108e34164.png" height="100%" width="100%" alt="New Counter Prompt"></td>
-    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222874443-0e915d38-9721-404e-acc8-6c13512ea993.png" height="100%" width="100% alt="Delete Counter Mode">
+    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222874761-76d1e23a-53d0-4f56-bf01-055feeed502d.png" height="100%" width="100%" alt="Change Counter Prompt"></td>
+    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222874443-0e915d38-9721-404e-acc8-6c13512ea993.png" height="100%" width="100%" alt="Delete Counter Mode"></td>
   </tr>
  </table>
 
 ### Homework Screen
 * Tap on counter to change homework values
-	* Usage: when you increment homework counter, app automatically decrements each individual counter's values as well as update the last time homework was completed
+	* If all counter amount is >= homework amount, all counters will decrement by homework value
+	* If all counter amount is < homework amount, homework value increment will fail
 * Tap main counter to increment counter
 * Tap bottom middle button to decrement counter OR switch to subtraction mode(depends on settings)
-* Tap bottom left button to switch to home screen
-* Tap bottom right to switch settings screen
+* Tap Home button to switch to home screen
+* Tap Settings button to switch settings screen
 
 <table>
   <tr>
     <td align="center">Default Homework Screen</td>
     <td align="center">Changing Homework Value</td>
+    <td align="center">Failed Homework Increment</td>
   </tr>
   <tr>
-    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222875125-eb7f25c9-d3d9-495c-bf3a-1dad3084c1a5.png" height="50%" width="50%" alt="Homework Screen"></td>
-    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222875130-07ef3f9c-66b4-4ba2-ab58-8fadea15b5e7.png" height="50%" width="50% alt="Changing Homework Val">
+    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222875125-eb7f25c9-d3d9-495c-bf3a-1dad3084c1a5.png" height="75%" width="75%" alt="Homework Screen"></td>
+    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222876294-b584bcbe-ea6e-462c-aa12-491c26b6db36.png" height="75%" width="75%" alt="Changing Homework Val"></td>
+    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222875993-8d7b30d5-c59f-4fc4-8221-4ccac4f0aa4d.png" height="75%" width="75%" alt="Failed Homework Increment"></td>
   </tr>
  </table>
- 
+
+
  ### Settings
  * Toggle switch to the right to actiate functionality, left to disable functionality
  * Scroll down to view more functionalites
@@ -96,11 +98,12 @@ Other features include:
     <td align="center">Settings Screen Page 2</td>
   </tr>
   <tr>
-    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222875269-9fd4b220-17a1-49d0-ba9b-02fd0830f46f.png" height="50%" width="50%" alt="Settings Screen Page 1"></td>
-    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222875271-6dc56bb3-5b18-4ec8-9e8e-0c44b3254b6d.png" height="50%" width="50% alt="Settings Screen Page 2">
+    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222876367-71dde142-c3da-45f0-8ff5-8c763f46ce64.png" height="50%" width="50%" alt="Settings Screen Page 1"></td>
+    <td align="center"><img src="https://user-images.githubusercontent.com/112845533/222876547-dc2b0536-8c88-410c-8fbc-3fb1e3146a61.png" height="50%" width="50%" alt="Settings Screen Page 2">
   </tr>
  </table>
-	
+
+
 ## Technologies
 Project is created with:
 * Android Studio Chipmunk | 2021.2.1 Patch 1
