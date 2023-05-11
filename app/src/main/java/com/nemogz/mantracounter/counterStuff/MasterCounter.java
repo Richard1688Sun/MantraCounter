@@ -1,7 +1,10 @@
 package com.nemogz.mantracounter.counterStuff;
 
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -14,6 +17,7 @@ import com.nemogz.mantracounter.counterStuff.Interfaces.MasterCounterInterface;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +60,16 @@ public class MasterCounter implements MasterCounterInterface {
     private Integer homeworkCount;
     @ColumnInfo
     private String homeworkDisplayName;
+    @ColumnInfo
+    private String lastHomeworkDateTime;
+
+    public String getLastHomeworkDateTime() {
+        return lastHomeworkDateTime;
+    }
+
+    public void setLastHomeworkDateTime(String lastHomeworkDateTime) {
+        this.lastHomeworkDateTime = lastHomeworkDateTime;
+    }
 
     public MasterCounter(Context context) {
         this.context = context;
@@ -298,6 +312,12 @@ public class MasterCounter implements MasterCounterInterface {
         }
         homeworkCount--;
         return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void setNewHomeworkTimeDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("'Date:\n'MM-dd-yyyy '\n\nTime:\n'hh:mm a");
+        lastHomeworkDateTime = sdf.format(new Date());
     }
 
     public void resetHomeworkCount() {

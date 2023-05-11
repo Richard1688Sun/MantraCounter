@@ -33,6 +33,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private CardView homeworkItemView;
     private TextView homeworkNameItem;
     private TextView homeworkCountItem;
+    private TextView homeworkTimeDate;
     private FloatingActionButton settingButton;
     private FloatingActionButton trashButton;
     public MasterCounterDatabase db;
@@ -113,12 +114,13 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("state", "onPause");
-        setDataFromDatabase();
-    }
+    //DONT NEED BECAUSE ALL CHANGES ARE LOADED TO DATABASE FROM ADAPTER
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        Log.d("state", "onPause");
+//        setDataFromDatabase();
+//    }
 
     @Override
     protected void onRestart() {
@@ -153,6 +155,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         homeworkItemView = findViewById(R.id.homeworkItem);
         homeworkCountItem = findViewById(R.id.homeworkCountItem);
         homeworkNameItem = findViewById(R.id.homeworkNameItem);
+        homeworkTimeDate = findViewById(R.id.homeworkDateText);
     }
 
     public void setBasicCounterView() {
@@ -161,6 +164,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         littleHouseCountItem.setText(masterCounter.getLittleHouse().getLittleHouseCount().toString());
         homeworkNameItem.setText(masterCounter.getHomeworkDisplayName());
         homeworkCountItem.setText(masterCounter.getHomeworkCount().toString());
+        System.out.println("New Date Text has been set");
+        System.out.println(masterCounter.getLastHomeworkDateTime());
+        homeworkTimeDate.setText(masterCounter.getLastHomeworkDateTime());
     }
 
     private void createDataBase(Context context) {
@@ -185,15 +191,13 @@ public class HomeScreenActivity extends AppCompatActivity {
         }
         List<Counter> c = db.masterCounterDAO().getAllCounters();
         LittleHouse lh = db.masterCounterDAO().getLittleHouse();
-        MasterCounter mc = db.masterCounterDAO().getMasterCounter();
+        masterCounter = db.masterCounterDAO().getMasterCounter();
         masterCounter.setCounters(c);
         masterCounter.setLittleHouse(lh);
-        masterCounter.setPositionCounters(mc.getPositionCounters());
-        masterCounter.setHomeworkDisplayName(mc.getHomeworkDisplayName());
-        masterCounter.setHomeworkCount(mc.getHomeworkCount());
         return true;
     }
 
+    //NEVER WANT TO USE UNLESS U CAN COMMUNICATE WITH ADAPTER
     private void setDataFromDatabase() {
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());

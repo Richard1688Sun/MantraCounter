@@ -1,0 +1,160 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 7,
+    "identityHash": "b686da8761c50dd02e497715b3976366",
+    "entities": [
+      {
+        "tableName": "Counter",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dabei` TEXT, `boruo` TEXT, `wangshen` TEXT, `qifo` TEXT, `originalName` TEXT NOT NULL, `displayName` TEXT, `count` INTEGER, PRIMARY KEY(`originalName`))",
+        "fields": [
+          {
+            "fieldPath": "dabei",
+            "columnName": "dabei",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "boruo",
+            "columnName": "boruo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "wangshen",
+            "columnName": "wangshen",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "qifo",
+            "columnName": "qifo",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "originalName",
+            "columnName": "originalName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "displayName",
+            "columnName": "displayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "count",
+            "columnName": "count",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "originalName"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "LittleHouse",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`littleHouseMap` TEXT, `littleHouseCount` INTEGER, `littleHouseDisplayName` TEXT, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "littleHouseMap",
+            "columnName": "littleHouseMap",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "littleHouseCount",
+            "columnName": "littleHouseCount",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "littleHouseDisplayName",
+            "columnName": "littleHouseDisplayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "MasterCounter",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `positionCounters` INTEGER, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "positionCounters",
+            "columnName": "positionCounters",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "SettingsDataClass",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`homeSelectTrash` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "homeSelectTrash",
+            "columnName": "homeSelectTrash",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b686da8761c50dd02e497715b3976366')"
+    ]
+  }
+}
