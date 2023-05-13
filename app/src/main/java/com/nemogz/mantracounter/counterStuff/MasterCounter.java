@@ -199,6 +199,20 @@ public class MasterCounter implements MasterCounterInterface {
         return true;
     }
 
+    public boolean canIncrementLittleHouse() {
+        boolean isCheckPass = true;
+
+        for (String littleHouseMantra: this.littleHouse.getLittleHouseMap().keySet()) {
+            // iterate through the littleHouse map -> Now looking at it...its useless rip💀 😣😖😫😩😭
+            if (this.littleHouse.getLittleHouseMap().get(littleHouseMantra) < 1.0) {
+                isCheckPass = false;
+                break;
+            }
+        }
+
+        return isCheckPass;
+    }
+
     public boolean incrementLittleHouse() {
         boolean isCheckPass = true;
 

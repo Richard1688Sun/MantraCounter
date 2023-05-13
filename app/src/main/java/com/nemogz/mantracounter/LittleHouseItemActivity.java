@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
+import com.nemogz.mantracounter.homescreen.ChangeLittleHousePrompt;
+import com.nemogz.mantracounter.homeworkScreen.ReminderPrompt;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 public class LittleHouseItemActivity extends AppCompatActivity {
@@ -92,15 +94,26 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                         else {
                             //click
                             if(addMode){
-                                if (masterCounter.incrementLittleHouse()) {
+                                if (masterCounter.canIncrementLittleHouse()) {
                                     // littleHouse Incrementation Success
-                                    if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
-                                    if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
+                                    Boolean isChecked = new Boolean(false);
+                                    // TODO: fix the fragment stuff
+                                    ReminderPrompt reminderPrompt = new ReminderPrompt(getString(R.string.confirmAddLittleHouse), isChecked);
+                                    reminderPrompt.show(getSupportFragmentManager());
+
+                                    // passed the check
+                                    if (isChecked) {
+                                        masterCounter.incrementHomework();
+                                        if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
+                                        if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
+                                    }
+                                    else {
+                                        Toast.makeText(getApplicationContext(), getString(R.string.cancelAddLittleHouse), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                                 else {
                                     // incrementation failed
                                     if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
-                                    // TODO make a tost saying cannot -> failed
                                     Toast.makeText(getApplicationContext(), getString(R.string.failedAddLittleHouse), Toast.LENGTH_SHORT).show();
                                 }
                             }else{
