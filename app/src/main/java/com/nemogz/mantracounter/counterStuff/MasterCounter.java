@@ -29,7 +29,7 @@ public class MasterCounter implements MasterCounterInterface {
     @Ignore
     private static final int BoRuoLimit = 49;
     @Ignore
-    private static final int XiaoZhaiLimit = 84;
+    private static final int WangShenLimit = 84;
     @Ignore
     private static final int QiFoLimit = 87;
     @Ignore
@@ -197,6 +197,46 @@ public class MasterCounter implements MasterCounterInterface {
         }
         littleHouse.resetLittleHouse();
         return true;
+    }
+
+    public boolean incrementLittleHouse() {
+        boolean isCheckPass = true;
+
+        //checking if the relevant counters are correct
+        for (String littleHouseMantra: this.littleHouse.getLittleHouseMap().keySet()) {
+            // iterate through the littleHouse map -> Now looking at it...its useless rip💀 😣😖😫😩😭
+            if (this.littleHouse.getLittleHouseMap().get(littleHouseMantra) < 1.0) {
+                isCheckPass = false;
+                break;
+            }
+        }
+
+        if (isCheckPass) {
+            this.littleHouse.setLittleCount(this.littleHouse.getLittleHouseCount() + 1);
+
+            // decrementing all the values inside LittleHouseMap
+            for (String littleHouseMantra: this.littleHouse.getLittleHouseMap().keySet()) {
+                // iterate through the littleHouse map -> Now looking at it...its useless rip💀 😣😖😫😩😭
+                this.littleHouse.getLittleHouseMap().put(littleHouseMantra, this.littleHouse.getLittleHouseMap().get(littleHouseMantra) - 1);
+            }
+
+            for (int index = 0; index < counters.size(); index++) {
+                if (counters.get(index).getOriginalName().equals(this.counters.get(0).getDabei())) {
+                    counters.get(index).setCount(counters.get(index).getCount() - DaBeiLimit);
+                }
+                else if (counters.get(index).getOriginalName().equals(this.counters.get(0).getBoruo())) {
+                    counters.get(index).setCount(counters.get(index).getCount() - BoRuoLimit);
+                }
+                else if (counters.get(index).getOriginalName().equals(this.counters.get(0).getQifo())) {
+                    counters.get(index).setCount(counters.get(index).getCount() - QiFoLimit);
+                }
+                else if (counters.get(index).getOriginalName().equals(this.counters.get(0).getWangshen())) {
+                    counters.get(index).setCount(counters.get(index).getCount() - WangShenLimit);
+                }
+            }
+        }
+
+        return isCheckPass;
     }
 
     public LittleHouse getLittleHouse() {

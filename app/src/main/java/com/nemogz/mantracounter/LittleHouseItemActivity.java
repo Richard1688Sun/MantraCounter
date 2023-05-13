@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
@@ -91,13 +92,22 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                         else {
                             //click
                             if(addMode){
-                                masterCounter.getLittleHouse().setLittleCount(masterCounter.getLittleHouse().getLittleHouseCount() + 1);
-                                if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
+                                if (masterCounter.incrementLittleHouse()) {
+                                    // littleHouse Incrementation Success
+                                    if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
+                                    if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
+                                }
+                                else {
+                                    // incrementation failed
+                                    if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
+                                    // TODO make a tost saying cannot -> failed
+                                    Toast.makeText(getApplicationContext(), getString(R.string.failedAddLittleHouse), Toast.LENGTH_SHORT).show();
+                                }
                             }else{
                                 masterCounter.getLittleHouse().decrementLittleHouseCount();
                                 if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
+                                if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                             }
-                            if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                             setCounterView();
                         }
                         break;
@@ -166,7 +176,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d("state", "onPause");
-        setDataFromDatabase();
+        setDataToDatabase();
     }
 
     @Override
@@ -222,7 +232,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setDataFromDatabase() {
+    private void setDataToDatabase() {
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
         db.masterCounterDAO().insertMasterCounter(masterCounter);

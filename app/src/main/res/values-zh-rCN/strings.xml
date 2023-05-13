@@ -38,5 +38,6 @@
     <string name="resetCancel">全部清零取消</string>
     <string name="resetConfirmed">全部清零</string>
     <string name="reset">清零</string>
+    <string name="failedAddLittleHouse">不能完成小房子。请确认经文数量</string>
 
 </resources>

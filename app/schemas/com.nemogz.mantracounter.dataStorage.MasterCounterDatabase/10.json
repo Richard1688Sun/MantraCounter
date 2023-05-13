@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 10,
-    "identityHash": "b6e776779eaca8e706a4f0c589cad4c8",
+    "identityHash": "977ad6d380429204ae16d6390ab7271b",
     "entities": [
       {
         "tableName": "Counter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dabei` TEXT, `boruo` TEXT, `wangshen` TEXT, `qifo` TEXT, `originalName` TEXT NOT NULL, `displayName` TEXT, `count` INTEGER, PRIMARY KEY(`originalName`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dabei` TEXT, `boruo` TEXT, `wangshen` TEXT, `qifo` TEXT, `originalName` TEXT NOT NULL, `displayName` TEXT, `count` INTEGER, `homeworkAmount` INTEGER, PRIMARY KEY(`originalName`))",
         "fields": [
           {
             "fieldPath": "dabei",
@@ -47,6 +47,12 @@
           {
             "fieldPath": "count",
             "columnName": "count",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "homeworkAmount",
+            "columnName": "homeworkAmount",
             "affinity": "INTEGER",
             "notNull": false
           }
@@ -100,7 +106,7 @@
       },
       {
         "tableName": "MasterCounter",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `positionCounters` INTEGER, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `positionCounters` INTEGER, `homeworkCount` INTEGER, `homeworkDisplayName` TEXT, `lastHomeworkDateTime` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -112,6 +118,24 @@
             "fieldPath": "positionCounters",
             "columnName": "positionCounters",
             "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "homeworkCount",
+            "columnName": "homeworkCount",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "homeworkDisplayName",
+            "columnName": "homeworkDisplayName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastHomeworkDateTime",
+            "columnName": "lastHomeworkDateTime",
+            "affinity": "TEXT",
             "notNull": false
           }
         ],
@@ -126,7 +150,7 @@
       },
       {
         "tableName": "SettingsDataClass",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`homeSelectTrash` INTEGER NOT NULL, `numberSettingsItem` INTEGER NOT NULL, `autoCalLittleHouse` INTEGER NOT NULL, `addSubButtonMode` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`homeSelectTrash` INTEGER NOT NULL, `numberSettingsItem` INTEGER NOT NULL, `autoCalLittleHouse` INTEGER NOT NULL, `addSubButtonMode` INTEGER NOT NULL, `arrowsNavigation` INTEGER NOT NULL, `swipeNavigation` INTEGER NOT NULL, `sidebarReminder` INTEGER NOT NULL, `soundEffect` INTEGER NOT NULL, `vibrationsEffect` INTEGER NOT NULL, `id` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "homeSelectTrash",
@@ -153,6 +177,36 @@
             "notNull": true
           },
           {
+            "fieldPath": "arrowsNavigation",
+            "columnName": "arrowsNavigation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "swipeNavigation",
+            "columnName": "swipeNavigation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sidebarReminder",
+            "columnName": "sidebarReminder",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "soundEffect",
+            "columnName": "soundEffect",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "vibrationsEffect",
+            "columnName": "vibrationsEffect",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "TEXT",
@@ -172,7 +226,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b6e776779eaca8e706a4f0c589cad4c8')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '977ad6d380429204ae16d6390ab7271b')"
     ]
   }
 }
