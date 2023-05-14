@@ -21,11 +21,10 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
-import com.nemogz.mantracounter.homescreen.ChangeLittleHousePrompt;
-import com.nemogz.mantracounter.homeworkScreen.ReminderPrompt;
+import com.nemogz.mantracounter.homeworkScreen.LittleHouseReminderPrompt;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
-public class LittleHouseItemActivity extends AppCompatActivity {
+public class LittleHouseScreenActivity extends AppCompatActivity {
 
     public MasterCounterDatabase db;
     private EditText littleHouseNameScreen;
@@ -44,6 +43,35 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     private boolean loaded = false;
     private int dingID;
     private int littleHouseID;
+
+    // BELOW IS ALL FOR THE REMINDER PROMPT
+    public MasterCounter getMasterCounter() {
+        return masterCounter;
+    }
+
+    public SettingsDataClass getSettingsDataClass() {
+        return settingsDataClass;
+    }
+
+    public Vibrator getVibrator() {
+        return vibrator;
+    }
+
+    public boolean isHasVibratorFunction() {
+        return hasVibratorFunction;
+    }
+
+    public SoundPool getSoundPool() {
+        return soundPool;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public int getLittleHouseID() {
+        return littleHouseID;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -96,20 +124,23 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                             if(addMode){
                                 if (masterCounter.canIncrementLittleHouse()) {
                                     // littleHouse Incrementation Success
-                                    Boolean isChecked = new Boolean(false);
+                                    Integer isChecked = new Integer(0);
                                     // TODO: fix the fragment stuff
-                                    ReminderPrompt reminderPrompt = new ReminderPrompt(getString(R.string.confirmAddLittleHouse), isChecked);
-                                    reminderPrompt.show(getSupportFragmentManager());
+//                                    ReminderPrompt reminderPrompt = new ReminderPrompt(getString(R.string.confirmAddLittleHouse), isChecked);
+                                    LittleHouseReminderPrompt littleHouseReminderPrompt = new LittleHouseReminderPrompt("Confirmed", LittleHouseScreenActivity.this);
+                                    littleHouseReminderPrompt.show(getSupportFragmentManager(), "test");
 
-                                    // passed the check
-                                    if (isChecked) {
-                                        masterCounter.incrementHomework();
-                                        if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
-                                        if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
-                                    }
-                                    else {
-                                        Toast.makeText(getApplicationContext(), getString(R.string.cancelAddLittleHouse), Toast.LENGTH_SHORT).show();
-                                    }
+//                                    // passed the check
+//                                    if (isChecked == 1) {
+//                                        masterCounter.incrementHomework();
+//                                        if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
+//                                        if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
+//                                    }
+//                                    else {
+////                                        Toast.makeText(getApplicationContext(), getString(R.string.cancelAddLittleHouse), Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_SHORT).show();
+//
+//                                    }
                                 }
                                 else {
                                     // incrementation failed
@@ -221,7 +252,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         littleHouseNameScreen = findViewById(R.id.littleHouseNameScreen);
     }
 
-    private void setCounterView(){
+    public void setCounterView(){
         littleHouseNameScreen.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName());
         littleHouseCountScreen.setText(masterCounter.getLittleHouse().getLittleHouseCount().toString());
     }

@@ -64,7 +64,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         littleHouseItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent littleHouseScreenIntent = new Intent(getApplicationContext(), LittleHouseItemActivity.class);
+                Intent littleHouseScreenIntent = new Intent(getApplicationContext(), LittleHouseScreenActivity.class);
                 startActivity(littleHouseScreenIntent);
             }
         });

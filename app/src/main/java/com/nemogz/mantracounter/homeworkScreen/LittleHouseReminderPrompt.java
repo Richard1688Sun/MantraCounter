@@ -8,21 +8,21 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.nemogz.mantracounter.LittleHouseScreenActivity;
 import com.nemogz.mantracounter.R;
 
-public class ReminderPrompt extends AppCompatDialogFragment {
+public class LittleHouseReminderPrompt extends AppCompatDialogFragment {
 
     String promptMsg;
 
-    Boolean isConfirm;
+    LittleHouseScreenActivity activity;
 
-    public ReminderPrompt(String promptMsg, Boolean isConfirm) {
+    public LittleHouseReminderPrompt(String promptMsg, LittleHouseScreenActivity activity) {
         this.promptMsg = promptMsg;
-        this.isConfirm = isConfirm;
+        this.activity = activity;
     }
 
     @NonNull
@@ -35,16 +35,19 @@ public class ReminderPrompt extends AppCompatDialogFragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(getContext(), getString(R.string.Cancelled), Toast.LENGTH_SHORT).show();
-                isConfirm = false;
             }
         });
 
         builder.setPositiveButton(getString(R.string.confirm), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                isConfirm = true;
+                activity.getMasterCounter().incrementLittleHouse();
+                if (activity.getSettingsDataClass().isSoundEffect() && activity.isLoaded()) activity.getSoundPool().play(activity.getLittleHouseID(), 1, 1, 1, 0, 0);
+                if (activity.isHasVibratorFunction() && activity.getSettingsDataClass().isVibrationsEffect()) activity.getVibrator().vibrate(100);
+                activity.setCounterView();
             }
         });
+
         return builder.create();
     }
 

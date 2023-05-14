@@ -21,7 +21,7 @@
             android:name=".SettingsScreen"
             android:exported="false" />
         <activity
-            android:name=".LittleHouseItemActivity"
+            android:name=".LittleHouseScreenActivity"
             android:exported="false" />
         <activity
             android:name=".HomeScreenActivity"
