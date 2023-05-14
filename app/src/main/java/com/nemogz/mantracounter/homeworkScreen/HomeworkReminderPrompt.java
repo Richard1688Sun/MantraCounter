@@ -14,11 +14,11 @@ import androidx.fragment.app.FragmentManager;
 import com.nemogz.mantracounter.LittleHouseScreenActivity;
 import com.nemogz.mantracounter.R;
 
-public class LittleHouseReminderPrompt extends AppCompatDialogFragment {
+public class HomeworkReminderPrompt extends AppCompatDialogFragment {
 
     LittleHouseScreenActivity activity;
 
-    public LittleHouseReminderPrompt(LittleHouseScreenActivity activity) {
+    public HomeworkReminderPrompt(LittleHouseScreenActivity activity) {
         this.activity = activity;
     }
 

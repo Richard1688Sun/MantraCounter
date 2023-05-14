@@ -127,20 +127,9 @@ public class LittleHouseScreenActivity extends AppCompatActivity {
                                     Integer isChecked = new Integer(0);
                                     // TODO: fix the fragment stuff
 //                                    ReminderPrompt reminderPrompt = new ReminderPrompt(getString(R.string.confirmAddLittleHouse), isChecked);
-                                    LittleHouseReminderPrompt littleHouseReminderPrompt = new LittleHouseReminderPrompt("Confirmed", LittleHouseScreenActivity.this);
+                                    LittleHouseReminderPrompt littleHouseReminderPrompt = new LittleHouseReminderPrompt(LittleHouseScreenActivity.this);
                                     littleHouseReminderPrompt.show(getSupportFragmentManager(), "test");
 
-//                                    // passed the check
-//                                    if (isChecked == 1) {
-//                                        masterCounter.incrementHomework();
-//                                        if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
-//                                        if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
-//                                    }
-//                                    else {
-////                                        Toast.makeText(getApplicationContext(), getString(R.string.cancelAddLittleHouse), Toast.LENGTH_SHORT).show();
-//                                        Toast.makeText(getApplicationContext(), "Cancelled", Toast.LENGTH_SHORT).show();
-//
-//                                    }
                                 }
                                 else {
                                     // incrementation failed

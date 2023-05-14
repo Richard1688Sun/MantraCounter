@@ -40,5 +40,6 @@
     <string name="reset">清零</string>
     <string name="failedAddLittleHouse">不能完成小房子。请确认经文数量</string>
     <string name="confirm">确认</string>
+    <string name="increment">添加</string>
 
 </resources>
