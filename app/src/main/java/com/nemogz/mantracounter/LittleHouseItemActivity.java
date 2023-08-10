@@ -31,7 +31,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     private FloatingActionButton buttonMode;
     private FloatingActionButton buttonTool;
     private float TIME_FOR_LONG_CLICK = 500;
-
+    private float RESET_CIRCLE_DIFFERENCE = 175;
     private Boolean addMode = true;
     private MasterCounter masterCounter;
     private SettingsDataClass settingsDataClass;
@@ -65,6 +65,9 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         littleHouseCountScreen.setOnTouchListener(new View.OnTouchListener() {
             float xStart;
             float yStart;
+            float xTrack;
+            float yTrack;
+            int stage = 0;
             float xEnd;
             float yEnd;
             float clickedDownTime;
@@ -78,17 +81,67 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                         yStart = event.getY();
                         clickedDownTime = event.getEventTime();
                         break;
+                    case MotionEvent.ACTION_MOVE:
+                        switch (stage) {
+                            // down Y increase
+                            // right X increase
+                            case 0: //start stage
+                                if (event.getX() - RESET_CIRCLE_DIFFERENCE > xStart && event.getY() + RESET_CIRCLE_DIFFERENCE < yStart) {
+                                    Log.d("motion","Stage 1 - INDEX_MOVE: " + event.getX());
+                                    Log.d("motion","Stage 1 - INDEX_MOVE: " + event.getY());
+                                    xTrack = event.getX();
+                                    yTrack = event.getY();
+                                    stage++;
+                                }
+                                break;
+                            case 1: //must move X increase and Y decrease if yes move next stage
+                                if (event.getX() + RESET_CIRCLE_DIFFERENCE < xTrack && event.getY() + RESET_CIRCLE_DIFFERENCE < yTrack) {
+                                    Log.d("motion","Stage 2 - INDEX_MOVE: " + event.getX());
+                                    Log.d("motion","Stage 2 - INDEX_MOVE: " + event.getY());
+                                    xTrack = event.getX();
+                                    yTrack = event.getY();
+                                    stage++;
+                                }
+                                break;
+                            case 2: // must move X decrease Y decrease
+                                if (event.getX() + RESET_CIRCLE_DIFFERENCE < xTrack && event.getY() - RESET_CIRCLE_DIFFERENCE > yTrack) {
+                                    Log.d("motion","Stage 3 - INDEX_MOVE: " + event.getX());
+                                    Log.d("motion","Stage 3 - INDEX_MOVE: " + event.getY());
+                                    xTrack = event.getX();
+                                    yTrack = event.getY();
+                                    stage++;
+                                }
+                                break;
+                        }
+                        break;
                     case MotionEvent.ACTION_UP:
                         xEnd = event.getX();
                         yEnd = event.getY();
                         releasedTime = event.getEventTime();
-                        if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
-                            ///long click
+
+                        //check for X increase Y icnrease
+                        if (stage == 3 && Math.abs(event.getX() - xStart) < RESET_CIRCLE_DIFFERENCE / 2 && Math.abs(event.getY() - yStart) < RESET_CIRCLE_DIFFERENCE / 2) {
+                            Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getX());
+                            Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getY());
+                            xTrack = event.getX();
+                            yTrack = event.getY();
+                            stage = 0;
                             masterCounter.getLittleHouse().setLittleCount(0);
                             if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
                             setCounterView();
+                            break;
                         }
-                        else {
+
+                        //reset whenever motion is up
+                        stage = 0;
+
+//                        if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
+//                            ///long click
+//                            masterCounter.getLittleHouse().setLittleCount(0);
+//                            if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
+//                            setCounterView();
+//                        }
+//                        else {
                             //click
                             if(addMode){
                                 masterCounter.getLittleHouse().setLittleCount(masterCounter.getLittleHouse().getLittleHouseCount() + 1);
@@ -99,7 +152,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                             }
                             if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                             setCounterView();
-                        }
+//                        }
                         break;
                 }
                 return false;

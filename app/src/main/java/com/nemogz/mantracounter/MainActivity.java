@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private int littleHouseID;
     private float DISTANCE_FOR_SWIPE = 550;
     private float TIME_FOR_LONG_CLICK = 2000;
+    private float RESET_CIRCLE_DIFFERENCE = 175;
 
     private Boolean addMode = true;
     private MasterCounter masterCounter;
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
         buttonCounter.setOnTouchListener(new View.OnTouchListener() {
             float xStart;
             float yStart;
+            float xTrack;
+            float yTrack;
+            int stage = 0;
             float xEnd;
             float yEnd;
             float clickedDownTime;
@@ -95,6 +99,39 @@ public class MainActivity extends AppCompatActivity {
                         yStart = event.getY();
                         clickedDownTime = event.getEventTime();
                         break;
+                    case MotionEvent.ACTION_MOVE:
+                        switch (stage) {
+                            // down Y increase
+                            // right X increase
+                            case 0: //start stage
+                                if (event.getX() - RESET_CIRCLE_DIFFERENCE > xStart && event.getY() + RESET_CIRCLE_DIFFERENCE < yStart) {
+                                    Log.d("motion","Stage 1 - INDEX_MOVE: " + event.getX());
+                                    Log.d("motion","Stage 1 - INDEX_MOVE: " + event.getY());
+                                    xTrack = event.getX();
+                                    yTrack = event.getY();
+                                    stage++;
+                                }
+                                break;
+                            case 1: //must move X increase and Y decrease if yes move next stage
+                                if (event.getX() + RESET_CIRCLE_DIFFERENCE < xTrack && event.getY() + RESET_CIRCLE_DIFFERENCE < yTrack) {
+                                    Log.d("motion","Stage 2 - INDEX_MOVE: " + event.getX());
+                                    Log.d("motion","Stage 2 - INDEX_MOVE: " + event.getY());
+                                    xTrack = event.getX();
+                                    yTrack = event.getY();
+                                    stage++;
+                                }
+                                break;
+                            case 2: // must move X decrease Y decrease
+                                if (event.getX() + RESET_CIRCLE_DIFFERENCE < xTrack && event.getY() - RESET_CIRCLE_DIFFERENCE > yTrack) {
+                                    Log.d("motion","Stage 3 - INDEX_MOVE: " + event.getX());
+                                    Log.d("motion","Stage 3 - INDEX_MOVE: " + event.getY());
+                                    xTrack = event.getX();
+                                    yTrack = event.getY();
+                                    stage++;
+                                }
+                                break;
+                        }
+                        break;
                     case MotionEvent.ACTION_UP:
                         xEnd = event.getX();
                         yEnd = event.getY();
@@ -103,6 +140,24 @@ public class MainActivity extends AppCompatActivity {
                         float xDiff = xStart - xEnd;
                         float yDiff = yStart - yEnd;
 
+                        //check for X increase Y icnrease
+                        if (stage == 3 && Math.abs(event.getX() - xStart) < RESET_CIRCLE_DIFFERENCE / 2 && Math.abs(event.getY() - yStart) < RESET_CIRCLE_DIFFERENCE / 2) {
+                            Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getX());
+                            Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getY());
+                            xTrack = event.getX();
+                            yTrack = event.getY();
+                            stage = 0;
+                            masterCounter.setCount(masterCounter.getCounterAtPosition().getOriginalName(), 0);
+                            masterCounter.getLittleHouse().setLittleHouseByName(masterCounter.getCounterAtPosition().getOriginalName(), 0);
+                            if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
+                            setCounterView();
+                            break;
+                        }
+
+                        //reset whenever motion is up
+                        stage = 0;
+
+                        //other default operations
                         if (settingsDataClass.isSwipeNavigation() && Math.abs(xDiff) > DISTANCE_FOR_SWIPE) {
                             if(xDiff < 0) {
                                 //left swipe
@@ -116,14 +171,14 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         else {
-                            if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
-                                ///long click
-                                masterCounter.setCount(masterCounter.getCounterAtPosition().getOriginalName(), 0);
-                                masterCounter.getLittleHouse().setLittleHouseByName(masterCounter.getCounterAtPosition().getOriginalName(), 0);
-                                if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
-                                setCounterView();
-                            }
-                            else {
+//                            if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
+//                                ///long click
+//                                masterCounter.setCount(masterCounter.getCounterAtPosition().getOriginalName(), 0);
+//                                masterCounter.getLittleHouse().setLittleHouseByName(masterCounter.getCounterAtPosition().getOriginalName(), 0);
+//                                if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
+//                                setCounterView();
+//                            }
+//                            if {
                                 //click
                                 if(addMode){
                                     boolean bool = masterCounter.increment(masterCounter.getCounterAtPosition().getOriginalName(), settingsDataClass.isAutoCalLittleHouse());
@@ -143,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                                 setCounterView();
-                            }
+//                            }
                         }
                         break;
                 }
