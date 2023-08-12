@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -31,7 +32,8 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     private FloatingActionButton buttonMode;
     private FloatingActionButton buttonTool;
     private float TIME_FOR_LONG_CLICK = 500;
-    private float RESET_CIRCLE_DIFFERENCE = 175;
+    private float PIXEL_WIDTH = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private float RESET_CIRCLE_DIFFERENCE = PIXEL_WIDTH / 5;
     private Boolean addMode = true;
     private MasterCounter masterCounter;
     private SettingsDataClass settingsDataClass;
@@ -77,6 +79,8 @@ public class LittleHouseItemActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
+                        Log.d("motion","Action Down: " + event.getX());
+                        Log.d("motion","Action Down: " + event.getY());
                         xStart = event.getX();
                         yStart = event.getY();
                         clickedDownTime = event.getEventTime();
@@ -120,7 +124,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
                         releasedTime = event.getEventTime();
 
                         //check for X increase Y icnrease
-                        if (stage == 3 && Math.abs(event.getX() - xStart) < RESET_CIRCLE_DIFFERENCE / 2 && Math.abs(event.getY() - yStart) < RESET_CIRCLE_DIFFERENCE / 2) {
+                        if (stage == 3 && Math.abs(event.getX() - xStart) < RESET_CIRCLE_DIFFERENCE && Math.abs(event.getY() - yStart) < RESET_CIRCLE_DIFFERENCE) {
                             Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getX());
                             Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getY());
                             xTrack = event.getX();

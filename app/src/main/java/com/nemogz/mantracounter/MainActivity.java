@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private int littleHouseID;
     private float DISTANCE_FOR_SWIPE = 550;
     private float TIME_FOR_LONG_CLICK = 2000;
-    private float RESET_CIRCLE_DIFFERENCE = 175;
-
+    private float PIXEL_WIDTH = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private float RESET_CIRCLE_DIFFERENCE = PIXEL_WIDTH / 5;
     private Boolean addMode = true;
     private MasterCounter masterCounter;
     private SettingsDataClass settingsDataClass;
@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 switch(event.getActionMasked()) {
                     case MotionEvent.ACTION_DOWN:
+                        Log.d("motion","Action Down: " + event.getX());
+                        Log.d("motion","Action Down: " + event.getY());
                         xStart = event.getX();
                         yStart = event.getY();
                         clickedDownTime = event.getEventTime();
@@ -133,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
                     case MotionEvent.ACTION_UP:
+                        Log.d("motion","Action Up: " + event.getX());
+                        Log.d("motion","Action Up: " + event.getY());
                         xEnd = event.getX();
                         yEnd = event.getY();
                         releasedTime = event.getEventTime();
@@ -141,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                         float yDiff = yStart - yEnd;
 
                         //check for X increase Y icnrease
-                        if (stage == 3 && Math.abs(event.getX() - xStart) < RESET_CIRCLE_DIFFERENCE / 2 && Math.abs(event.getY() - yStart) < RESET_CIRCLE_DIFFERENCE / 2) {
+                        if (stage == 3 && Math.abs(event.getX() - xStart) < (RESET_CIRCLE_DIFFERENCE) && Math.abs(event.getY() - yStart) < (RESET_CIRCLE_DIFFERENCE)) {
                             Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getX());
                             Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getY());
                             xTrack = event.getX();

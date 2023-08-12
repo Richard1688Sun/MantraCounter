@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Build;
@@ -43,7 +44,8 @@ public class HomeworkScreenActivity extends AppCompatActivity{
     private FloatingActionButton buttonMode;
     private FloatingActionButton buttonTool;
     private float TIME_FOR_LONG_CLICK = 500;
-    private float RESET_CIRCLE_DIFFERENCE = 125;
+    private float PIXEL_WIDTH = Resources.getSystem().getDisplayMetrics().widthPixels;
+    private float RESET_CIRCLE_DIFFERENCE = PIXEL_WIDTH / 5;
     private Boolean addMode = true;
     private MasterCounter masterCounter;
     private SettingsDataClass settingsDataClass;
@@ -141,7 +143,7 @@ public class HomeworkScreenActivity extends AppCompatActivity{
                         releasedTime = event.getEventTime();
 
                         //check for X increase Y icnrease
-                        if (stage == 3 && Math.abs(event.getX() - xStart) < RESET_CIRCLE_DIFFERENCE / 2 && Math.abs(event.getY() - yStart) < RESET_CIRCLE_DIFFERENCE / 2) {
+                        if (stage == 3 && Math.abs(event.getX() - xStart) < RESET_CIRCLE_DIFFERENCE && Math.abs(event.getY() - yStart) < RESET_CIRCLE_DIFFERENCE) {
                             Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getX());
                             Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getY());
                             xTrack = event.getX();
