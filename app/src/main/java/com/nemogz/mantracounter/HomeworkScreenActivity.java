@@ -30,6 +30,7 @@ import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
 import com.nemogz.mantracounter.dataStorage.OnDataChangedListener;
 import com.nemogz.mantracounter.homeworkScreen.HomeworkItemAdapter;
+import com.nemogz.mantracounter.homeworkScreen.HomeworkReminderPrompt;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
 import java.util.List;
@@ -57,6 +58,38 @@ public class HomeworkScreenActivity extends AppCompatActivity{
     private int littleHouseID;
     private OnDataChangedListener onDataChangedListener;
     private HomeworkItemAdapter homeworkItemAdapter;
+
+    public HomeworkItemAdapter getHomeworkItemAdapter() {
+        return homeworkItemAdapter;
+    }
+
+    public MasterCounter getMasterCounter() {
+        return masterCounter;
+    }
+
+    public SettingsDataClass getSettingsDataClass() {
+        return settingsDataClass;
+    }
+
+    public Vibrator getVibrator() {
+        return vibrator;
+    }
+
+    public boolean isHasVibratorFunction() {
+        return hasVibratorFunction;
+    }
+
+    public SoundPool getSoundPool() {
+        return soundPool;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public int getLittleHouseID() {
+        return littleHouseID;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -174,12 +207,8 @@ public class HomeworkScreenActivity extends AppCompatActivity{
                             //click
                             if(addMode){
                                 if (masterCounter.canCompleteHomework()) {
-                                    masterCounter.incrementHomework();
-                                    masterCounter.setNewHomeworkTimeDate();
-                                    homeworkItemAdapter.setMasterCounter(masterCounter);
-                                    homeworkItemAdapter.notifyDataSetChanged();
-                                    if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
-                                    if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
+                                    HomeworkReminderPrompt homeworkReminderPrompt = new HomeworkReminderPrompt(HomeworkScreenActivity.this);
+                                    homeworkReminderPrompt.show(getSupportFragmentManager(), "homework reminder prompt");
                                 }
                                 else {
                                     Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.cannotCompleteHW), Toast.LENGTH_SHORT).show();
@@ -294,7 +323,7 @@ public class HomeworkScreenActivity extends AppCompatActivity{
         homeworkRecView = findViewById(R.id.homeworkRecyclerView);
     }
 
-    private void setCounterView(){
+    public void setCounterView(){
         homeworkNameScreen.setText(masterCounter.getHomeworkDisplayName());
         homeworkCountScreen.setText(masterCounter.getHomeworkCount().toString());
     }

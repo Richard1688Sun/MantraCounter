@@ -37,4 +37,7 @@
     <string name="resetCancel">Resetting All Counters Cancelled</string>
     <string name="resetConfirmed">All Counter Have Reset</string>
     <string name="reset">Reset</string>
+    <string name="failedAddLittleHouse">Failed to increment LittleHouse! Check Mantra Counts!</string>
+    <string name="confirm">Confirm</string>
+    <string name="increment">Increment</string>
 </resources>

@@ -17,13 +17,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nemogz.mantracounter.counterStuff.MasterCounter;
 import com.nemogz.mantracounter.dataStorage.MasterCounterDatabase;
+import com.nemogz.mantracounter.homeworkScreen.LittleHouseReminderPrompt;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
-public class LittleHouseItemActivity extends AppCompatActivity {
+public class LittleHouseScreenActivity extends AppCompatActivity {
 
     public MasterCounterDatabase db;
     private EditText littleHouseNameScreen;
@@ -43,6 +45,35 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     private boolean loaded = false;
     private int dingID;
     private int littleHouseID;
+
+    // BELOW IS ALL FOR THE REMINDER PROMPT
+    public MasterCounter getMasterCounter() {
+        return masterCounter;
+    }
+
+    public SettingsDataClass getSettingsDataClass() {
+        return settingsDataClass;
+    }
+
+    public Vibrator getVibrator() {
+        return vibrator;
+    }
+
+    public boolean isHasVibratorFunction() {
+        return hasVibratorFunction;
+    }
+
+    public SoundPool getSoundPool() {
+        return soundPool;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
+    }
+
+    public int getLittleHouseID() {
+        return littleHouseID;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -148,13 +179,25 @@ public class LittleHouseItemActivity extends AppCompatActivity {
 //                        else {
                             //click
                             if(addMode){
-                                masterCounter.getLittleHouse().setLittleCount(masterCounter.getLittleHouse().getLittleHouseCount() + 1);
-                                if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(littleHouseID, 1, 1, 1, 0, 0);
+                                if (masterCounter.canIncrementLittleHouse()) {
+                                    // littleHouse Incrementation Success
+                                    Integer isChecked = new Integer(0);
+                                    // TODO: fix the fragment stuff
+//                                    ReminderPrompt reminderPrompt = new ReminderPrompt(getString(R.string.confirmAddLittleHouse), isChecked);
+                                    LittleHouseReminderPrompt littleHouseReminderPrompt = new LittleHouseReminderPrompt(LittleHouseScreenActivity.this);
+                                    littleHouseReminderPrompt.show(getSupportFragmentManager(), "test");
+
+                                }
+                                else {
+                                    // incrementation failed
+                                    if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
+                                    Toast.makeText(getApplicationContext(), getString(R.string.failedAddLittleHouse), Toast.LENGTH_SHORT).show();
+                                }
                             }else{
                                 masterCounter.getLittleHouse().decrementLittleHouseCount();
                                 if (settingsDataClass.isSoundEffect() && loaded) soundPool.play(dingID, 1, 1, 1, 0, 0);
+                                if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                             }
-                            if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(100);
                             setCounterView();
 //                        }
                         break;
@@ -223,7 +266,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         Log.d("state", "onPause");
-        setDataFromDatabase();
+        setDataToDatabase();
     }
 
     @Override
@@ -255,7 +298,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         littleHouseNameScreen = findViewById(R.id.littleHouseNameScreen);
     }
 
-    private void setCounterView(){
+    public void setCounterView(){
         littleHouseNameScreen.setText(masterCounter.getLittleHouse().getLittleHouseDisplayName());
         littleHouseCountScreen.setText(masterCounter.getLittleHouse().getLittleHouseCount().toString());
     }
@@ -279,7 +322,7 @@ public class LittleHouseItemActivity extends AppCompatActivity {
         return true;
     }
 
-    private void setDataFromDatabase() {
+    private void setDataToDatabase() {
         db.masterCounterDAO().insertAllCounters(masterCounter.getCounters());
         db.masterCounterDAO().insertLittleHouse(masterCounter.getLittleHouse());
         db.masterCounterDAO().insertMasterCounter(masterCounter);
