@@ -33,6 +33,7 @@ import com.nemogz.mantracounter.homeworkScreen.HomeworkItemAdapter;
 import com.nemogz.mantracounter.homeworkScreen.HomeworkReminderPrompt;
 import com.nemogz.mantracounter.settings.SettingsDataClass;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeworkScreenActivity extends AppCompatActivity{
@@ -46,7 +47,7 @@ public class HomeworkScreenActivity extends AppCompatActivity{
     private FloatingActionButton buttonTool;
     private float TIME_FOR_LONG_CLICK = 500;
     private float PIXEL_WIDTH = Resources.getSystem().getDisplayMetrics().widthPixels;
-    private float RESET_CIRCLE_DIFFERENCE = PIXEL_WIDTH / 5;
+    private float RESET_CIRCLE_RADIUS = PIXEL_WIDTH / (float) 6;
     private Boolean addMode = true;
     private MasterCounter masterCounter;
     private SettingsDataClass settingsDataClass;
@@ -127,6 +128,12 @@ public class HomeworkScreenActivity extends AppCompatActivity{
             float yEnd;
             float clickedDownTime;
             float releasedTime;
+            List<Float[]> points = new ArrayList<Float[]>();
+
+            float maxX = -1;
+            float minX = -1;
+            float maxY = -1;
+            float minY = -1;
             @RequiresApi(api = Build.VERSION_CODES.N)
             @SuppressLint({"ClickableViewAccessibility", "NotifyDataSetChanged"})
             @Override
@@ -138,61 +145,99 @@ public class HomeworkScreenActivity extends AppCompatActivity{
                         clickedDownTime = event.getEventTime();
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        switch (stage) {
-                            // down Y increase
-                            // right X increase
-                            case 0: //start stage
-                                if (event.getX() - RESET_CIRCLE_DIFFERENCE > xStart && event.getY() + RESET_CIRCLE_DIFFERENCE < yStart) {
-                                    Log.d("motion","Stage 1 - INDEX_MOVE: " + event.getX());
-                                    Log.d("motion","Stage 1 - INDEX_MOVE: " + event.getY());
-                                    xTrack = event.getX();
-                                    yTrack = event.getY();
-                                    stage++;
-                                }
-                                break;
-                            case 1: //must move X increase and Y decrease if yes move next stage
-                                if (event.getX() + RESET_CIRCLE_DIFFERENCE < xTrack && event.getY() + RESET_CIRCLE_DIFFERENCE < yTrack) {
-                                    Log.d("motion","Stage 2 - INDEX_MOVE: " + event.getX());
-                                    Log.d("motion","Stage 2 - INDEX_MOVE: " + event.getY());
-                                    xTrack = event.getX();
-                                    yTrack = event.getY();
-                                    stage++;
-                                }
-                                break;
-                            case 2: // must move X decrease Y decrease
-                                if (event.getX() + RESET_CIRCLE_DIFFERENCE < xTrack && event.getY() - RESET_CIRCLE_DIFFERENCE > yTrack) {
-                                    Log.d("motion","Stage 3 - INDEX_MOVE: " + event.getX());
-                                    Log.d("motion","Stage 3 - INDEX_MOVE: " + event.getY());
-                                    xTrack = event.getX();
-                                    yTrack = event.getY();
-                                    stage++;
-                                }
-                                break;
+                        //getting the min and max values of the motion
+                        if (maxX < event.getX() || maxX == -1) {
+                            maxX = event.getX();
                         }
+                        if (minX > event.getX() || minX == -1) {
+                            minX = event.getX();
+                        }
+
+                        if (maxY < event.getY() || maxY == -1) {
+                            maxY = event.getY();
+                        }
+                        if (minY > event.getY() || minY == -1) {
+                            minY = event.getY();
+                        }
+
+                        points.add(new Float[]{event.getX(), event.getY()});
                         break;
                     case MotionEvent.ACTION_UP:
                         xEnd = event.getX();
                         yEnd = event.getY();
                         releasedTime = event.getEventTime();
 
-                        //check for X increase Y icnrease
-                        if (stage == 3 && Math.abs(event.getX() - xStart) < RESET_CIRCLE_DIFFERENCE && Math.abs(event.getY() - yStart) < RESET_CIRCLE_DIFFERENCE) {
-                            Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getX());
-                            Log.d("motion","Stage 4 - INDEX_MOVE: " + event.getY());
-                            xTrack = event.getX();
-                            yTrack = event.getY();
-                            stage = 0;
-                            masterCounter.resetHomeworkCount();
-                            masterCounter.setLastHomeworkDateTime("");
-                            //whenever I change masterCounter the Adapter must reflect the change
-                            homeworkItemAdapter.setMasterCounter(masterCounter);
-                            if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
-                            setCounterView();
-                            break;
+                        float xMaxDiff = maxX - minX;
+                        float yMaxDiff = maxY - minY;
+                        float xOrigin = (maxX + minX) / 2;
+                        float yOrigin = (maxY + minY) / 2;
+                        Log.d("motion", "xMaxDiff: " + xMaxDiff);
+                        Log.d("motion", "yMaxDiff: " + yMaxDiff);
+                        Log.d("motion", "xOrigin: " + xOrigin);
+                        Log.d("motion", "yOrigin: " + yOrigin);
+                        Log.d("motion", "maxX: " + maxX);
+                        Log.d("motion", "minX: " + minX);
+                        Log.d("motion", "maxY: " + maxY);
+                        Log.d("motion", "minY: " + minY);
+
+                        if (yMaxDiff >= RESET_CIRCLE_RADIUS && xMaxDiff >= RESET_CIRCLE_RADIUS) { //checking the two sides
+                            //checking the diagonals
+                            float[] topRight = new float[]{xOrigin + RESET_CIRCLE_RADIUS / (float)Math.sqrt(2), yOrigin - RESET_CIRCLE_RADIUS / (float)Math.sqrt(2)};
+                            float[] topLeft = new float[]{xOrigin - RESET_CIRCLE_RADIUS / (float)Math.sqrt(2), yOrigin - RESET_CIRCLE_RADIUS / (float)Math.sqrt(2)};
+                            float[] bottomRight = new float[]{xOrigin + RESET_CIRCLE_RADIUS / (float)Math.sqrt(2), yOrigin + RESET_CIRCLE_RADIUS / (float)Math.sqrt(2)};
+                            float[] bottomLeft = new float[]{xOrigin - RESET_CIRCLE_RADIUS / (float)Math.sqrt(2), yOrigin + RESET_CIRCLE_RADIUS / (float)Math.sqrt(2)};
+                            boolean topRightBool = false;
+                            boolean topLeftBool = false;
+                            boolean bottomRightBool = false;
+                            boolean bottomLeftBool = false;
+
+                            //checking if diagonals are satisfied
+                            for (Float[] point : points) {
+                                if (point[0] > topRight[0] && point[1] < topRight[1]) {
+                                    topRightBool = true;
+                                    Log.d("motion", "topRightBool is True");
+                                }
+                                if (point[0] < topLeft[0] && point[1] < topLeft[1]) {
+                                    topLeftBool = true;
+                                    Log.d("motion", "topLeftBool is True");
+                                }
+                                if (point[0] > bottomRight[0] && point[1] > bottomRight[1]) {
+                                    bottomRightBool = true;
+                                    Log.d("motion", "bottomRightBool is True");
+                                }
+                                if (point[0] < bottomLeft[0] && point[1] > bottomLeft[1]) {
+                                    bottomLeftBool = true;
+                                    Log.d("motion", "bottomLeftBool is True");
+                                }
+                            }
+
+                            //checking the end is near the start
+                            if (topRightBool && topLeftBool && bottomRightBool && bottomLeftBool) {
+                                //reset
+                                masterCounter.resetHomeworkCount();
+                                masterCounter.setLastHomeworkDateTime("");
+                                //whenever I change masterCounter the Adapter must reflect the change
+                                homeworkItemAdapter.setMasterCounter(masterCounter);
+                                if (hasVibratorFunction && settingsDataClass.isVibrationsEffect()) vibrator.vibrate(200);
+                                setCounterView();
+
+                                //reset the values for the next time
+                                minX = -1;
+                                maxX = -1;
+                                minY = -1;
+                                maxY = -1;
+                                points.clear();
+                                break;
+                            }
                         }
 
-                        //reset whenever motion is up
-                        stage = 0;
+                        //reset the values for the next time
+                        minX = -1;
+                        maxX = -1;
+                        minY = -1;
+                        maxY = -1;
+                        points.clear();
+
 
 //                        if (releasedTime - clickedDownTime > TIME_FOR_LONG_CLICK) {
 //                            ///long click
