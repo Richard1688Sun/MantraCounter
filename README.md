@@ -6,7 +6,7 @@
 	* [Homework Screen](#homework-screen)
 	* [Settings](#settings)
 * [Technologies](#technologies)
-* [Setup](#setup)
+* [Download App](#Download)
 
 # General info
 This is multifunction counter app designed specifically to automate mantra counting. Special features include automatic LittleHouse incrementation, Daily Homework organization, and Language settings for Chinese and English. 
@@ -109,7 +109,7 @@ Other features include:
 Project is created with:
 * Android Studio Chipmunk | 2021.2.1 Patch 1
 	
-# Setup
+# Download
 <strong>Download app from Google Play!!!</strong>
 <br>
 https://play.google.com/store/apps/details?id=com.nemogz.mantracounter
