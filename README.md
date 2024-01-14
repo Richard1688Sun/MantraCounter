@@ -112,4 +112,4 @@ Project is created with:
 # Download
 <strong>Download app from Google Play!!!</strong>
 <br>
-https://play.google.com/store/apps/details?id=com.nemogz.mantracounter
+<a href="https://play.google.com/store/apps/details?id=com.nemogz.mantracounter" target="_blank">Google Play Link</a></p>
